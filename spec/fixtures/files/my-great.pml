@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?><acquisitions><acquisition>
+  <uid/>
+  <session>deleteme</session>
+  <instrument/>
+  <technique/>
+  <analyst/>
+  <analysed_at/>
+  <sample_uid/>
+  <bibliography_uid/>
+  <sample_name/>
+  <description/>
+  <abundances>
+    <abundance>
+      <nickname>Li</nickname>
+      <data>1.9</data>
+      <unit/>
+      <error/>
+      <label/>
+      <info/>
+    </abundance>
+    <abundance>
+      <nickname>d7Li</nickname>
+      <data>-11</data>
+      <unit/>
+      <error/>
+      <label/>
+      <info/>
+    </abundance>
+  </abundances>
+</acquisition>
+</acquisitions>

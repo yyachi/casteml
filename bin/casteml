@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'casteml/runner'
+
+args = ARGV.clone
+Casteml::Runner.new.run args
