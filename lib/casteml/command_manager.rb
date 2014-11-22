@@ -1,4 +1,4 @@
-require 'casteml/exceptions'
+require 'casteml'
 require 'casteml/command'
 require 'casteml/user_interaction'
 
