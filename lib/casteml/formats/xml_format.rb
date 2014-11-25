@@ -3,9 +3,67 @@ require 'tempfile'
 module Casteml::Formats
 	class XmlFormat
 
-		def self.decode(xml)
-
+		def self.to_hash(rexml)
+			elem_to_hash rexml.root
 		end
+
+		def self.elem_to_hash(elem)
+			value = if elem.has_elements?
+				children = {}
+				elem.each_element do |e|
+					children.merge!(elem_to_hash(e)) do |k,v1,v2|
+						v1.class == Array ? v1 << v2 : [v1,v2]
+					end
+				end
+				children
+			else
+				elem.text
+			end
+			{ elem.name.to_sym => value }
+		end
+
+		def self.decode_file(path, opts ={})
+			doc = REXML::Document.new File.open(path)
+			decode_doc(doc)
+		end
+
+		def self.decode_doc(doc, opts = {})
+	        raise "invalid xml" unless doc.root
+
+	        acquisitions = []
+
+	        hash = to_hash(doc.root)
+	        hash = hash.delete(:acquisitions) if hash.has_key?(:acquisitions)
+
+	        if hash.instance_of?(Hash) && hash.has_key?(:acquisition)
+	        	case hash[:acquisition]
+	        	when Hash
+	        		acquisitions << hash[:acquisition]
+	        	when Array
+	        		acquisitions.concat(hash[:acquisition])
+	        	end
+	        end
+	        acquisitions.each do |acquisition|
+	        	
+	        	if acquisition.has_key?(:spot)
+	        		spot = acquisition.delete(:spot)
+	        		acquisition[:spot] = spot if spot.instance_of?(Hash)
+	        	end
+
+	        	hash = acquisition.delete(:abundances) if acquisition.has_key?(:abundances)
+	       		if hash.instance_of?(Hash) && hash.has_key?(:abundance)
+	       			abundances = []
+	       			case hash[:abundance]
+	       			when Hash
+	       				abundances << hash[:abundance]
+	       			when Array
+	       				abundances.concat(hash[:abundance])
+	       			end
+	       			acquisition[:abundances] = abundances
+	        	end
+	        end
+	        acquisitions
+	    end
 
 		def self.write(doc, xml)
 			formatter = REXML::Formatters::Pretty.new

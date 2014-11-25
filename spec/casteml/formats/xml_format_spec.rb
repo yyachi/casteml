@@ -3,6 +3,316 @@ require 'casteml/formats/xml_format'
 module Casteml::Formats
 	describe XmlFormat do
 
+
+		describe ".to_hash" do
+				let(:doc){ REXML::Document.new xml }
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisition>
+	<abundance>
+		<nickname>Li</nickname>
+		<data>1.9</data>
+		<unit>ug/g</unit>
+		<error>0.2</error>
+		<label></label>
+		<info></info>
+	</abundance>
+</acquisition>
+					EOF
+				}
+
+				it {
+					expect(XmlFormat).to receive(:elem_to_hash)
+					XmlFormat.to_hash(doc)
+				}			
+		end
+
+		describe ".elem_to_hash" do
+			subject{ XmlFormat.elem_to_hash(doc.root) }
+			let(:doc){ REXML::Document.new xml }
+
+			context "with multiple acquisitions" do
+			let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisitions>
+<acquisition>
+	<session>deleteme-1</session>
+</acquisition>
+<acquisition>
+	<session>deleteme-2</session>
+</acquisition>
+<acquisition>
+	<session>deleteme-3</session>
+</acquisition>
+<acquisition>
+	<session>deleteme-4</session>
+</acquisition>
+</acquisitions>
+				EOF
+			}
+			it {
+				expect(subject).to be_an_instance_of(Hash)
+				expect(subject).to include(:acquisitions)
+				expect(subject[:acquisitions]).to be_an_instance_of(Hash)
+				expect(subject[:acquisitions][:acquisition]).to be_an_instance_of(Array)
+			}
+			end
+
+			context "with single acqusition" do
+			let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisition>
+	<session>deleteme</session>
+	<instrument>SIMS-5f</instrument>
+	<technique></technique>
+	<analyst></analyst>
+	<sample_uid></sample_uid>
+	<sample_name></sample_name>
+	<bibliography_uid></bibliography_uid>
+	<description></description>
+	<abundance>
+		<nickname>Li</nickname>
+		<data>1.9</data>
+		<unit>ug/g</unit>
+		<error>0.2</error>
+		<label></label>
+		<info></info>
+	</abundance>
+</acquisition>
+				EOF
+			}
+
+			it {
+				expect(subject).to be_an_instance_of(Hash)
+				expect(subject).to include(:acquisition)
+			}
+			end			
+		end
+
+
+
+		describe ".decode_file" do
+			let(:file){ 'example.pml'}
+			let(:input_io){ double('input_io').as_null_object }
+			let(:doc){ double('doc').as_null_object }
+			let(:array){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+			before do
+				allow(File).to receive(:open).with(file).and_return(input_io)
+			end
+
+			it {
+				expect(REXML::Document).to receive(:new).with(input_io).and_return(doc)				
+				expect(XmlFormat).to receive(:decode_doc).with(doc).and_return(array)
+				expect(XmlFormat.decode_file(file)).to be_eql(array)
+			}
+		end
+
+		describe ".decode_doc" do
+			subject{ XmlFormat.decode_doc(doc) }
+
+			context "with single acquisition and 0 abundances" do
+				let(:doc){ REXML::Document.new xml }
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisition>
+	<session>deleteme-1</session>
+	<instrument></instrument>
+	<abundances>
+	</abundances>
+</acquisition>
+					EOF
+				}
+
+				it {
+					expect(subject).to match [
+						a_hash_including(:session => 'deleteme-1', :instrument => nil)
+					]
+				}
+			end
+
+			context "with single acquisition and 1 abundances" do
+				let(:doc){ REXML::Document.new xml }
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisition>
+	<session>deleteme-1</session>
+	<instrument></instrument>
+	<abundances>
+		<abundance>
+			<nickname>Li</nickname>
+		</abundance>
+	</abundances>
+</acquisition>
+					EOF
+				}
+
+				it {
+					expect(subject).to match [
+						a_hash_including(:session => 'deleteme-1', :instrument => nil, :abundances => [{:nickname => 'Li'}])
+					]
+				}
+			end
+
+			context "with single acquisition and multiple abundances" do
+				let(:doc){ REXML::Document.new xml }
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisition>
+	<session>deleteme-1</session>
+	<instrument></instrument>
+	<abundances>
+		<abundance>
+			<nickname>Li</nickname>
+		</abundance>
+		<abundance>
+			<nickname>SiO2</nickname>
+		</abundance>
+	</abundances>
+</acquisition>
+					EOF
+				}
+
+				it {
+					expect(subject).to match [
+						a_hash_including(:session => 'deleteme-1', :instrument => nil, :abundances => [{:nickname => 'Li'}, {:nickname => 'SiO2'}])
+					]
+				}
+			end
+
+			context "with single acquisition and spot" do
+				let(:doc){ REXML::Document.new xml }
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisition>
+	<session>deleteme-1</session>
+	<instrument></instrument>
+	<spot>
+		<image_uid></image_uid>
+		<image_path>tmp/example.jpg</image_path>
+		<x_image>15</x_image>
+		<y_image>5</y_image>
+	</spot>
+</acquisition>
+					EOF
+				}
+
+				it {
+					expect(subject).to match [
+						a_hash_including(:session => 'deleteme-1', :instrument => nil, :spot => {:image_uid => nil, :image_path => 'tmp/example.jpg', :x_image => "15", :y_image => "5"})
+					]
+				}
+			end
+
+			context "with single acquisition and empty spot" do
+				let(:doc){ REXML::Document.new xml }
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisition>
+	<session>deleteme-1</session>
+	<instrument></instrument>
+	<spot>
+	</spot>
+</acquisition>
+					EOF
+				}
+
+				it {
+					expect(subject).to match [
+						a_hash_including(:session => 'deleteme-1', :instrument => nil)
+					]
+				}
+			end
+
+			context "with single empty acquisition" do
+				let(:doc){ REXML::Document.new xml }
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisition></acquisition>
+					EOF
+				}
+
+
+				it {
+					expect(subject).to be_empty
+				}
+			end
+
+			context "with 0 acquisitions" do
+				let(:doc){ REXML::Document.new xml }
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisitions>
+</acquisitions>
+					EOF
+				}
+
+				it {
+					expect(subject).to be_empty
+				}
+			end
+
+
+			context "with 1 acquisitions" do
+				let(:doc){ REXML::Document.new xml }
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisitions>
+	<acquisition>
+		<session>deleteme-1</session>
+	</acquisition>
+</acquisitions>
+					EOF
+				}
+
+				it {
+					expect(subject).to contain_exactly({:session => 'deleteme-1'})
+				}
+			end
+
+			context "with 2 acquisitions" do
+				let(:doc){ REXML::Document.new xml }
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisitions>
+	<acquisition>
+		<session>deleteme-1</session>
+	</acquisition>
+	<acquisition>
+		<session>deleteme-2</session>
+	</acquisition>
+</acquisitions>
+					EOF
+				}
+
+				it {
+					expect(subject).to contain_exactly({:session => 'deleteme-1'}, {:session => 'deleteme-2'})
+				}
+			end
+
+			context "with 3 acquisitions" do
+				let(:doc){ REXML::Document.new xml}
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisitions>
+	<acquisition>
+		<session>deleteme-1</session>
+	</acquisition>
+	<acquisition>
+		<session>deleteme-2</session>	
+	</acquisition>
+	<acquisition>
+		<session>deleteme-3</session>	
+	</acquisition>	
+</acquisitions>
+					EOF
+				}
+				it {
+					expect(subject).to contain_exactly({:session => 'deleteme-1'}, {:session => 'deleteme-2'}, {:session => 'deleteme-3'})
+				}
+			end
+
+		end
+
 		describe ".join_docs" do
 			let(:doc1){ REXML::Document.new '<?xml version="1.0" encoding="UTF-8" ?><acquisition><abundance></abundance></acquisition>' }
 			let(:doc2){ REXML::Document.new '<?xml version="1.0" encoding="UTF-8" ?><acquisitions><acquisition><abundance></abundance></acquisition><acquisition><abundance></abundance></acquisition></acquisitions>' }
@@ -57,7 +367,7 @@ module Casteml::Formats
 
 
 
-		describe ".join_files", :current => true do
+		describe ".join_files" do
 			let(:paths){ [path1, path2] }
 			let(:path1){ 'tmp/example-1.pml' }
 			let(:path2){ 'tt/example-2.pml' }

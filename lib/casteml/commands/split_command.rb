@@ -4,11 +4,6 @@ class Casteml::Commands::SplitCommand < Casteml::Command
 	def initialize
 		super 'split', 'Split single pml-file'
 
-		add_option('-o', '--outfile OUTPUTFILE',
-						'Specify output filename') do |v, options|
-			options[:outfile] = v
-		end
-
 	end
 
 	def usage
