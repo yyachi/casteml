@@ -23,7 +23,7 @@ class Casteml::Commands::JoinCommand < Casteml::Command
 The join command allows you to join multiple pmlfiles and create single pmlfile.
 
 Examples:
-	$ casteml join session-1.pml session-2.pml session-3.pml > session-all.pml
+	$ casteml join session-1.pml session-2.pml session-3.pml session-n.pml > session-all.pml
 	$ casteml join session-1.pml session-2.pml session-3.pml -o session-all.pml
 EOF
 	end
