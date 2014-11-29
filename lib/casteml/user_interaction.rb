@@ -155,30 +155,29 @@ class Casteml::StreamUI
 	# default.
 	def ask_yes_no(question, default=nil)
 		unless tty? then
-		if default.nil? then
-		raise Gem::OperationNotSupportedError,
-		"Not connected to a tty and no default specified"
-		else
-		return default
-		end
+			if default.nil? then
+				raise Gem::OperationNotSupportedError, "Not connected to a tty and no default specified"
+			else
+				return default
+			end
 		end
 		default_answer = case default
-		when nil
-		'yn'
-		when true
-		'Yn'
-		else
-		'yN'
-		end
+			when nil
+				'yn'
+			when true
+				'Yn'
+			else
+				'yN'
+			end
 		result = nil
 		while result.nil? do
-		result = case ask "#{question} [#{default_answer}]"
-		when /^y/i then true
-		when /^n/i then false
-		when /^$/ then default
-		else nil
-		end
-		end
+			result = case ask "#{question} [#{default_answer}]"
+				when /^y/i then true
+				when /^n/i then false
+				when /^$/ then default
+				else nil
+				end
+			end
 		return result
 	end
 	##
@@ -191,46 +190,46 @@ class Casteml::StreamUI
 		result.chomp! if result
 		result
 	end
-##
-# Ask for a password. Does not echo response to terminal.
-def ask_for_password(question)
-return nil if not tty?
-@outs.print(question, " ")
-@outs.flush
-password = _gets_noecho
-@outs.puts
-password.chomp! if password
-password
-end
-if IO.method_defined?(:noecho) then
-def _gets_noecho
-@ins.noecho {@ins.gets}
-end
-elsif Gem.win_platform?
-def _gets_noecho
-require "Win32API"
-password = ''
-while char = Win32API.new("crtdll", "_getch", [ ], "L").Call do
-break if char == 10 || char == 13 # received carriage return or newline
-if char == 127 || char == 8 # backspace and delete
-password.slice!(-1, 1)
-else
-password << char.chr
-end
-end
-password
-end
-else
-def _gets_noecho
-system "stty -echo"
-begin
-@ins.gets
-ensure
-system "stty echo"
-end
-end
-end
-##	
+	##
+	# Ask for a password. Does not echo response to terminal.
+	def ask_for_password(question)
+		return nil if not tty?
+			@outs.print(question, " ")
+			@outs.flush
+			password = _gets_noecho
+			@outs.puts
+			password.chomp! if password
+			password
+		end
+		if IO.method_defined?(:noecho) then
+			def _gets_noecho
+				@ins.noecho {@ins.gets}
+			end
+		elsif Gem.win_platform?
+			def _gets_noecho
+				require "Win32API"
+				password = ''
+				while char = Win32API.new("crtdll", "_getch", [ ], "L").Call do
+					break if char == 10 || char == 13 # received carriage return or newline
+					if char == 127 || char == 8 # backspace and delete
+						password.slice!(-1, 1)
+					else
+						password << char.chr
+					end
+				end
+				password
+			end
+		else
+			def _gets_noecho
+				system "stty -echo"
+			begin
+				@ins.gets
+			ensure
+				system "stty echo"
+			end
+		end
+	end
+	##	
 	# Display a statement.
 	def say(statement="")
 		@outs.puts statement
