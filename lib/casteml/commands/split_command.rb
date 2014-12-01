@@ -15,12 +15,30 @@ class Casteml::Commands::SplitCommand < Casteml::Command
 
 	def description
 		<<-EOF
-The split command allows you to split single pmlfile and create multiple pmlfiles.
+NAME
+    #{File.basename($0, '.*')} -   Create single PMLs from a multi PML.
 
-Examples:
+SYNOPSIS
+    #{File.basename($0, '.*')} [options] file
+
+DESCRIPTION
+    Create single PMLs from a multi PML.
+    The split command allows you to split single pmlfile and create multiple pmlfiles.
+
+EXAMPLE
 	$ casteml split session-all.pml
 	$ ls
 	session-all.pml session-1.pml session-2.pml session-3.pml
+
+SEE ALSO
+    http://dream.misasa.okayama-u.ac.jp
+    join
+
+IMPLEMENTATION
+    Copyright (c) 2012 ISEI, Okayama University
+    Licensed under the same terms as Ruby
+
+OPTIONS
 EOF
 	end
 

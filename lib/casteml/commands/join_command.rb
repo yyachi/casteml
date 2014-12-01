@@ -20,11 +20,30 @@ class Casteml::Commands::JoinCommand < Casteml::Command
 
 	def description
 		<<-EOF
-The join command allows you to join multiple pmlfiles and create single pmlfile.
+NAME
+    #{File.basename($0, '.*')} -  Create a multi PML from single PMLs.
 
-Examples:
+SYNOPSIS
+    #{File.basename($0, '.*')} [options] file0 [file1 ...] > file-product
+    #{File.basename($0, '.*')} [options] file0 [file1 ...] -o file-product
+
+DESCRIPTION
+    Create a multi PML from single PMLs
+    The join command allows you to join multiple pmlfiles and create single pmlfile.
+
+EXAMPLE
 	$ casteml join session-1.pml session-2.pml session-3.pml session-n.pml > session-all.pml
 	$ casteml join session-1.pml session-2.pml session-3.pml -o session-all.pml
+
+SEE ALSO
+    http://dream.misasa.okayama-u.ac.jp
+    split
+
+IMPLEMENTATION
+    Copyright (c) 2012 ISEI, Okayama University
+    Licensed under the same terms as Ruby
+
+OPTIONS
 EOF
 	end
 
