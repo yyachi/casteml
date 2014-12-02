@@ -16,19 +16,18 @@ class Casteml::Commands::SplitCommand < Casteml::Command
 	def description
 		<<-EOF
 NAME
-    #{File.basename($0, '.*')} -   Create single PMLs from a multi PML.
+    #{File.basename($0, '.*')} -   Split single pmlfile and create multiple pmlfiles.
 
 SYNOPSIS
     #{File.basename($0, '.*')} [options] file
 
 DESCRIPTION
-    Create single PMLs from a multi PML.
-    The split command allows you to split single pmlfile and create multiple pmlfiles.
+    Split single pmlfile and create multiple pmlfiles.
 
 EXAMPLE
-	$ casteml split session-all.pml
+	$ casteml split session.pml
 	$ ls
-	session-all.pml session-1.pml session-2.pml session-3.pml
+    JB3-1.pml JB3-2.pml stone-1.pml stone-2.pml
 
 SEE ALSO
     http://dream.misasa.okayama-u.ac.jp
