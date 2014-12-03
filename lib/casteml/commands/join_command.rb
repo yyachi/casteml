@@ -21,24 +21,24 @@ class Casteml::Commands::JoinCommand < Casteml::Command
 	def description
 		<<-EOF
 NAME
-    #{File.basename($0, '.*')} -  Merge pmlfiles to create single pmlfile.
+    #{File.basename($0, '.*')} -  Merge multiple pmlfiles to a single pmlfile.
 
 SYNOPSIS
-    #{File.basename($0, '.*')} [options] file0 file1 [file2 ...] > file-product
-    #{File.basename($0, '.*')} [options] file0 file1 [file2 ...] -o file-product
+    #{File.basename($0, '.*')} [options] file0 file1 [file2 ...] > outfile
 
 DESCRIPTION
-    Merge pmlfiles and create single pmlfile.
+    Merge multiple pmlfiles to a single pmlfile.
 
 EXAMPLE
-	$ casteml join JB3-1.pml JB3-2.pml stone-1.pml stone-2.pml > session.pml
+	$ casteml join stone-1.pml stone-2.pml JB3-1.pml JB3-2.pml > session.pml
+	$ casteml join stone-1.pml stone-2.pml JB3-1.pml JB3-2.pml -o session.pml
 
 SEE ALSO
     http://dream.misasa.okayama-u.ac.jp
     split
 
 IMPLEMENTATION
-    Copyright (c) 2012 ISEI, Okayama University
+    Copyright (c) 2014 ISEI, Okayama University
     Licensed under the same terms as Ruby
 
 OPTIONS
