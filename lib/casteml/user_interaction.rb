@@ -90,7 +90,7 @@ module Casteml::UserInteraction
 	# Calls +say+ with +msg+ or the results of the block if really_verbose
 	# is true.
 	def verbose msg = nil
-		say(msg || yield) if Casteml.configuration.really_verbose
+		say(msg || yield) if true # Casteml.configuration.really_verbose
 	end
 
 end

@@ -21,10 +21,10 @@ class Casteml::Commands::JoinCommand < Casteml::Command
 	def description
 		<<-EOF
 NAME
-    #{File.basename($0, '.*')} -  Merge multiple pmlfiles to a single pmlfile.
+    #{program_name} -  Merge multiple pmlfiles to a single pmlfile.
 
 SYNOPSIS
-    #{File.basename($0, '.*')} [options] file0 file1 [file2 ...] > outfile
+    #{program_name} [options] file0 file1 [file2 ...] > outfile
 
 DESCRIPTION
     Merge multiple pmlfiles to a single pmlfile.

@@ -39,6 +39,22 @@ module Casteml
 			}
 		end
 
+		describe "#abundances" do
+			subject{ obj.abundances }
+			let(:obj){ Acquisition.new(attrib) }
+			context "without abundances" do
+				let(:attrib){ {:session => session, :analyst => analyst, :description => description} }
+				it { expect(subject).to be_empty }				
+			end
+
+			context "with abundances" do
+				let(:attrib){ {:session => 'deleteme-1', :instrument => nil, :abundances => [{:nickname => 'Li'}] } }
+				it { expect(subject).not_to be_empty }				
+			end
+
+
+		end
+
 		describe "#stone_id" do
 			subject{ obj.stone_id }
 			let(:obj){ Acquisition.new(attrib) }
@@ -105,7 +121,7 @@ module Casteml
 			end
 		end
 
-		describe "#device_id", :current => true do
+		describe "#device_id" do
 			subject{ obj.device_id }
 			let(:obj){ Acquisition.new(attrib) }
 			let(:device_obj){ double(device, :id => device_id, :name => device).as_null_object }
@@ -137,12 +153,57 @@ module Casteml
 
 		end
 
+
+		describe "#save_abundances", :current => true do
+			subject{ obj.save_abundances }
+			let(:obj){ Acquisition.new(attrib) }
+			let(:attrib){ {:session => 'deleteme-1' } }
+			let(:abundances){ [ab1] }
+			let(:ab1){ double('ab1', :nickname => 'SiO2', :data => 11.5)}
+			let(:robj){ double('robj', :name => session) }
+			let(:rchemobj){ double('rchem', :measurement_item_id => 4, :value => 11.5).as_null_object }
+			let(:chem1){ double('chem1', :measurement_item_id => 1, :value => 11.5).as_null_object }
+			let(:chem2){ double('chem2', :measurement_item_id => 2, :value => 11.5).as_null_object }
+			let(:chem3){ double('chem3', :measurement_item_id => 3, :value => 11.5).as_null_object }
+			let(:existing){ double('rchem', :measurement_item_id => 1, :value => 11.5).as_null_object }
+
+			before do
+				allow(ab1).to receive(:remote_hash).and_return({})
+				allow(ab1).to receive(:remote_obj).and_return(rchemobj)
+				allow(robj).to receive(:chemistries).and_return([chem1, chem2, chem3])
+				allow(obj).to receive(:abundances).and_return(abundances)
+				allow(obj).to receive(:get_remote_obj).and_return(robj)
+			end
+			context "with non-existing chemistries" do
+				before do
+					allow(ab1).to receive(:measurement_item_id).and_return(5)
+				end
+				it {
+					expect(rchemobj).to receive(:save)
+					subject
+				}
+			end
+
+			context "with existing chemistries" do
+				before do
+					allow(ab1).to receive(:measurement_item_id).and_return(1)
+				end
+				it {
+					expect(chem1).to receive(:attributes).and_return(double('attributes').as_null_object)
+					expect(chem1).to receive(:save)
+					subject
+				}
+			end
+		end
+
 		describe "#save_remote" do
 			subject{ obj.save_remote }
 			let(:obj){ Acquisition.new(attrib) }
+			let(:robj){ double('robj', :name => session, :description => description, :operator => analyst, :device_id => nil, :technique_id => nil).as_null_object }
 			let(:attrib){ {:session => session, :analyst => analyst, :description => description} }
 			before do
 				obj
+				allow(MedusaRestClient::Analysis).to receive(:new).and_return(robj)
 			end
 			it {
 				expect(MedusaRestClient::Analysis).to receive(:new).with(
@@ -153,7 +214,7 @@ module Casteml
 					:device_id => nil,
 					:technique_id => nil
 					)
-				).once
+				).once.and_return(robj)
 				subject
 			}
 
@@ -225,6 +286,31 @@ module Casteml
 				it {
 					expect(MedusaRestClient::Analysis).to receive(:new).with(
 						hash_including(:device_id => device_id)
+					).once
+					subject
+				}
+			end
+
+			context "with abundances" do
+				let(:device_obj){ double(device, :id => device_id, :name => device).as_null_object }
+				let(:attrib){ {
+					:session => session, 
+					:analyst => analyst, 
+					:description => description, 
+					:device => device
+					} }		
+				let(:attrib){ {:session => 'deleteme-1', :abundances => abundances } }
+				let(:abundances){ [ab1, ab2] }
+				let(:ab1){ {:nickname => 'SiO2', :data => '12.5', :unit => 'cg/g'}}
+				let(:ab2){ {:nickname => 'Li', :data => '0.12', :unit => 'ug/g'}}
+				before do
+					obj
+					allow(obj).to receive(:save_abundances)
+#					allow(Device).to receive(:find_or_create_by_name).with(device).and_return(device_obj)
+				end
+				it {
+					expect(MedusaRestClient::Analysis).to receive(:new).with(
+						hash_including(:name => session)
 					).once
 					subject
 				}

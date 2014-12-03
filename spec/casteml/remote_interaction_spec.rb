@@ -5,14 +5,14 @@ module Casteml
 
 
 	describe RemoteInteraction do
-		let(:klass){ Object.new.extend(RemoteInteraction) }
+		let(:klass){ Class.new.extend(RemoteInteraction) }
 		let(:ui) { StreamUI.new(in_stream, out_stream, err_stream, true) }
 		let(:in_stream){ double('in_stream').as_null_object }
 		let(:out_stream){ double('out_stream').as_null_object }
 		let(:err_stream){ double('err_stream').as_null_object }
 		let(:remote_class){ double('Remote').as_null_object }
 		before do
-			DefaultUserInteraction.ui = ui
+#			DefaultUserInteraction.ui = ui
 			klass.set_remote_class(remote_class)
 		end
 
@@ -110,6 +110,63 @@ module Casteml
 
 
 
+		end
+
+		describe "instance" do
+
+			let(:klass1) do
+				Class.new do
+					extend Casteml::RemoteInteraction
+					set_remote_class MedusaRestClient::Stone
+					attr_accessor :name, :data
+					attr_remote :nickname, :value
+					alias_attribute :nickname, :name
+					alias_attribute :value, :data
+
+					def nickname
+						name
+					end
+
+				end
+			end
+			let(:obj1){ klass1.new({:name => 'test'} ) }
+
+			let(:klass2) do
+				Class.new do
+					extend Casteml::RemoteInteraction
+					set_remote_class MedusaRestClient::Analysis
+					attr_accessor :name, :value
+					attr_remote :name, :value
+					#set_remote_attributes [:name, :value]
+
+				end
+			end
+			let(:obj2){ klass2.new({:name => 'test', :value => 34.5} ) }
+
+			it { expect(obj1).to be_an_instance_of(klass1)}
+			it { expect(obj1.to_remote_hash).to be_an_instance_of(Hash) }
+			describe "#to_remote_hash" do
+				subject{ obj.to_remote_hash }
+				let(:obj){ klass1.new(attrib) }
+				let(:attrib){ {:name => name} }
+				let(:name){ 'test' }
+				before do
+					obj
+				end
+				it { expect(subject).to be_an_instance_of(Hash) }
+				it { expect(subject).to include(:nickname => name)}
+			end		
+			describe "#save_remote", :current => true do
+				subject{ obj.save_remote }
+				let(:obj){ klass1.new(attrib) }
+				let(:attrib){ {:name => name} }
+				let(:name){ 'test' }
+				it { 
+					expect(MedusaRestClient::Stone).to receive(:new).with({:nickname => name, :value => nil})
+					subject
+				}
+
+			end
 		end
 
 	end

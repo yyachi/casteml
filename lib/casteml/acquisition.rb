@@ -3,22 +3,44 @@ require 'medusa_rest_client'
 require 'casteml/stone'
 require 'casteml/technique'
 require 'casteml/device'
-
+require 'casteml/abundance'
 module Casteml
 	class Acquisition
-		attr_accessor :session, :instrument, :analyst, :analysed_at, :sample_uid, :sample_name, :bibliography_uid, :description
+		extend Casteml::RemoteInteraction
+		set_remote_class MedusaRestClient::Analysis
+		attr_remote :name, :description, :operator, :stone_id, :device_id, :technique_id
+
+		attr_accessor :uid, :session, :instrument, :analyst, :analysed_at, :sample_uid, :sample_name, :bibliography_uid, :description
 		attr_accessor :technique
 		attr_accessor :device
 
 		alias_attribute :name, :session
 		alias_attribute :operator, :analyst
 
-		@@remote_attributes = [:name, :description, :operator, :stone_id, :device_id, :technique_id]
+		def spot
+			@spot
+		end
 
-		def initialize(attrib = {})
-			attrib.each do |key, value|
-				self.send((key.to_s + '=').to_sym, value)
-			end			
+		def spot=(hash_or_obj)
+			unless hash_or_obj.instance_of?(Spot)
+				@spot = Spot.new(hash_or_object)
+			else
+				@spot = hash_or_object
+			end
+		end
+
+		def abundances
+			@abundances || []
+		end
+
+		def abundances=(array)
+			@abundances = []
+			array.each do |obj|
+				unless obj.instance_of?(Abundance)
+					obj = Abundance.new(obj)
+				end
+				@abundances << obj
+			end
 		end
 
 		def stone_id
@@ -44,16 +66,61 @@ module Casteml
 			return obj.id if obj
 		end
 
-		def to_remote_hash
-			hash = Hash.new
-			@@remote_attributes.each do |attrib|
-				hash[attrib] = self.send(attrib)
-			end
-			hash
+		# def to_remote_hash
+		# 	hash = Hash.new
+		# 	@@remote_attributes.each do |attrib|
+		# 		hash[attrib] = self.send(attrib)
+		# 	end
+		# 	hash
+		# end
+
+		def remote_obj
+			@remote_obj ||= get_remote_obj
+		end
+
+		def get_remote_obj
+			MedusaRestClient::Record.find(self.uid)
 		end
 
 		def save_remote
-			MedusaRestClient::Analysis.new(to_remote_hash)
+			robj = self.class.remote_class.new(to_remote_hash)
+       		if robj.save
+          		#self.uid = robj.global_id
+          		save_abundances unless abundances.empty?
+          		save_spot if spot
+        	end
+
 		end
+
+		def save_abundances
+			return unless remote_obj
+			existings = remote_obj.chemistries
+			abundances.each do |ab|
+				verbose "saving record for <#{ab.nickname}>..."
+				#measurement_item = MedusaRestClient::MeasurementItem.find_or_create_by_nickname(ab.nickname)
+				el = existings.find{|e| e.measurement_item_id == ab.measurement_item_id }
+		#          begin
+				unless el
+		  			el= ab.remote_obj
+		  			p el
+		  			#el.measurement_item_id = measurement_item.id
+		  			#el.value = ab.data.to_f
+		  			#if ab.unit
+		    		#	unit = MedusaRestClient::Unit.find_by_name_or_text(ab.unit)
+		    		#	el.unit = unit if unit
+		  			#end
+		  			el.analysis = remote_obj
+		  			el.save
+				else
+		  			el.attributes.update(ab.remote_hash)
+		  			el.save
+				end
+		#          rescue => ex
+		#            p "saving record for <" + ab["nickname"]  + ">. "+ ex.to_s 
+		#          end
+			end
+		end
+
+
 	end
 end
