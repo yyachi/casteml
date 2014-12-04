@@ -30,8 +30,8 @@ DESCRIPTION
     Merge multiple pmlfiles to a single pmlfile.
 
 EXAMPLE
-	$ casteml join stone-1.pml stone-2.pml JB3-1.pml JB3-2.pml > session.pml
-	$ casteml join stone-1.pml stone-2.pml JB3-1.pml JB3-2.pml -o session.pml
+	$ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml > session.pml
+	$ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml -o session.pml
 
 SEE ALSO
     http://dream.misasa.okayama-u.ac.jp
