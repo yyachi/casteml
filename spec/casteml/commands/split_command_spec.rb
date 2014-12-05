@@ -5,6 +5,16 @@ module Casteml::Commands
 		before(:each) do
 			setup_empty_dir('tmp')
 		end
+
+		describe "#show_help", :show_help => true do
+			let(:cmd){ SplitCommand.new }
+			it {
+				puts "===================================="
+				expect{ cmd.show_help }.not_to raise_error
+				puts "===================================="
+			}
+		end
+
 		describe "#invoke_with_build_args" do
 			let(:cmd){ SplitCommand.new }
 			let(:build_args){ [] }
