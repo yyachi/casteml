@@ -96,25 +96,16 @@ module Casteml
 			return unless remote_obj
 			existings = remote_obj.chemistries
 			abundances.each do |ab|
+
+				ab.analysis_id = remote_obj.id
 				verbose "saving record for <#{ab.nickname}>..."
-				#measurement_item = MedusaRestClient::MeasurementItem.find_or_create_by_nickname(ab.nickname)
-				el = existings.find{|e| e.measurement_item_id == ab.measurement_item_id }
+				if el = existings.find{|e| e.measurement_item_id == ab.measurement_item_id }
 		#          begin
-				unless el
-		  			el= ab.remote_obj
-		  			p el
-		  			#el.measurement_item_id = measurement_item.id
-		  			#el.value = ab.data.to_f
-		  			#if ab.unit
-		    		#	unit = MedusaRestClient::Unit.find_by_name_or_text(ab.unit)
-		    		#	el.unit = unit if unit
-		  			#end
-		  			el.analysis = remote_obj
-		  			el.save
+					el.update_attributes(ab.to_remote_hash)
 				else
-		  			el.attributes.update(ab.remote_hash)
+		  			el = ab.remote_obj
 		  			el.save
-				end
+		  		end
 		#          rescue => ex
 		#            p "saving record for <" + ab["nickname"]  + ">. "+ ex.to_s 
 		#          end
@@ -124,3 +115,4 @@ module Casteml
 
 	end
 end
+ 

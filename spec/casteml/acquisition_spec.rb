@@ -160,7 +160,7 @@ module Casteml
 			let(:attrib){ {:session => 'deleteme-1' } }
 			let(:abundances){ [ab1] }
 			let(:ab1){ double('ab1', :nickname => 'SiO2', :data => 11.5)}
-			let(:robj){ double('robj', :name => session) }
+			let(:robj){ double('robj', :id => 110, :name => session) }
 			let(:rchemobj){ double('rchem', :measurement_item_id => 4, :value => 11.5).as_null_object }
 			let(:chem1){ double('chem1', :measurement_item_id => 1, :value => 11.5).as_null_object }
 			let(:chem2){ double('chem2', :measurement_item_id => 2, :value => 11.5).as_null_object }
@@ -168,7 +168,8 @@ module Casteml
 			let(:existing){ double('rchem', :measurement_item_id => 1, :value => 11.5).as_null_object }
 
 			before do
-				allow(ab1).to receive(:remote_hash).and_return({})
+				allow(ab1).to receive(:analysis_id=)
+				allow(ab1).to receive(:to_remote_hash).and_return({})
 				allow(ab1).to receive(:remote_obj).and_return(rchemobj)
 				allow(robj).to receive(:chemistries).and_return([chem1, chem2, chem3])
 				allow(obj).to receive(:abundances).and_return(abundances)
@@ -189,8 +190,7 @@ module Casteml
 					allow(ab1).to receive(:measurement_item_id).and_return(1)
 				end
 				it {
-					expect(chem1).to receive(:attributes).and_return(double('attributes').as_null_object)
-					expect(chem1).to receive(:save)
+					expect(chem1).to receive(:update_attributes)
 					subject
 				}
 			end
