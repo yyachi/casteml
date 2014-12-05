@@ -16,13 +16,13 @@ class Casteml::Commands::SplitCommand < Casteml::Command
 	def description
 		<<-EOF
 NAME
-    #{File.basename($0, '.*')} -   Split single pmlfile into multiple pmlfiles.
+    #{File.basename($0, '.*')} -   Split a single pmlfile into multiple pmlfiles.
 
 SYNOPSIS
     #{File.basename($0, '.*')} [options] file
 
 DESCRIPTION
-    Split single pmlfile into multiple pmlfiles.
+    Split a single pmlfile into multiple pmlfiles.
 
 EXAMPLE
 	$ casteml split session.pml
