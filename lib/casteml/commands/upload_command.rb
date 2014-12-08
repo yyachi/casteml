@@ -14,10 +14,26 @@ class Casteml::Commands::UploadCommand < Casteml::Command
 
 	def description
 		<<-EOF
-The upload command allows you to upload pmlfile.
+NAME
+    #{program_name} -  Upload pmlfile to Medusa 9.
 
-Examples:
-	$ casteml upload session-all.pml
+SYNOPSIS
+    #{program_name} [options] file
+
+DESCRIPTION
+    Upload pmlfile to Medusa 9.
+
+EXAMPLE
+	$ casteml upload session.pml
+
+SEE ALSO
+    http://dream.misasa.okayama-u.ac.jp
+
+IMPLEMENTATION
+    Copyright (c) 2014 ISEI, Okayama University
+    Licensed under the same terms as Ruby
+
+OPTIONS
 EOF
 	end
 
