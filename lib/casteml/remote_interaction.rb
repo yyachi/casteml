@@ -77,7 +77,7 @@ module Casteml::RemoteInteraction
   	end
 
   	module InstanceMethods
-  		attr_accessor :id
+  		attr_accessor :id, :global_id
   		def verbose(*args)
   			self.class.verbose(args)
   		end
@@ -100,12 +100,14 @@ module Casteml::RemoteInteraction
 		def remote_obj
 			unless @remote_obj
 				if self.id
-					self.class.remote_class.find(self.id)
+					@remote_obj = self.class.remote_class.find(self.id)
+				elsif self.global_id
+					@remote_obj = self.class.find_by_global_id(self.global_id)
 				else
-					self.class.remote_class.new(to_remote_hash)
+					@remote_obj = self.class.remote_class.new(to_remote_hash)
 				end
 			end
-			@remote_obj || get_remote_obj
+			@remote_obj
 		end
 
 		def save_remote

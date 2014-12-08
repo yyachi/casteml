@@ -102,7 +102,17 @@ module Casteml
 			it { expect(subject).to include(:value => data)}
 			it { expect(subject).to include(:unit_id => unit_obj.id)}
 			it { expect(subject).to include(:measurement_item_id => measurement_item_obj.id)}
-		end		
+		end
+
+		describe "#remote_obj", :current => true do
+			subject { obj.remote_obj }
+			let(:obj){ Abundance.new(attrib) }
+			before do
+				obj
+				allow(obj).to receive(:to_remote_hash).and_return({})
+			end
+			it { expect(subject).to be_an_instance_of(MedusaRestClient::Chemistry) }
+		end
 
 		describe "#save_remote" do
 			subject{ obj.save_remote }

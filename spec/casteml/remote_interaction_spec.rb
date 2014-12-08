@@ -3,7 +3,6 @@ require 'casteml/remote_interaction'
 
 module Casteml
 
-
 	describe RemoteInteraction do
 		let(:klass){ Class.new.extend(RemoteInteraction) }
 		let(:ui) { StreamUI.new(in_stream, out_stream, err_stream, true) }
@@ -20,7 +19,7 @@ module Casteml
 			expect(remote_class).to receive(:find).with(:all).and_return([])
 			klass.get_records
 		}
-		describe ".find_by_global_id", :current => true do
+		describe ".find_by_global_id" do
 			subject { klass.find_by_global_id(global_id) }
 			let(:global_id){ '000-001' }
 			let(:remote_obj){ double('remote_obj', :class => remote_class, :global_id => global_id).as_null_object }
@@ -155,8 +154,56 @@ module Casteml
 				end
 				it { expect(subject).to be_an_instance_of(Hash) }
 				it { expect(subject).to include(:nickname => name)}
-			end		
-			describe "#save_remote", :current => true do
+			end	
+			describe "#remote_obj" do
+				subject{ obj.remote_obj }
+				let(:obj){ klass.new(attrib) }
+				let(:klass) do 
+					Class.new do
+						extend Casteml::RemoteInteraction
+						attr_accessor :name
+					end
+				end
+				let(:remote_class) do
+					Class.new do
+					end
+				end
+				context "with id" do
+					let(:attrib){ {:id => id} }
+					let(:remote_obj){ double('remote', :id => id).as_null_object }
+					let(:id){ 100 }
+					it "calls remote_class.find(id)" do
+						expect(remote_class).to receive(:find).with(id).and_return(remote_obj)
+						subject
+					end
+				end
+				context "with global_id" do
+					let(:attrib){ {:global_id => global_id} }
+					let(:global_id){ '000-001'}
+					let(:remote_obj){ double('remote', :global_id => global_id, :class => remote_class ).as_null_object }
+
+					it "calls MedusaRestClient::Record.find with global_id" do
+						expect(MedusaRestClient::Record).to receive(:find).with(global_id).and_return(remote_obj)
+						subject
+					end
+				end
+
+				context "without id and global_id" do
+					let(:attrib){ {:name => 'tehel'} }
+					let(:remote_hash){ {:remote_name => 'tehel'} }
+
+					before do
+						allow(obj).to receive(:to_remote_hash).and_return(remote_hash)
+					end
+					it "calls remote_class.new with remote_hash" do
+						expect(remote_class).to receive(:new).with(remote_hash)
+						subject
+					end
+				end
+
+			end	
+
+			describe "#save_remote" do
 				subject{ obj.save_remote }
 				let(:obj){ klass1.new(attrib) }
 				let(:attrib){ {:name => name} }
@@ -165,7 +212,6 @@ module Casteml
 					expect(MedusaRestClient::Stone).to receive(:new).with({:nickname => name, :value => nil})
 					subject
 				}
-
 			end
 		end
 

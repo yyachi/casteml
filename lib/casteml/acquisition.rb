@@ -16,6 +16,7 @@ module Casteml
 
 		alias_attribute :name, :session
 		alias_attribute :operator, :analyst
+		alias_attribute :global_id, :uid
 
 		def spot
 			@spot
@@ -74,17 +75,22 @@ module Casteml
 		# 	hash
 		# end
 
-		def remote_obj
-			@remote_obj ||= get_remote_obj
-		end
+		# def remote_obj
+		# 	@remote_obj ||= get_remote_obj
+		# end
 
-		def get_remote_obj
-			MedusaRestClient::Record.find(self.uid)
-		end
+		# def get_remote_obj
+		# 	MedusaRestClient::Record.find(self.uid)
+		# end
+
+
 
 		def save_remote
-			robj = self.class.remote_class.new(to_remote_hash)
-       		if robj.save
+			unless remote_obj.new?
+				remote_obj.attributes.update(to_remote_hash)
+			end
+			#robj = self.class.remote_class.new(to_remote_hash)
+       		if remote_obj.save
           		#self.uid = robj.global_id
           		save_abundances unless abundances.empty?
           		save_spot if spot
@@ -92,8 +98,15 @@ module Casteml
 
 		end
 
+		def save_spot
+			return unless remote_obj
+			spot.target_uid = remote_obj.global_id
+			spot.save_remote
+		end
+
 		def save_abundances
 			return unless remote_obj
+			#return if remote_obj.new?
 			existings = remote_obj.chemistries
 			abundances.each do |ab|
 
