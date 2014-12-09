@@ -15,19 +15,21 @@ class Casteml::Commands::UploadCommand < Casteml::Command
 	def description
 		<<-EOF
 NAME
-    #{program_name} -  Upload pmlfile to Medusa 9.
+    #{program_name} -  Upload a pmlfile to Medusa 9.
 
 SYNOPSIS
     #{program_name} [options] file
 
 DESCRIPTION
-    Upload pmlfile to Medusa 9.
+    Upload a pmlfile to Medusa 9.
 
 EXAMPLE
+	$ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml > session.pml
 	$ casteml upload session.pml
 
 SEE ALSO
     http://dream.misasa.okayama-u.ac.jp
+    join
 
 IMPLEMENTATION
     Copyright (c) 2014 ISEI, Okayama University
