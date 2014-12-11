@@ -19,24 +19,95 @@ module Casteml
 			end
 		end
 
-		describe "#spot_x" do
+		describe "#spot_x", :current => true do
 			subject{ obj.spot_x }
 			let(:attrib){ {:x_image => x_image }}
 			let(:obj){ Spot.new(attrib) }
+			let(:ref_image){ double('ref_image', :length => length, :width => width, :height => height)}
+			let(:length){ width }
+			let(:width){ 4000 }
+			let(:height){ 3000 }
 
-			it {
-				expect(subject).to be_eql(x_image)
-			}		
+			before do
+				allow(obj).to receive(:ref_image).and_return(ref_image)
+			end
+
+			context "x_image => -50.0" do
+				let(:x_image){ -50.0 }
+				it {
+					expect(subject).to be_eql(0)
+				}		
+			end
+
+
+
+			context "x_image => 0.0" do
+				let(:x_image){ 0 }
+				it {
+					expect(subject).to be_eql(width/2)
+				}		
+			end
+
+			context "x_image => 10.0" do
+				let(:x_image){ 10 }
+				it {
+					expect(subject).to be_eql(width/2 + length/10 )
+				}		
+			end
+
+
+			context "x_image => 50.0" do
+				let(:x_image){ 50.0 }
+				it {
+					expect(subject).to be_eql(width)
+				}		
+			end
+
 		end
 
-		describe "#spot_y" do
+		describe "#spot_y", :current => true do
 			subject{ obj.spot_y }
 			let(:attrib){ {:y_image => y_image }}
 			let(:obj){ Spot.new(attrib) }
+			let(:ref_image){ double('ref_image', :length => length, :width => width, :height => height)}
+			let(:length){ width }
+			let(:width){ 4000 }
+			let(:height){ 3000 }
 
-			it {
-				expect(subject).to be_eql(y_image)
-			}		
+			before do
+				allow(obj).to receive(:ref_image).and_return(ref_image)
+			end
+
+			context "y_image => 37.5" do
+				let(:y_image){ 37.5 }
+				it {
+					expect(subject).to be_eql(0)
+				}		
+			end
+
+			context "y_image => 10.0" do
+				let(:y_image){ 10.0 }
+				it {
+					expect(subject).to be_eql(height/2 - length/10)
+				}		
+			end
+
+
+			context "y_image => 0.0" do
+				let(:y_image){ 0 }
+				it {
+					expect(subject).to be_eql(height/2)
+				}		
+			end
+
+
+			context "y_image => -37.5" do
+				let(:y_image){ -37.5 }
+				it {
+					expect(subject).to be_eql(height)
+				}		
+			end
+
 		end
 
 		describe "#attachment_file_id" do
@@ -87,7 +158,7 @@ module Casteml
 		describe "#save_remote" do
 			subject{ obj.save_remote }
 			let(:obj){ Spot.new() }
-			let(:robj){ double('robj') }
+			let(:robj){ double('robj').as_null_object }
 			let(:remote_attributes){ double('remote_attributes')}
 			let(:remote_hash){ double('remote_hash')}
 			let(:ref_image){ double('ref_image') }
@@ -128,7 +199,12 @@ module Casteml
 			let(:target_uid){ '010-0001'}
 			context "with valid attributes" do
 				let(:attrib){ {:image_uid => image_uid, :x_image => x_image, :y_image => y_image} }
+				let(:ref_image){ double('ref_image', :length => length, :width => width, :height => height)}
+				let(:length){ width }
+				let(:width){ 4000 }
+				let(:height){ 3000 }
 				before do
+					allow(obj).to receive(:ref_image).and_return(ref_image)
 					obj.target_uid = target_uid
 					allow(obj).to receive(:attachment_file_id).and_return(attachment_file_id)
 				end
@@ -136,14 +212,14 @@ module Casteml
 					expect(subject).to include(:target_uid => target_uid)
 				}
 
+				# it {
+				# 	expect(subject).to include(:attachment_file_id => attachment_file_id)
+				# }
 				it {
-					expect(subject).to include(:attachment_file_id => attachment_file_id)
+					expect(subject).to include(:spot_x)
 				}
 				it {
-					expect(subject).to include(:spot_x => x_image)
-				}
-				it {
-					expect(subject).to include(:spot_y => y_image)
+					expect(subject).to include(:spot_y)
 				}
 				it {
 					expect(subject).to include(:name => nil)

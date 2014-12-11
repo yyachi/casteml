@@ -204,12 +204,17 @@ module Casteml
 			let(:obj){ Acquisition.new() }
 			let(:robj){ double('robj', :id => 100, :global_id => '090') }
 			let(:spot){ double('spot') }
+			let(:ref_image){ double('ref_image')}
+			let(:attachment_files){ double('attachment_files')}
 
 			before do
 				allow(obj).to receive(:remote_obj).and_return(robj)
 				allow(obj).to receive(:spot).and_return(spot)
 				allow(spot).to receive(:target_uid=)
 				allow(spot).to receive(:save_remote)
+				allow(spot).to receive(:ref_image).and_return(ref_image)
+				allow(robj).to receive(:attachment_files).and_return(attachment_files)
+				allow(attachment_files).to receive(:<<).with(ref_image)
 			end
 			it "call spot.target_uid = robj.global_id" do
 				expect(spot).to receive(:target_uid=).with(robj.global_id)
@@ -217,6 +222,12 @@ module Casteml
 			end
 			it "call spot.save_remote" do
 				expect(spot).to receive(:save_remote)
+				subject
+			end
+			it "call remote_obj.attachment_files << spot.ref_image" do
+				expect(spot).to receive(:ref_image).and_return(ref_image)				
+				expect(robj).to receive(:attachment_files).and_return(attachment_files)
+				expect(attachment_files).to receive(:<<).with(ref_image)
 				subject
 			end
 		end

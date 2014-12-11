@@ -4,6 +4,7 @@ require 'casteml/stone'
 require 'casteml/technique'
 require 'casteml/device'
 require 'casteml/abundance'
+require 'casteml/spot'
 module Casteml
 	class Acquisition
 		extend Casteml::RemoteInteraction
@@ -22,8 +23,8 @@ module Casteml
 			@spot
 		end
 
-		def spot=(hash_or_obj)
-			unless hash_or_obj.instance_of?(Spot)
+		def spot=(hash_or_object)
+			unless hash_or_object.instance_of?(Spot)
 				@spot = Spot.new(hash_or_object)
 			else
 				@spot = hash_or_object
@@ -102,6 +103,7 @@ module Casteml
 			return unless remote_obj
 			spot.target_uid = remote_obj.global_id
 			spot.save_remote
+			remote_obj.attachment_files << spot.ref_image
 		end
 
 		def save_abundances

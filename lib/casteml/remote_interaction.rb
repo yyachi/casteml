@@ -10,7 +10,7 @@ module Casteml::RemoteInteraction
 
   	def record_pool
 #  		setup if @record_pool.empty?
-		setup if @record_pool.nil? || @record_pool.empty?
+		setup if @record_pool.nil? || @record_pool.size == 0
   		@record_pool 
   	end
 
