@@ -21,20 +21,17 @@ SYNOPSIS
     #{program_name} [options] file
 
 DESCRIPTION
-    Upload a pmlfile to Medusa 9.
-
-NOTE
-    This command will be incorporated into orochi-upload soon.
-    Execute via orochi-upload as "$ orochi-upload session.pml".
+    Upload a pmlfile to Medusa 9.  Users are encoraged to call this
+    program through `orochi-upload'.
 
 EXAMPLE
 	$ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml > session.pml
 	$ casteml upload session.pml
 
 SEE ALSO
-    orochi-upload
-    join
     http://dream.misasa.okayama-u.ac.jp
+    join
+    orochi-upload
 
 IMPLEMENTATION
     Copyright (c) 2014 ISEI, Okayama University
