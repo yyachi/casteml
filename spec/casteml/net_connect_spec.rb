@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'casteml/acquisition'
 
 module Casteml
-	@allow_net_connect = true
+	@allow_net_connect = false
 	if @allow_net_connect
 		describe "with_net_connection" do
 			describe Acquisition do
