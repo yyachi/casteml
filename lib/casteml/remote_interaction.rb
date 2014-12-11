@@ -73,7 +73,10 @@ module Casteml::RemoteInteraction
   	end
 
   	def self.extended(klass)
-  		klass.include(InstanceMethods)
+  	 #klass.include(InstanceMethods)
+     klass.class_eval do
+      include(InstanceMethods)
+     end
   	end
 
   	module InstanceMethods

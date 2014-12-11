@@ -30,14 +30,34 @@ module Casteml
 	
 			context "with registered command" do
 				let(:command){ double(command_name).as_null_object }
-				let(:command_name){ 'split'}
 				let(:args){ [command_name] }
-				it "load_and_instantiate a command class" do
-					expect(cmd).to receive(:load_and_instantiate).with(command_name.to_sym).and_return(command)
-					
-					cmd.run args
+				context "split" do
+					let(:command_name){ 'split'}
+					it "load_and_instantiate a command class" do
+						expect(cmd).to receive(:load_and_instantiate).with(command_name.to_sym).and_return(command)	
+						cmd.run args
+					end
 				end
+
+				context "join" do
+					let(:command_name){ 'join'}
+					it "load_and_instantiate a command class" do
+						expect(cmd).to receive(:load_and_instantiate).with(command_name.to_sym).and_return(command)	
+						cmd.run args
+					end
+				end
+
+				context "upload" do
+					let(:command_name){ 'upload'}
+					it "load_and_instantiate a command class" do
+						expect(cmd).to receive(:load_and_instantiate).with(command_name.to_sym).and_return(command)	
+						cmd.run args
+					end
+				end
+
+
 			end
+
 
 			context "with unknown command" do
 				let(:command){ double(command_name).as_null_object }

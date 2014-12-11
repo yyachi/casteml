@@ -9,6 +9,7 @@ class Casteml::CommandManager
 	BUILTIN_COMMANDS = [
 						:join,
 						:split,
+						:upload,
 						:help,
 	]
 	def self.instance
