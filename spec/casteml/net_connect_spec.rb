@@ -23,6 +23,75 @@ module Casteml
 						end
 					end
 
+					context "with sample_name" do
+						let(:attrib){ {
+							:session => session,
+						 	:description => description, 
+						 	:analyst => analyst,
+						 	:sample_name => 'deleteme-with-casteml'
+						 	} }
+						 before do
+						 	acquisition
+						 end
+						it { expect{ subject }.not_to raise_error }
+						it { 
+							subject
+							expect( acquisition.remote_obj.stone).not_to be_nil
+						}
+						after do
+							acquisition.remote_obj.destroy
+						end
+					end
+
+					context "with instrument" do
+						let(:attrib){ {
+							:session => session,
+						 	:description => description, 
+						 	:analyst => analyst,
+						 	:instrument => 'EPMA'
+						 	} }
+						 before do
+						 	acquisition
+						 end
+						it { expect{ subject }.not_to raise_error }
+						after do
+							acquisition.remote_obj.destroy
+						end
+					end
+
+					context "with device" do
+						let(:attrib){ {
+							:session => session,
+						 	:description => description, 
+						 	:analyst => analyst,
+						 	:device => 'EPMA'
+						 	} }
+						 before do
+						 	acquisition
+						 end
+						it { expect{ subject }.not_to raise_error }
+						after do
+							acquisition.remote_obj.destroy
+						end
+					end
+
+					context "with technique" do
+						let(:attrib){ {
+							:session => session,
+						 	:description => description, 
+						 	:analyst => analyst,
+						 	:technique => 'TECH'
+						 	} }
+						 before do
+						 	acquisition
+						 end
+						it { expect{ subject }.not_to raise_error }
+						after do
+							acquisition.remote_obj.destroy
+						end
+					end
+
+
 					context "with abundances" do
 						let(:attrib){ {
 							:session => session,
@@ -30,7 +99,7 @@ module Casteml
 						 	:analyst => analyst,
 						 	:abundances => [
 						 		{:nickname => 'SiO2', :data => '12.5', :unit => 'cg/g'},
-						 		{:nickname => 'Al2O3', :data => '1.5', :unit => 'cg/g'},
+						 		{:nickname => 'Li', :data => '1.5', :unit => 'ug/g'},
 						 	] 
 						 	} }
 						 before do

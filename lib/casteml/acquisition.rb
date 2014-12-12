@@ -57,8 +57,9 @@ module Casteml
 		end
 
 		def device_id
-			return unless device
-			obj = Device.find_or_create_by_name(device)
+			name = device || instrument
+			return unless name
+			obj = Device.find_or_create_by_name(name)
 			return obj.id if obj
 		end
 

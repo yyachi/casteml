@@ -22,7 +22,7 @@ module Casteml
 				klass.record_pool = []
 			end
 			it {
-				expect(remote_class).to receive(:find).with(:all)
+				expect(remote_class).not_to receive(:find).with(:all)
 				subject
 			}
 		end
@@ -39,11 +39,11 @@ module Casteml
 			context "with empty record_pool" do
 				before do
 					klass.record_pool = []
-					allow(remote_class).to receive(:find).with(:all).and_return(records)
+					allow(remote_class).to receive(:find_by_nickname).and_return(item2)
 				end
 
 				it { 
-					expect(remote_class).to receive(:find).with(:all).and_return(records) 
+					expect(remote_class).to receive(:find_by_nickname).with(name).and_return(item2) 
 					subject
 				}
 	
@@ -66,6 +66,7 @@ module Casteml
 				let(:message){ "<#{remote_class}: #{name}> does not exist. Are you sure you want to create it?" }
 				before do
 					klass.record_pool = records
+					allow(remote_class).to receive(:find_by_nickname).with(name).and_return(nil)
 				end
 				it {
 					expect(klass).to receive(:ask_yes_no).with(message, true).and_return(true)

@@ -10,7 +10,7 @@ module Casteml
 				Device.record_pool = []
 			end
 			it {
-				expect(MedusaRestClient::Device).to receive(:find).with(:all)
+				expect(MedusaRestClient::Device).not_to receive(:find).with(:all)
 				subject
 			}
 		end

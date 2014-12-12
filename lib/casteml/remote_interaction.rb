@@ -23,7 +23,8 @@ module Casteml::RemoteInteraction
   	end
 
   	def get_records
-  		@remote_class.find(:all)
+  		collection = @remote_class.find(:all)
+      collection.to_a if collection
   	end
 
   	def find_by_global_id(gid)
@@ -41,6 +42,7 @@ module Casteml::RemoteInteraction
   		unless obj
   			if ask_yes_no "<#{@remote_class}: #{name}> does not exist. Are you sure you want to create it?", true
           obj = @remote_class.create(:name => name)
+          p record_pool
           record_pool << obj
         else
           raise "<#{@remote_class}: #{name}> does not exist."

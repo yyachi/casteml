@@ -89,7 +89,7 @@ module Casteml
 				let(:records){ [stone_1, stone_2, stone_3] }
 				let(:message){ "select one" }
 				let(:new_obj){ double(name).as_null_object }
-				let(:select){ 1 }
+				let(:select){ ["hello", 1] }
 				before do
 					Stone.record_pool = []
 					allow(MedusaRestClient::Stone).to receive(:find_by_name).with(name).and_return(records)
@@ -98,12 +98,12 @@ module Casteml
 				context "choose remote object" do
 					it {
 						expect(ui).to receive(:choose_from_list).with(message, records.map{|robj| "#{robj.name} <ID: #{robj.global_id}>"}.push("create new one")).and_return(select)
-						expect(subject).to be_eql(records[select])
+						expect(subject).to be_eql(records[select[1]])
 					}
 				end
 				context "choose create new one" do
 					it {
-						expect(ui).to receive(:choose_from_list).with(message, records.map{|robj| "#{robj.name} <ID: #{robj.global_id}>"}.push("create new one")).and_return(records.size)
+						expect(ui).to receive(:choose_from_list).with(message, records.map{|robj| "#{robj.name} <ID: #{robj.global_id}>"}.push("create new one")).and_return(["",records.size])
 						expect(MedusaRestClient::Stone).to receive(:create).with({:name => name}).and_return(new_obj)
 						expect(subject).to be_eql(new_obj)
 					}
