@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-source 'http://devel.misasa.okayama-u.ac.jp/gems/'
+source 'http://dream.misasa.okayama-u.ac.jp/rubygems/'
 
 # Specify your gem's dependencies in casteml.gemspec
 gemspec
