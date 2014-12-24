@@ -55,6 +55,14 @@ module Casteml
 					end
 				end
 
+				context "convert" do
+					let(:command_name){ 'convert'}
+					it "load_and_instantiate a command class" do
+						expect(cmd).to receive(:load_and_instantiate).with(command_name.to_sym).and_return(command)	
+						cmd.run args
+					end
+				end
+
 
 			end
 

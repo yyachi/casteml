@@ -153,7 +153,7 @@ module Casteml
 
 		end
 
-		describe "#remote_obj", :current => true do
+		describe "#remote_obj" do
 			subject { obj.remote_obj }
 			let(:obj){ Acquisition.new(attrib) }
 			let(:attrib){ {:global_id => '000-001', :session => 'hello'} }
@@ -199,7 +199,7 @@ module Casteml
 		end
 
 
-		describe "#save_spot", :current => true do
+		describe "#save_spot" do
 			subject { obj.save_spot }
 			let(:obj){ Acquisition.new() }
 			let(:robj){ double('robj', :id => 100, :global_id => '090') }
@@ -292,7 +292,7 @@ module Casteml
 				end
 			end
 
-			context "with existing remote_obj", :current => true do
+			context "with existing remote_obj" do
 				let(:rattrib){ double('attrib') }
 				let(:rhash){ double('rhash') }
 				before do

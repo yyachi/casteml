@@ -15,7 +15,7 @@ module Casteml
 		end
 
 
-		describe ".record_pool", :current => true do
+		describe ".record_pool" do
 			subject { klass.record_pool }
 			let(:name){ 'deleteme-1' }
 			before do
@@ -80,6 +80,7 @@ module Casteml
 				let(:message){ "<#{remote_class}: #{name}> does not exist. Are you sure you want to create it?" }				
 				before do
 					klass.record_pool = records
+					allow(remote_class).to receive(:find_by_nickname).with(name).and_return(nil)					
 				end
 				it {
 					expect(klass).to receive(:ask_yes_no).with(message, true).and_return(false)

@@ -10,6 +10,7 @@ class Casteml::CommandManager
 						:join,
 						:split,
 						:upload,
+						:convert,
 						:help,
 	]
 	def self.instance

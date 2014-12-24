@@ -3,6 +3,28 @@ require 'casteml/formats/xml_format'
 module Casteml::Formats
 	describe XmlFormat do
 
+		describe ".to_string", :current => true do
+			subject { XmlFormat.to_string(data) }
+			let(:data){ [{:session => "1"}, {:session => "2"}] }
+			it {
+				expect(subject).to be_an_instance_of(String)
+			}
+		end
+
+		describe ".from_array" do
+			subject { XmlFormat.from_array(data) }
+			let(:data){ [{:session => "1"}, {:session => "2"}] }
+			it {
+				expect(subject).not_to be_nil
+			}
+		end
+
+		describe ".from_hash", :current => true do
+			subject { XmlFormat.from_hash(hash) }
+			let(:hash){ {:session => 'deleteme-1', :instrument => nil, :abundances => [{:nickname => 'Li', :data => '4.5'},{:nickname => 'SiO2', :unit => 'cg/g', :data => '4.5'}] } }
+			it { expect(subject).not_to be_nil }
+
+		end
 
 		describe ".to_hash" do
 				let(:doc){ REXML::Document.new xml }

@@ -1,6 +1,42 @@
 require 'spec_helper'
 require 'casteml'
 module Casteml
+	describe ".convert_file" do
+		context "with csvfile", :current => true do
+			let(:path){'tmp/mytable.csv'}
+			let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+#			before(:each) do
+#				setup_empty_dir('tmp')
+#				setup_file(path)
+#			end
+
+			it {
+				expect(Casteml::Formats::CsvFormat).to receive(:decode_file).with(path).and_return(data)
+				Casteml.convert_file(path)
+			}
+		end
+
+	end
+
+	describe ".encode", :current => true do
+		let(:data){ [{:session => 'session-1',:sample_name => 'stone-1'},{:session => 'session-2',:sample_name => 'stone-2'}] }
+		context "without opts" do
+			it {
+				expect(Formats::XmlFormat).to receive(:to_string).with(data, {})
+				Casteml.encode(data)
+			}
+		end
+
+		context "with type = :csv" do
+			let(:opts){ {:type => :csv}}
+			it {
+				expect(Formats::CsvFormat).to receive(:to_string).with(data, {})
+				Casteml.encode(data, opts)
+			}
+		end
+
+	end
+
 	describe ".decode_file" do
 		context "with pmlfile" do
 			let(:path){'tmp/my-great.pml'}
@@ -9,6 +45,15 @@ module Casteml
 				Casteml.decode_file(path)
 			}
 		end
+
+		context "with csvfile" do
+			let(:path){'tmp/my-great.csv'}
+			it {
+				expect(Casteml::Formats::CsvFormat).to receive(:decode_file).with(path)
+				Casteml.decode_file(path)
+			}
+		end
+
 	end
 
 	describe ".save_remote" do

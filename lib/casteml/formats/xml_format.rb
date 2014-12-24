@@ -1,7 +1,63 @@
 require 'rexml/document'
 require 'tempfile'
+
 module Casteml::Formats
 	class XmlFormat
+		def self.to_string(data, opts = {})
+		    fp = StringIO.new
+		    write(from_array(data), fp)
+		    fp.close
+		    fp.string			
+		end
+
+		def self.from_array(array)
+			doc = REXML::Document.new
+			doc << REXML::XMLDecl.new('1.0', 'UTF-8')
+			#doc.add_element el
+			acqs_tag = REXML::Element.new('acquisitions')
+			array.each do |hash|
+				acqs_tag.add_element from_hash(hash)
+			end
+			doc.add_element acqs_tag
+			doc
+		end
+
+		def self.from_hash(hash)
+			abundances = hash.delete(:abundances)
+			spot = hash.delete(:spot)
+			acq_tag = REXML::Element.new('acquisition')
+			hash.each do |key, value|
+				element = REXML::Element.new(key.to_s)
+				element.text = value
+				acq_tag.elements.add(element)
+			end
+
+			if abundances && !abundances.empty?
+				abs_tag = REXML::Element.new('abundances')
+				abundances.each do |abundance|
+					ab_tag = REXML::Element.new('abundance')
+					abundance.each do |key, value|
+						element = REXML::Element.new(key.to_s)
+						element.text = value
+						ab_tag.elements.add(element)
+					end
+					abs_tag.elements.add(ab_tag)
+				end
+				acq_tag.elements.add(abs_tag)
+			end
+
+			if spot
+				spot_tag = REXML::Element.new('spot')
+				spot.each do |key, value|
+					element = REXML::Element.new(key.to_s)
+					element.text = value
+					spot_tag.elements.add(element)					
+				end
+				acq_tag.elements.add(spot_tag)
+
+			end
+			acq_tag
+		end
 
 		def self.to_hash(rexml)
 			elem_to_hash rexml.root

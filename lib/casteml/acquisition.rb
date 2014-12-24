@@ -18,6 +18,7 @@ module Casteml
 		alias_attribute :name, :session
 		alias_attribute :operator, :analyst
 		alias_attribute :global_id, :uid
+		alias_attribute :ID, :uid
 
 		def spot
 			@spot
