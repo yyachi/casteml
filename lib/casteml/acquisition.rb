@@ -15,6 +15,7 @@ module Casteml
 		attr_accessor :technique
 		attr_accessor :device
 
+		alias_attribute :stone_ID, :sample_uid
 		alias_attribute :name, :session
 		alias_attribute :operator, :analyst
 		alias_attribute :global_id, :uid

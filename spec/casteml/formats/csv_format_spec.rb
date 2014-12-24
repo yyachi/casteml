@@ -20,10 +20,15 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g)
 			}
 		end
 
-		describe ".to_method_array" do
-			let(:array){ %w(ID session technique SiO2) }
+		describe ".to_method_array", :current => true do
+			subject { CsvFormat.to_method_array(array)}
+			let(:array){ %w(ID session technique stone-ID SiO2) }
+			before do
+				p array
+				p subject
+			end
 			it {
-				expect(CsvFormat.to_method_array(array).size).to be_eql(3)
+				expect(subject).to include(:stone_ID)
 			}
 			context "with nil item" do
 				let(:array){ %w(ID session technique SiO2) }
@@ -31,7 +36,7 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g)
 					array << nil
 				end
 				it {
-					expect(CsvFormat.to_method_array(array).size).to be_eql(3)
+					expect(subject.size).to be_eql(3)
 				}				
 			end
 			context "with nil item" do
@@ -40,7 +45,7 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g)
 					array << nil
 				end
 				it {
-					expect(CsvFormat.to_method_array(array).size).to be_eql(1)
+					expect(subject.size).to be_eql(1)
 				}				
 			end
 
@@ -146,7 +151,7 @@ ID,name,technique
 				}
 			end
 
-			context "with empty session,name row", :current => true do
+			context "with empty session,name row" do
 				let(:string){ <<-EOF
 ID,session,name,technique
 111,test-1,EPMA
@@ -158,15 +163,16 @@ ID,session,name,technique
 				}
 			end
 
-			context "inline unit" do
+			context "inline unit", :current => true do
 				let(:string){ <<-EOF
-ID,session,sample_name,SiO2 (cg/g)
-,test-1,sample-1,12.4
-,test-2,sample-2,34.5
+ID,session,stone-ID,SiO2 (cg/g)
+,test-1,010-1,12.4
+,test-2,020-2,34.5
 						EOF
 				}
 				it { expect(subject.size).to be_eql(2) }
 				it { expect(subject[0]).to include("ID") }
+				it { expect(subject[0]).to include("stone-ID") }				
 				it { expect(subject[0][:abundances][0]).to include(:nickname => "SiO2") }
 				it { expect(subject[0][:abundances][0]).to include(:unit => "cg/g") }
 				it { expect(subject[0][:abundances][0]).to include(:data => "12.4") }				

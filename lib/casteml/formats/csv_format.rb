@@ -9,7 +9,7 @@ class CSV::Row
 		hash_new = Hash.new
 
 		hash.each do |key, value|
-			setter = (key + "=").to_sym
+			setter = (key.gsub(/-/,"_") + "=").to_sym
 			if Casteml::Acquisition.instance_methods.include?(setter)
 				hash_new[key] = value
 				next
@@ -77,7 +77,7 @@ module Casteml::Formats
 
 		def self.to_method_array(array)
 			acq_methods = Casteml::Acquisition.instance_methods
-			array.compact.map{|item| acq_methods.include?(item.to_sym) ? item.to_sym : nil }.compact
+			array.compact.map{|item| item.gsub(/-/,'_').to_sym }.map{|item| acq_methods.include?(item) ? item : nil }.compact
 		end
 
 		def self.transpose(string, opts = {})
