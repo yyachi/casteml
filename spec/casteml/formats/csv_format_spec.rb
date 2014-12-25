@@ -131,6 +131,29 @@ Al2O3,cg/g,,,3.4,5.4,,
 				}
 			end
 
+			context "with empty line", :current => true do
+				let(:string){ <<-EOF
+session,technique
+111,EPMA
+,,
+					EOF
+				}
+				it {
+					expect{ subject }.to raise_error
+				}
+			end
+
+			context "with empty column", :current => true do
+				let(:string){ <<-EOF
+session,technique,,
+111,EPMA,,
+					EOF
+				}
+				it {
+					expect{ subject }.not_to raise_error
+				}
+			end
+
 			context "with session only" do
 				let(:string){ <<-EOF
 session

@@ -9,6 +9,7 @@ class CSV::Row
 		hash_new = Hash.new
 
 		hash.each do |key, value|
+			next unless key
 			setter = (key.gsub(/-/,"_") + "=").to_sym
 			if Casteml::Acquisition.instance_methods.include?(setter)
 				hash_new[key] = value
