@@ -16,22 +16,24 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 	def description
 		<<-EOF
 NAME
-    #{program_name} -   Convert a file into pmlfile.
+    #{program_name} -   Convert between data files including pmlfile.
 
 SYNOPSIS
     #{program_name} [options] file
 
 DESCRIPTION
-    Convert a file into pmlfile.
+    Convert between data files including pmlfile.
 
 EXAMPLE
 	$ casteml convert session.csv > session.pml
 	$ ls
     session.pml
+    $ casteml split session.pml
 
 SEE ALSO
     http://dream.misasa.okayama-u.ac.jp
-    join
+    casteml join
+    casteml split
 
 IMPLEMENTATION
     Copyright (c) 2014 ISEI, Okayama University

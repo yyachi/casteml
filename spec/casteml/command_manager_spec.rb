@@ -14,6 +14,9 @@ module Casteml
 
 			context "with -h" do
 				let(:args){ ['-h'] }
+                before do
+                    puts cmd.show_help
+                end
 				it "shows help and exit" do
 					expect(cmd).to receive(:show_help)
 					expect{ cmd.run args }.to exit_with_code(0)
