@@ -5,24 +5,29 @@ module Casteml
 		let(:session){ 'deleteme-1' }
 		let(:analyst){ 'Yusuke Yachi' }
 		let(:description){ 'Hello casteml'}
-
+		let(:bibliography_uid){ '000-001' }
+		let(:sample_uid){ '001-001'}
 		describe ".initialize" do
 			subject{ Acquisition.new(attrib) }
 			context "with old type attrib" do
-				let(:attrib){ {:session => session, :description => description, :analyst => analyst } }			
+				let(:attrib){ {:session => session, :description => description, :analyst => analyst, :sample_uid => sample_uid, :bibliography_uid => bibliography_uid } }			
 				it { expect(subject).to be_an_instance_of(Acquisition) }
 				it { expect(subject.session).to be_eql(session) }
 				it { expect(subject.description).to be_eql(description) }
 				it { expect(subject.analyst).to be_eql(analyst) }
 				it { expect(subject.name).to be_eql(session)}
+				it { expect(subject.sample_uid).to be_eql(sample_uid)}				
+				it { expect(subject.bibliography_uid).to be_eql(bibliography_uid)}				
 			end
 
 			context "with new type attrib" do
-			 	let(:attrib){ {:name => session, :description => description, :operator => analyst } }			
+			 	let(:attrib){ {:name => session, :description => description, :operator => analyst, :"stone-ID" => sample_uid, :"bib-ID" => bibliography_uid } }			
 			 	it { expect(subject).to be_an_instance_of(Acquisition) }
 			 	it { expect(subject.session).to be_eql(session) }
 			 	it { expect(subject.description).to be_eql(description) }
 			 	it { expect(subject.analyst).to be_eql(analyst) }
+				it { expect(subject.sample_uid).to be_eql(sample_uid)}
+				it { expect(subject.bibliography_uid).to be_eql(bibliography_uid)}				
 			end
 
 		end
@@ -54,6 +59,40 @@ module Casteml
 
 
 		end
+
+		describe "#bib" do
+			subject{ obj.bib }
+			let(:obj) { Acquisition.new(attrib) }
+			let(:bib_obj){ double(bibliography_uid, :id => bib_id, :global_id => bibliography_uid).as_null_object}
+			let(:bib_id){ 299 }
+			context "with bibliography_uid attribute" do
+				let(:attrib){ {:session => session, :bibliography_uid => bibliography_uid } }
+				before do
+					allow(Bib).to receive(:find_by_global_id).with(bibliography_uid).and_return(bib_obj)
+				end
+				it { 
+					expect(Bib).to receive(:find_by_global_id)
+					subject
+					expect(obj.instance_variable_get(:@bib)).to be_equal(bib_obj)
+				}
+				it { expect(subject).to be_eql(bib_obj) }
+			end
+			context "with existing instance_varable" do
+				let(:attrib){ {:session => session, :bibliography_uid => bibliography_uid } }
+				before do
+					obj.instance_variable_set(:@bib, bib_obj)
+				end
+				it {
+					expect(Bib).not_to receive(:find_by_global_id)
+					subject
+				}
+			end
+			context "without bibliography_uid attribute" do
+				let(:attrib){ {:session => session, :bibliography_uid => nil } }
+				it { expect(subject).to be_nil }
+			end
+		end
+
 
 		describe "#stone_id" do
 			subject{ obj.stone_id }
@@ -94,6 +133,7 @@ module Casteml
 
 			end
 		end
+
 
 		describe "#technique_id" do
 			subject{ obj.technique_id }
@@ -232,6 +272,25 @@ module Casteml
 			end
 		end
 
+
+		describe "#link_bib" do
+			subject{ obj.link_bib }
+			let(:obj){ Acquisition.new(attrib) }
+			let(:attrib){ {:session => 'test-1'}}
+			let(:bib){ double('bib').as_null_object }
+			let(:bibs){ double('bibs').as_null_object }
+			let(:remote_obj){ double('remote').as_null_object }
+			before do
+				allow(obj).to receive(:remote_obj).and_return(remote_obj)
+				allow(remote_obj).to receive(:bibs).and_return(bibs)
+				allow(obj).to receive(:bib).and_return(bib)
+			end
+			it {
+				expect(bibs).to receive(:<<).with(bib)
+				subject 
+			}
+		end
+
 		describe "#save_abundances" do
 			subject{ obj.save_abundances }
 			let(:obj){ Acquisition.new(attrib) }
@@ -315,6 +374,22 @@ module Casteml
 					subject
 				end
 
+			end
+
+			context "with bib" do
+				let(:attrib){ {:session => 'test-1', :bibliography_uid => bibliography_uid}}
+				let(:bib_obj){ double(bibliography_uid, :id => 299, :global_id => bibliography_uid).as_null_object }
+				before do
+					obj
+					allow(robj).to receive(:new?).and_return(true)
+					allow(obj).to receive(:remote_obj).and_return(robj)
+					allow(obj).to receive(:bib).and_return(bib_obj)
+					allow(robj).to receive(:save).and_return(true)
+				end
+				it {
+					expect(obj).to receive(:link_bib)
+					subject
+				}
 			end
 
 			context "with abundances" do

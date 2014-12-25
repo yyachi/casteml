@@ -5,6 +5,7 @@ require 'casteml/technique'
 require 'casteml/device'
 require 'casteml/abundance'
 require 'casteml/spot'
+require 'casteml/bib'
 module Casteml
 	class Acquisition
 		extend Casteml::RemoteInteraction
@@ -16,6 +17,7 @@ module Casteml
 		attr_accessor :device
 
 		alias_attribute :stone_ID, :sample_uid
+		alias_attribute :bib_ID, :bibliography_uid
 		alias_attribute :name, :session
 		alias_attribute :operator, :analyst
 		alias_attribute :global_id, :uid
@@ -58,6 +60,19 @@ module Casteml
 			nil
 		end
 
+		def bib
+			return @bib if @bib
+			if bibliography_uid
+				obj = Bib.find_by_global_id(bibliography_uid)
+				if obj
+					@bib = obj
+				else
+					@bib = nil
+				end
+			end
+			@bib
+		end
+
 		def device_id
 			name = device || instrument
 			return unless name
@@ -96,10 +111,16 @@ module Casteml
 			#robj = self.class.remote_class.new(to_remote_hash)
        		if remote_obj.save
           		#self.uid = robj.global_id
+          		link_bib if bib
           		save_abundances unless abundances.empty?
           		save_spot if spot
         	end
 
+		end
+
+		def link_bib
+			return unless remote_obj
+			remote_obj.bibs << bib if bib
 		end
 
 		def save_spot

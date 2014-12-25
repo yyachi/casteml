@@ -67,6 +67,14 @@ module Casteml::Formats
 			decode_string(string, opts)
 		end
 
+		def self.tab_separated?(string)
+			string =~ /\t/
+		end
+
+		def self.tsv2csv(string)
+			string.gsub(/\t/,',')
+		end
+
 		def self.column_wise?(string)
 			csv = CSV.new(string)
 			array_of_arrays = csv.to_a
@@ -101,6 +109,7 @@ module Casteml::Formats
 
 		def self.decode_string(string, opts = {})
 			raise "empty csv!" if string.empty?
+			string = tsv2csv(string) if tab_separated?(string)
 			string = transpose(string) if column_wise?(string)
 
 			sio = StringIO.new(string,"r")

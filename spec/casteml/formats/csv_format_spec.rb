@@ -20,13 +20,31 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g)
 			}
 		end
 
-		describe ".to_method_array", :current => true do
+		describe ".tab_separated" do
+			subject { CsvFormat.tab_separated?(string) }
+			context "with tab-separated string" do
+				let(:string){ <<-EOF
+ID\tsession
+					EOF
+				}
+				it {
+					expect(subject).to be_truthy
+				}
+			end
+			context "with canmma-separated string" do
+				let(:string){ <<-EOF
+ID,session
+					EOF
+				}
+				it {
+					expect(subject).to be_falsey
+				}
+			end
+		end
+
+		describe ".to_method_array" do
 			subject { CsvFormat.to_method_array(array)}
 			let(:array){ %w(ID session technique stone-ID SiO2) }
-			before do
-				p array
-				p subject
-			end
 			it {
 				expect(subject).to include(:stone_ID)
 			}
@@ -99,21 +117,21 @@ Al2O3,cg/g,,,3.4,5.4,,
 
 		describe ".decode_string" do
 			subject { CsvFormat.decode_string(string) }
-			context "with empty string", :current => true do
+			context "with empty string" do
 				let(:string){ "" }
 				it {
 					expect{subject}.to raise_error
 				}
 			end
 
-			context "with empty data", :current => true do
+			context "with empty data" do
 				let(:string){ "session,name" }
 				it {
 					expect(subject).to be_empty
 				}
 			end
 
-			context "with session only", :current => true do
+			context "with session only" do
 				let(:string){ <<-EOF
 session
 test-1
@@ -127,7 +145,7 @@ test-2
 				}
 			end
 
-			context "with empty session row", :current => true do
+			context "with empty session row" do
 				let(:string){ <<-EOF
 ID,session,technique
 111,test-1,EPMA
@@ -139,7 +157,7 @@ ID,session,technique
 				}
 			end
 
-			context "with empty name row", :current => true do
+			context "with empty name row" do
 				let(:string){ <<-EOF
 ID,name,technique
 111,test-1,EPMA
@@ -163,16 +181,29 @@ ID,session,name,technique
 				}
 			end
 
+			context "with tab separated" do
+				let(:string){ <<-EOF
+ID\tsession\ttechnique
+111\ttest-1\tEPMA
+222\ttest-2\tXRF
+						EOF
+				}
+				it { expect(subject[0]).to include("ID" => "111") }
+				it { expect(subject[0]).to include("session" => "test-1") }
+				it { expect(subject[0]).to include("technique" => "EPMA") }
+			end
+
 			context "inline unit", :current => true do
 				let(:string){ <<-EOF
-ID,session,stone-ID,SiO2 (cg/g)
-,test-1,010-1,12.4
-,test-2,020-2,34.5
+ID,session,stone-ID,bib-ID,SiO2 (cg/g)
+,test-1,010-1,001-001,12.4
+,test-2,020-2,001-002,34.5
 						EOF
 				}
 				it { expect(subject.size).to be_eql(2) }
 				it { expect(subject[0]).to include("ID") }
-				it { expect(subject[0]).to include("stone-ID") }				
+				it { expect(subject[0]).to include("stone-ID") }
+				it { expect(subject[0]).to include("bib-ID") }								
 				it { expect(subject[0][:abundances][0]).to include(:nickname => "SiO2") }
 				it { expect(subject[0][:abundances][0]).to include(:unit => "cg/g") }
 				it { expect(subject[0][:abundances][0]).to include(:data => "12.4") }				

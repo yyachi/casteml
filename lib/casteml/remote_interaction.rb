@@ -89,7 +89,7 @@ module Casteml::RemoteInteraction
 
 		def initialize(attrib = {})
 			attrib.each do |key, value|
-				self.send((key.to_s + '=').to_sym, value)
+				self.send((key.to_s.gsub(/-/,'_') + '=').to_sym, value)
 			end
 		end
 
