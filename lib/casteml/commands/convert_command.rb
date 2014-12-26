@@ -4,6 +4,11 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
 		super 'convert', 'Convert a file into pml-file'
 
+		add_option('-f', '--format OUTPUTFORMAT',
+						'Specify output format (pml, csv, tex)') do |v, options|
+			options[:format] = v
+		end
+
 	end
 
 	def usage
@@ -30,6 +35,9 @@ EXAMPLE
     session.pml
     $ casteml split session.pml
 
+    $ casteml convert -f tex session.csv > session.tex
+    $ pdflatex session.tex
+
 SEE ALSO
     http://dream.misasa.okayama-u.ac.jp
     casteml join
@@ -48,9 +56,12 @@ EOF
 		original_options = options.clone
 		args = options.delete(:args)
 		raise OptionParser::InvalidArgument.new('specify FILE') if args.empty?
-
     	path = args.shift
-    	string = Casteml.convert_file(path)
+		oformat = options.delete(:format)
+		unless oformat
+			oformat = Casteml.is_pml?(path) ? :csv : :pml
+		end
+    	string = Casteml.convert_file(path, :format => oformat.to_sym)
     	puts string
     	#xml = Casteml::Format::XmlFormat.from_array(data)
 	end

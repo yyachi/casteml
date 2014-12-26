@@ -35,20 +35,45 @@ module Casteml::Commands
 				end
 			end
 
-			context "with path" do
-				let(:path){ 'tmp/mytable.csv'}
-				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+			context "with tsv" do
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ [path]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
 				end
 
-				it "calls Casteml.decode_file with path" do
-#					expect(Casteml).to receive(:convert_file).with(path).and_return(instance)
+				it "calls Casteml.convert_file with path" do
+					expect(Casteml).to receive(:convert_file).with(path, :format => :pml).and_return('pml')					
 					cmd.invoke_with_build_args args, build_args
 				end
+			end
 
+			context "with pml" do
+				let(:path){ 'tmp/mytable.pml'}
+				let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:args){ [path]}
+
+				it "calls Casteml.convert_file with path" do
+					expect(Casteml).to receive(:convert_file).with(path, :format => :csv).and_return('csv')	
+					cmd.invoke_with_build_args args, build_args
+				end
+			end
+
+			context "with format" do
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:args){ ['-f', 'tex', path]}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+
+				it "calls Casteml.decode_file with path" do
+					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
+					cmd.invoke_with_build_args args, build_args
+				end
 			end
 
 		end		

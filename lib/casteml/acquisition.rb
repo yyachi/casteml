@@ -49,6 +49,11 @@ module Casteml
 			end
 		end
 
+		def abundance_of(nickname)
+			abundance = abundances.find{|ab| ab.nickname == nickname }
+			abundance.data.to_f if abundance && abundance.data
+		end
+
 		def stone_id
 			if sample_uid
 				obj = Stone.find_by_global_id(sample_uid)

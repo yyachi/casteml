@@ -3,10 +3,11 @@ require 'casteml/exceptions'
 require 'casteml/acquisition'
 require 'casteml/formats/xml_format'
 require 'casteml/formats/csv_format'
+require 'casteml/formats/tex_format'
 module Casteml
   # Your code goes here...
-  def self.convert_file(path)
-    string = encode(decode_file(path))
+  def self.convert_file(path, opts = {})
+    string = encode(decode_file(path), :type => opts[:format])
   end
 
 
@@ -16,7 +17,9 @@ module Casteml
     when :pml
       string = Formats::XmlFormat.to_string(data, opts)
     when :csv
-      string = Formats::CsvFormat.to_string(data, opts)      
+      string = Formats::CsvFormat.to_string(data, opts)
+    when :tex
+      string = Formats::TexFormat.to_string(data, opts)      
     else
       raise "not implemented"
     end
@@ -28,11 +31,37 @@ module Casteml
     # fp.string
   end
 
+  def self.file_type(path)
+    ext = File.extname(path)
+    ext.sub(/./,"").to_sym
+  end
+
+  def self.is_file_type?(path, type)
+    file_type(path) == type
+  end
+
+  def self.is_pml?(path)
+    is_file_type?(path, :pml)
+  end
+
+  def self.is_csv?(path)
+    is_file_type?(path, :csv)
+  end
+
+  def self.is_tsv?(path)
+    is_file_type?(path, :tsv)
+  end
+
+  def self.is_tex?(path)
+    is_file_type?(path, :tex)
+  end
+
+
   def self.decode_file(path)
     case File.extname(path)
     when ".pml"
   	 Formats::XmlFormat.decode_file(path)
-    when ".csv"
+    when ".csv", ".tsv"
       Formats::CsvFormat.decode_file(path)
     else
       raise "not implemented"

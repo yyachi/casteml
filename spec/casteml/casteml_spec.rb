@@ -5,14 +5,39 @@ module Casteml
 		context "with csvfile", :current => true do
 			let(:path){'tmp/mytable.csv'}
 			let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
-#			before(:each) do
-#				setup_empty_dir('tmp')
-#				setup_file(path)
-#			end
 
 			it {
 				expect(Casteml::Formats::CsvFormat).to receive(:decode_file).with(path).and_return(data)
 				Casteml.convert_file(path)
+			}
+		end
+
+	end
+
+	describe ".is_file_type?" do
+		subject{ Casteml.is_file_type?(path, type)}
+		let(:path){ 'tmp/example.pml' }
+		context "with same ext" do
+			let(:type){ :pml }
+			it { expect(subject).to be_truthy }
+		end
+
+	end
+
+	describe ".is_pml?", :current => true do
+		context "with pml" do
+			subject{ Casteml.is_pml?(path) }
+			let(:path){ 'tmp/example.pml' }
+			it {
+				expect(subject).to be_truthy
+			}
+		end
+
+		context "with csv" do
+			subject{ Casteml.is_pml?(path) }
+			let(:path){ 'tmp/example.csv' }
+			it {
+				expect(subject).to be_falsey
 			}
 		end
 
@@ -34,6 +59,15 @@ module Casteml
 				Casteml.encode(data, opts)
 			}
 		end
+
+		context "with type = :tex" do
+			let(:opts){ {:type => :tex}}
+			it {
+				expect(Formats::TexFormat).to receive(:to_string).with(data, {})
+				Casteml.encode(data, opts)
+			}
+		end
+
 
 	end
 

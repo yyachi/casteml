@@ -56,8 +56,17 @@ module Casteml
 				let(:attrib){ {:session => 'deleteme-1', :instrument => nil, :abundances => [{:nickname => 'Li'}] } }
 				it { expect(subject).not_to be_empty }				
 			end
+		end
 
+		describe "#abundance_of", :current => true do
+			subject{ obj.abundance_of(nickname) }
+			let(:obj){ Acquisition.new(attrib) }
+			let(:attrib){ {:session => 'deleteme-1', :abundances => [{:nickname => nickname, :unit => unit, :data => data}] } }
+			let(:nickname){ 'SiO2' }
+			let(:unit){ 'cg/g' }
+			let(:data){ '54.34567898'}
 
+			it { expect(subject).to be_eql(data.to_f)}
 		end
 
 		describe "#bib" do
