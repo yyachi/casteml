@@ -42,7 +42,7 @@ end
 
 module Casteml::Formats
 	class CsvFormat
-		def self.to_string(hashs)
+		def self.to_string(hashs, opts = {})
 			array_of_abundances = []
 			hashs.each do |h|
 				array_of_abundances << h.delete(:abundances)
