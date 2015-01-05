@@ -7,17 +7,20 @@ require 'casteml/formats/tex_format'
 module Casteml
   # Your code goes here...
   def self.convert_file(path, opts = {})
-    string = encode(decode_file(path), :type => opts[:format])
+    #opts[:type] = opts.delete(:format)
+    string = encode(decode_file(path), opts)
   end
 
 
   def self.encode(data, opts = {})
-    type = opts.delete(:type) || :pml
+    type = opts.delete(:output_format) || :pml
     case type
     when :pml
       string = Formats::XmlFormat.to_string(data, opts)
     when :csv
       string = Formats::CsvFormat.to_string(data, opts)
+    when :tsv
+      string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "\t"))
     when :tex
       string = Formats::TexFormat.to_string(data, opts)      
     else

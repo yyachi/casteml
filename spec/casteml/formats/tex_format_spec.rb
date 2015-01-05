@@ -65,8 +65,7 @@ module Casteml::Formats
 					"session" => '000', 
 					"instrument" => "EPMA",
 					"abundances" => [
-						{:nickname => 'SiO2', :unit => 'cg/g', :data => '52.345'},
-						{:nickname => 'SiO2_error', :data => '0.3'},						
+						{:nickname => 'SiO2', :unit => 'cg/g', :data => '52.345', :error => '0.3'},
 						{:nickname => 'Al2O3', :unit => 'cg/g', :data => '12.345'},
 						{:nickname => 'MgO', :unit => 'cg/g', :data => '2.123'},						
 					]

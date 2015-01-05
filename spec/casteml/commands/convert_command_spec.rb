@@ -45,7 +45,7 @@ module Casteml::Commands
 				end
 
 				it "calls Casteml.convert_file with path" do
-					expect(Casteml).to receive(:convert_file).with(path, :format => :pml).and_return('pml')					
+					expect(Casteml).to receive(:convert_file).with(path, :output_format => :pml).and_return('pml')					
 					cmd.invoke_with_build_args args, build_args
 				end
 			end
@@ -56,15 +56,75 @@ module Casteml::Commands
 				let(:args){ [path]}
 
 				it "calls Casteml.convert_file with path" do
-					expect(Casteml).to receive(:convert_file).with(path, :format => :csv).and_return('csv')	
+					expect(Casteml).to receive(:convert_file).with(path, :output_format => :csv).and_return('csv')	
 					cmd.invoke_with_build_args args, build_args
 				end
 			end
 
-			context "with format tex" do
+			context "with output_format tex without number_format" do
+				subject{ cmd.invoke_with_build_args args, build_args }
 				let(:path){ 'tmp/mytable.tsv'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'tex', path]}
+				let(:data){ double('data').as_null_object }
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+					allow(Casteml).to receive(:decode_file).with(path).and_return(data)
+				end
+
+				it "calls Casteml.decode_file with path" do
+					expect(Casteml).to receive(:convert_file).with(path, :output_format => :tex, :number_format => "%.4g").and_return('tex')
+					subject
+				end
+
+				it "calls Casteml.encode with options" do
+					expect(Casteml).to receive(:encode).with(data, :output_format => :tex, :number_format => "%.4g").and_return('tex')
+					subject
+				end
+
+				it "calls Casteml::Formats::TexFormat.to_string with options" do
+					expect(Casteml::Formats::TexFormat).to receive(:to_string).with(data, :number_format => "%.4g").and_return('tex')
+					subject
+				end
+
+
+			end
+
+			context "with output_format tex with number_format '%.3f'" do
+				subject{ cmd.invoke_with_build_args args, build_args }
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:args){ ['-f', 'tex', '-n','%.3f',path]}
+				let(:data){ double('data').as_null_object }
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+					allow(Casteml).to receive(:decode_file).with(path).and_return(data)
+				end
+
+				it "calls Casteml.decode_file with path" do
+					expect(Casteml).to receive(:convert_file).with(path, :output_format => :tex, :number_format => "%.3f").and_return('tex')
+					subject
+				end
+
+				it "calls Casteml.encode with options" do
+					expect(Casteml).to receive(:encode).with(data, :output_format => :tex, :number_format => "%.3f").and_return('tex')
+					subject
+				end
+
+				it "calls Casteml::Formats::TexFormat.to_string with options" do
+					expect(Casteml::Formats::TexFormat).to receive(:to_string).with(data, :number_format => "%.3f").and_return('tex')
+					subject
+				end
+
+
+			end
+
+			context "with format csv" do
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:args){ ['-f', 'csv', path]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
@@ -76,10 +136,10 @@ module Casteml::Commands
 				end
 			end
 
-			context "with format csv" do
+			context "with format tsv", :current => true do
 				let(:path){ 'tmp/mytable.tsv'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
-				let(:args){ ['-f', 'csv', path]}
+				let(:args){ ['-f', 'tsv', path]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)

@@ -54,6 +54,12 @@ module Casteml
 			abundance.data.to_f if abundance && abundance.data
 		end
 
+		def error_of(nickname)
+			abundance = abundances.find{|ab| ab.nickname == nickname }
+			abundance.error.to_f if abundance && abundance.error
+		end
+
+
 		def stone_id
 			if sample_uid
 				obj = Stone.find_by_global_id(sample_uid)

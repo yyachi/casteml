@@ -16,6 +16,13 @@ class CSV::Row
 				next
 			end
 
+			if key =~ /(.*)\_error/
+				nickname = $1
+				abundance = hash_new[:abundances].find{|abundance| abundance[:nickname] == nickname } if hash_new[:abundances]
+				abundance[:error] = value if abundance
+				next
+			end
+
 			abundance = Hash.new
 			if key =~ /(.*) \((.*)\)/
 				abundance[:nickname] = $1
@@ -54,7 +61,7 @@ module Casteml::Formats
 			nicknames = array_of_nicknames.flatten.uniq
 			column_names = hashs.first.keys			
 			column_names.concat(nicknames)
-			string = CSV.generate do |csv|
+			string = CSV.generate("", opts) do |csv|
 				csv << column_names
 				hashs.each_with_index do |h, idx|
 					csv << h.values.concat(array_of_data[idx])

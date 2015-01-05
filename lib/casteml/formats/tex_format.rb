@@ -1,7 +1,7 @@
 require 'casteml/acquisition'
 class Array
-	def to_array_of_arrays
-		fmt = '%.3f'
+	def to_array_of_arrays(opts = {})
+		fmt = opts[:number_format] || '%.4g'
 		acqs = []
 		each do |hash|
 			acqs << Casteml::Acquisition.new(hash)
@@ -21,6 +21,8 @@ class Array
 			acqs.each do |acq|
 				value = acq.abundance_of(nickname)
 				text = value ? '$' + sprintf(fmt, value) + '$' : '---'
+				error = acq.error_of(nickname)
+				text += error ? "\t$\(" + sprintf(fmt, error) + "\)$" : "\t(---)"				
 				array << text
 			end
 			array_of_arrays << array

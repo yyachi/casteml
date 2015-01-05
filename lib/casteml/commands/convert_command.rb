@@ -6,7 +6,12 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 
 		add_option('-f', '--format OUTPUTFORMAT',
 						'Specify output format (pml, csv, tsv, tex)') do |v, options|
-			options[:format] = v
+			options[:output_format] = v.to_sym
+		end
+
+		add_option('-n', '--number-format NUMBERFORMAT',
+						'Specify number format (%.4g)') do |v, options|
+			options[:number_format] = v
 		end
 
 	end
@@ -56,14 +61,21 @@ EOF
 
 	def execute
 		original_options = options.clone
+		options.delete(:build_args)
 		args = options.delete(:args)
 		raise OptionParser::InvalidArgument.new('specify FILE') if args.empty?
     	path = args.shift
-		oformat = options.delete(:format)
-		unless oformat
-			oformat = Casteml.is_pml?(path) ? :csv : :pml
+
+		unless options[:output_format]
+			options[:output_format] = Casteml.is_pml?(path) ? :csv : :pml
 		end
-    	string = Casteml.convert_file(path, :format => oformat.to_sym)
+
+		if options[:output_format] == :tex
+			options[:number_format] = "%.4g" unless options[:number_format]
+		end
+
+		p options
+    	string = Casteml.convert_file(path, options)
     	puts string
     	#xml = Casteml::Format::XmlFormat.from_array(data)
 	end

@@ -52,16 +52,16 @@ module Casteml
 			}
 		end
 
-		context "with type = :csv" do
-			let(:opts){ {:type => :csv}}
+		context "with output_format = :csv" do
+			let(:opts){ {:output_format => :csv}}
 			it {
 				expect(Formats::CsvFormat).to receive(:to_string).with(data, {})
 				Casteml.encode(data, opts)
 			}
 		end
 
-		context "with type = :tex" do
-			let(:opts){ {:type => :tex}}
+		context "with output_format = :tex" do
+			let(:opts){ {:output_format => :tex}}
 			it {
 				expect(Formats::TexFormat).to receive(:to_string).with(data, {})
 				Casteml.encode(data, opts)

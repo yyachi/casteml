@@ -10,14 +10,18 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g)
 ,test-2,sample-2,34.5,,4.5
 					EOF
 			}
-
 			let(:data){ CsvFormat.decode_string(org_string) }
-			before do
-				puts subject
-			end
 			it {
 				expect(subject).to be_an_instance_of(String)
 			}
+			context "with opts" do
+				subject { CsvFormat.to_string(data, opts) }
+				let(:opts){ {:col_sep => "\t" } }
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+
+			end
 		end
 
 		describe ".tab_separated" do
@@ -131,7 +135,7 @@ Al2O3,cg/g,,,3.4,5.4,,
 				}
 			end
 
-			context "with empty line", :current => true do
+			context "with empty line" do
 				let(:string){ <<-EOF
 session,technique
 111,EPMA
@@ -143,7 +147,7 @@ session,technique
 				}
 			end
 
-			context "with empty column", :current => true do
+			context "with empty column" do
 				let(:string){ <<-EOF
 session,technique,,
 111,EPMA,,
@@ -216,7 +220,30 @@ ID\tsession\ttechnique
 				it { expect(subject[0]).to include("technique" => "EPMA") }
 			end
 
-			context "inline unit", :current => true do
+			context "abundance with error", :current => true do
+				let(:string){ <<-EOF
+ID,session,stone-ID,bib-ID,SiO2 (cg/g),SiO2_error,Al2O3 (cg/g),Al2O3_error
+,test-1,010-1,001-001,12.4,0.3,23.4,1.5
+,test-2,020-2,001-002,34.5,0.1,23.5,0.4
+						EOF
+				}
+				it { expect(subject.size).to be_eql(2) }
+				it { expect(subject[0]).to include("ID") }
+				it { expect(subject[0]).to include("stone-ID") }
+				it { expect(subject[0]).to include("bib-ID") }								
+				it { expect(subject[0][:abundances][0]).to include(:nickname => "SiO2") }
+				it { expect(subject[0][:abundances][0]).to include(:unit => "cg/g") }
+				it { expect(subject[0][:abundances][0]).to include(:data => "12.4") }
+				it { expect(subject[0][:abundances][0]).to include(:error => "0.3") }						
+				it { expect(subject[0][:abundances][1]).to include(:nickname => "Al2O3") }
+				it { expect(subject[0][:abundances][1]).to include(:unit => "cg/g") }
+				it { expect(subject[0][:abundances][1]).to include(:data => "23.4") }
+				it { expect(subject[0][:abundances][1]).to include(:error => "1.5") }						
+
+			end
+
+
+			context "inline unit" do
 				let(:string){ <<-EOF
 ID,session,stone-ID,bib-ID,SiO2 (cg/g)
 ,test-1,010-1,001-001,12.4
@@ -232,6 +259,7 @@ ID,session,stone-ID,bib-ID,SiO2 (cg/g)
 				it { expect(subject[0][:abundances][0]).to include(:data => "12.4") }				
 
 			end
+
 			context "separate unit with keyword" do
 				let(:string){ <<-EOF
 ID,session,sample_name,SiO2,B

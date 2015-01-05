@@ -44,6 +44,20 @@ module Casteml
 			}
 		end
 
+		describe "#abundances=", :current => true do
+			subject{ obj.abundances = array_of_abundances }
+			let(:obj){ Acquisition.new(attrib) }
+			let(:attrib){ {:session => session} }
+			let(:array_of_abundances){ [{:nickname => nickname, :unit => 'cg/g', :data => '54.325'}, {:nickname => nickname + '_error', :data => error}] }
+			let(:nickname){ 'Li' }
+			let(:data){ '54.325'}
+			let(:error){ '0.325' }
+			before do
+				subject
+			end
+			it { expect(obj.abundance_of(nickname)).to be_eql(data.to_f )}
+		end
+
 		describe "#abundances" do
 			subject{ obj.abundances }
 			let(:obj){ Acquisition.new(attrib) }
@@ -58,7 +72,7 @@ module Casteml
 			end
 		end
 
-		describe "#abundance_of", :current => true do
+		describe "#abundance_of" do
 			subject{ obj.abundance_of(nickname) }
 			let(:obj){ Acquisition.new(attrib) }
 			let(:attrib){ {:session => 'deleteme-1', :abundances => [{:nickname => nickname, :unit => unit, :data => data}] } }
@@ -67,6 +81,18 @@ module Casteml
 			let(:data){ '54.34567898'}
 
 			it { expect(subject).to be_eql(data.to_f)}
+		end
+
+		describe "#error_of" do
+			subject{ obj.error_of(nickname) }
+			let(:obj){ Acquisition.new(attrib) }
+			let(:attrib){ {:session => 'deleteme-1', :abundances => [{:nickname => nickname, :unit => unit, :data => data, :error => error}] } }
+			let(:nickname){ 'SiO2' }
+			let(:unit){ 'cg/g' }
+			let(:data){ '54.34567898'}
+			let(:error){ '0.34'}
+
+			it { expect(subject).to be_eql(error.to_f)}
 		end
 
 		describe "#bib" do
