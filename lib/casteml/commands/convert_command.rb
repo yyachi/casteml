@@ -32,10 +32,12 @@ SYNOPSIS
     #{program_name} [options] filein
 
 OPTIONS
-    -f, --format OUTPUTFORMAT: {pml, csv, tsv, tex}
+    -f, --format        OUTPUTFORMAT: {pml, csv, tsv, tex}
+    -n, --number-format NUMBERFORMAT: {%.4g}
+    -h, --help          Get help on this command
 
 DESCRIPTION
-    Convert pmlfile to datafile with different format.  #{program_name} accepts {pml, csv, tsv}.
+    Convert pmlfile to datafile with different format.  Accept {pml, csv, tsv}.
 
 EXAMPLE
     $ casteml convert session.csv > session.pml
