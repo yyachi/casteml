@@ -43,7 +43,7 @@ EXAMPLE
     session.pml
     $ casteml split session.pml
 
-    $ casteml convert -f tex session.csv > session.tex
+    $ casteml convert -f tex -n %.3f session.csv > session.tex
     $ pdflatex session.tex
 
 SEE ALSO
