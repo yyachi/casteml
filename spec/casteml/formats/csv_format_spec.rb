@@ -20,6 +20,21 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g)
 				it {
 					expect(subject).to be_an_instance_of(String)
 				}
+			end
+
+			context "with spot", :current => true do
+				let(:org_string){ <<-EOF
+	ID,session,sample_name,spot_x_image,spot_y_image
+	,test-1,sample-1,12.4,2.4
+	,test-2,sample-2,34.5,4.5
+						EOF
+				}
+				before do
+					puts subject
+				end
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
 
 			end
 		end
@@ -220,7 +235,7 @@ ID\tsession\ttechnique
 				it { expect(subject[0]).to include("technique" => "EPMA") }
 			end
 
-			context "abundance with error", :current => true do
+			context "abundance with error" do
 				let(:string){ <<-EOF
 ID,session,stone-ID,bib-ID,SiO2 (cg/g),SiO2_error,Al2O3 (cg/g),Al2O3_error
 ,test-1,010-1,001-001,12.4,0.3,23.4,1.5
@@ -291,6 +306,18 @@ ID,session,sample_name,SiO2,B
 				#it { expect(subject[0][:abundances][0]).to include(:nickname => "SiO2") }
 			end
 
+			context "with spot" do
+				let(:string){ <<-EOF
+ID,session,sample_name,spot_image_path,spot_x_image,spot_y_image
+,test-1,sample-1,tmp/deleteme.jpg,70.15,45.47
+,test-2,sample-2,tmp/deleteme.jpg,34.5,3.4
+						EOF
+				}
+				it { expect(subject[0][:spot]).to include(:image_path => 'tmp/deleteme.jpg')}
+				it { expect(subject[0][:spot]).to include(:x_image => "70.15") }
+				it { expect(subject[0][:spot]).to include(:y_image => "45.47") }
+
+			end
 
 			context "transposed csv" do
 				let(:string){ <<-EOF

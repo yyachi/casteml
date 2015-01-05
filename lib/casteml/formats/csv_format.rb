@@ -10,9 +10,17 @@ class CSV::Row
 
 		hash.each do |key, value|
 			next unless key
+
 			setter = (key.gsub(/-/,"_") + "=").to_sym
 			if Casteml::Acquisition.instance_methods.include?(setter)
 				hash_new[key] = value
+				next
+			end
+
+			if key =~ /spot_(.*)/
+				method_name = $1
+				hash_new[:spot] = Hash.new unless hash_new[:spot]
+				hash_new[:spot][method_name.to_sym] = value
 				next
 			end
 
@@ -51,20 +59,29 @@ module Casteml::Formats
 	class CsvFormat
 		def self.to_string(hashs, opts = {})
 			array_of_abundances = []
+			array_of_spot = []
 			hashs.each do |h|
+				array_of_spot << h.delete(:spot)				
 				array_of_abundances << h.delete(:abundances)
 			end
+			array_of_spot.compact!
+			array_of_abundances.compact!
 			array_of_nicknames = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:nickname] }}
 			array_of_units = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:unit] }}
 			array_of_data = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:data] }}
-
+			
+			spot_methods = array_of_spot.map{|spot| spot.keys }.flatten.uniq.map{|m| "spot_#{m}"}
 			nicknames = array_of_nicknames.flatten.uniq
-			column_names = hashs.first.keys			
+			column_names = hashs.first.keys
+			column_names.concat(spot_methods)
 			column_names.concat(nicknames)
 			string = CSV.generate("", opts) do |csv|
 				csv << column_names
 				hashs.each_with_index do |h, idx|
-					csv << h.values.concat(array_of_data[idx])
+					row = h.values
+					row.concat(array_of_spot[idx].values) if array_of_spot[idx]
+					row.concat(array_of_data[idx]) if array_of_data[idx]
+					csv << row
 				end
 			end
 			string

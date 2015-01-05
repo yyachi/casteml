@@ -2,12 +2,27 @@ require 'medusa_rest_client'
 require 'casteml/remote_interaction'
 module Casteml
   class MeasurementItem
-	extend Casteml::RemoteInteraction
-	set_remote_class MedusaRestClient::MeasurementItem
+
+	  extend Casteml::RemoteInteraction
+	  set_remote_class MedusaRestClient::MeasurementItem
+    attr_remote :nickname, :description, :display_in_html, :display_in_tex, :unit_id
+    attr_accessor :unit, :nickname, :significant_digit, :format, :format_error, :in_tex
+
+    alias_attribute :code, :nickname
 
 
     def self.setup
       @record_pool = []
+    end
+
+    def self.load_records_from_local(path)
+      path = File.expand_path(path)
+      hashs = YAML.load_file(path)
+      records = []
+      hashs.each do |hash|
+        records << new(hash)
+      end
+      records
     end
 
 

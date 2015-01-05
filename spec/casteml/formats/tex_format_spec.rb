@@ -58,8 +58,9 @@ module Casteml::Formats
 		end
 
 		describe ".to_string" do
-			subject { TexFormat.to_string(data) }
+			subject { TexFormat.to_string(data, opts) }
 			let(:path) { 'tmp/deleteme.tex' }
+			let(:opts){ {} }
 			let(:data){ [
 				{
 					"session" => '000', 
@@ -81,18 +82,41 @@ module Casteml::Formats
 					]
 				}
 				] }
-			before(:each) do
-				setup_empty_dir('tmp')
-				#setup_file(path)
-				File.open(path, "w") do |f|
-					f.puts subject
+			context "with compile" do
+
+				before(:each) do
+					setup_empty_dir('tmp')
+					#setup_file(path)
+					File.open(path, "w") do |f|
+						f.puts subject
+					end
+					system("cd #{File.dirname(path)} && pdflatex #{File.basename(path)}")
 				end
-				system("cd #{File.dirname(path)} && pdflatex #{File.basename(path)}")
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+			context "with number_format" do
+				let(:opts){ {:number_format => '%.3f'} }
+				before do
+					puts subject
+				end
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+
+			end
+			context "without number_format" do
+				let(:opts){ {} }
+				before do
+					puts subject
+				end
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+
 			end
 
-			it {
-				expect(subject).to be_an_instance_of(String)
-			}
 		end
 	end
 end

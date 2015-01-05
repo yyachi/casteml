@@ -17,7 +17,7 @@ class Array
 		array_of_arrays << ["session"].concat(acqs.map{|acq| Casteml::Formats::TexFormat.escape(acq.session) })
 
 		nicknames.each do |nickname|
-			array = [Casteml::Formats::TexFormat.escape(nickname)]
+			array = [Casteml::Formats::TexFormat.escape(nickname) + "\t"]
 			acqs.each do |acq|
 				value = acq.abundance_of(nickname)
 				text = value ? '$' + sprintf(fmt, value) + '$' : '---'
@@ -100,7 +100,7 @@ module Casteml::Formats
 		end
 
 		def self.to_string(data, opts = {})
-			array_of_arrays = data.to_array_of_arrays
+			array_of_arrays = data.to_array_of_arrays(opts)
 			num_column = array_of_arrays.map(&:size).max
 			num_row = array_of_arrays.size
 			header = array_of_arrays.shift

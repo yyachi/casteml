@@ -28,6 +28,16 @@ module Casteml
 		end
 
 
+		describe ".load_from_local", :current => true do
+			subject { klass.load_records_from_local(path) }
+			let(:path){ 'tmp/default_measured_items.yml' }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it { expect(subject).to be_an_instance_of(Array) }
+		end
+
 		describe ".find_or_create_by_name" do
 			subject { klass.find_or_create_by_name(name) }
 
