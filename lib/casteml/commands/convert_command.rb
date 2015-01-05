@@ -2,10 +2,10 @@ require 'casteml'
 require 'casteml/command'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', 'Convert a file into pml-file'
+		super 'convert', 'Convert pmlfile to datafile with different format.'
 
 		add_option('-f', '--format OUTPUTFORMAT',
-						'Specify output format (pml, csv, tex)') do |v, options|
+						'Specify output format (pml, csv, tsv, tex)') do |v, options|
 			options[:format] = v
 		end
 
@@ -21,17 +21,20 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 	def description
 		<<-EOF
 NAME
-    #{program_name} -   Convert between data files including pmlfile.
+    #{program_name} -   Convert pmlfile to datafile with different format.
 
 SYNOPSIS
-    #{program_name} [options] file
+    #{program_name} [options] filein
+
+OPTIONS
+    -f, --format OUTPUTFORMAT: {pml, csv, tsv, tex}
 
 DESCRIPTION
-    Convert between data files including pmlfile.
+    Convert pmlfile to datafile with different format.  #{program_name} accepts {pml, csv, tsv}.
 
 EXAMPLE
-	$ casteml convert session.csv > session.pml
-	$ ls
+    $ casteml convert session.csv > session.pml
+    $ ls
     session.pml
     $ casteml split session.pml
 
@@ -47,7 +50,6 @@ IMPLEMENTATION
     Copyright (c) 2014 ISEI, Okayama University
     Licensed under the same terms as Ruby
 
-OPTIONS
 EOF
 	end
 
