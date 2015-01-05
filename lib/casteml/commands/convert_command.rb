@@ -76,7 +76,6 @@ EOF
 			options[:number_format] = "%.4g" unless options[:number_format]
 		end
 
-		p options
     	string = Casteml.convert_file(path, options)
     	puts string
     	#xml = Casteml::Format::XmlFormat.from_array(data)
