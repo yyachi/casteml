@@ -2,7 +2,7 @@ require 'casteml'
 require 'casteml/command'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', 'Convert a {pml, csv, tsv} file in different format.'
+		super 'convert', 'Convert a {pml, csv, tsv} file to different format.'
 
 		add_option('-f', '--format OUTPUTFORMAT',
 						'Specify output format (pml, csv, tsv, tex)') do |v, options|
@@ -26,7 +26,7 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 	def description
 		<<-EOF
 NAME
-    #{program_name} -   Convert a {pml, csv, tsv} file in different format.
+    #{program_name} -   Convert a {pml, csv, tsv} file to different format.
 
 SYNOPSIS
     #{program_name} [options] filein
@@ -38,7 +38,7 @@ OPTIONS
     -n, --number-format NUMBERFORMAT: {%.4g}
 
 DESCRIPTION
-    Convert a {pml, csv, tsv} file in different format.
+    Convert a {pml, csv, tsv} file to different format.
 
 EXAMPLE
     $ casteml convert MY_RAT_REEONLY@150106.csv > MY_RAT_REEONLY@150106.pml
