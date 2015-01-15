@@ -73,7 +73,7 @@ module Casteml::Formats
 				end
 				children
 			else
-				elem.text
+				elem.text ? elem.text.strip : nil
 			end
 			{ elem.name.to_sym => value }
 		end

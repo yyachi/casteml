@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'casteml'
 module Casteml
 	describe ".convert_file" do
-		context "with csvfile", :current => true do
+		context "with csvfile" do
 			let(:path){'tmp/mytable.csv'}
 			let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 
@@ -12,6 +12,19 @@ module Casteml
 			}
 		end
 
+		context "with real file", :current => true do
+			subject { Casteml.convert_file(path, :output_format => :csv)}
+			let(:path){'tmp/mydata@1.pml'}
+			let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				#expect(Casteml::Formats::CsvFormat).to receive(:decode_file).with(path).and_return(data)
+				Casteml.convert_file(path)
+			}
+		end
 	end
 
 	describe ".is_file_type?" do
@@ -68,10 +81,41 @@ module Casteml
 			}
 		end
 
+		context "with output_format = :org" do
+			let(:opts){ {:output_format => :org}}
+			it {
+				#expect(Formats::CsvFormat).to receive(:to_string).with(data, {})
+				Casteml.encode(data, opts)
+			}
+		end
+
+		context "with output_format = :isorg" do
+			let(:opts){ {:output_format => :isorg}}
+			it {
+				#expect(Formats::CsvFormat).to receive(:to_string).with(data, {})
+				Casteml.encode(data, opts)
+			}
+		end
+
+		context "with output_format = :pdf" do
+			let(:opts){ {:output_format => :pdf}}
+			it {
+				expect(Formats::TexFormat).to receive(:to_string).with(data, {}).and_return("Hello World")
+				Casteml.encode(data, opts)
+			}
+		end
+
 
 	end
 
 	describe ".decode_file" do
+		context "with realfile", :current => true do
+			subject { Casteml.decode_file(path) }
+			let(:path){ 'tmp/mydata@1.pml' }
+			it {
+				expect(subject).to be_an_instance_of(Array)
+			}
+		end
 		context "with pmlfile" do
 			let(:path){'tmp/my-great.pml'}
 			it {

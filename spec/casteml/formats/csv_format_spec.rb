@@ -11,9 +11,30 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g)
 					EOF
 			}
 			let(:data){ CsvFormat.decode_string(org_string) }
+				before do
+					puts subject
+				end
+			
 			it {
 				expect(subject).to be_an_instance_of(String)
 			}
+
+			context "with unit", :current => true do
+				let(:data){
+					[
+						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '12.345', :unit => 'cg/g'},{:nickname => 'Li', :data => '1.345', :unit => 'ug/g'}]},
+						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '14.345', :unit => 'cg/g'},{:nickname => 'Li', :data => '0.00000001245', :unit => 'cg/g'}]},						
+						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.15345'},{:nickname => 'Li', :data => '1.145', :unit => 'ug/g'}]},
+					]
+				}
+				before do
+					puts subject
+				end
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+
 			context "with opts" do
 				subject { CsvFormat.to_string(data, opts) }
 				let(:opts){ {:col_sep => "\t" } }
@@ -22,7 +43,7 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g)
 				}
 			end
 
-			context "with spot", :current => true do
+			context "with spot" do
 				let(:org_string){ <<-EOF
 	ID,session,sample_name,spot_x_image,spot_y_image
 	,test-1,sample-1,12.4,2.4

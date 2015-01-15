@@ -2,6 +2,7 @@ require 'csv'
 require 'stringio'
 require 'tempfile'
 require 'casteml/acquisition'
+require 'casteml/number_helper'
 class CSV::Row
 	alias to_hash_org to_hash
 	def to_hash
@@ -57,6 +58,11 @@ end
 
 module Casteml::Formats
 	class CsvFormat
+		extend Casteml::NumberHelper
+
+		def self.default_units
+			{:centi => 'cg/g', :micro => 'ug/g', :nano => 'ng/g', :pico => 'pg/g'}			
+		end
 		def self.to_string(hashs, opts = {})
 			array_of_abundances = []
 			array_of_spot = []
@@ -66,15 +72,55 @@ module Casteml::Formats
 			end
 			array_of_spot.compact!
 			array_of_abundances.compact!
-			array_of_nicknames = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:nickname] }}
-			array_of_units = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:unit] }}
-			array_of_data = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:data] }}
+
+			array_of_numbers = []
+
+			array_of_abundances.each do |abundances|
+				numbers = []
+				abundances.each do |abundance|
+					numbers << Casteml::Abundance.new(abundance).data_in_parts
+				end
+				array_of_numbers << numbers
+			end
+
+			array_of_units = []
+			array_of_numbers.transpose.each do |numbers|
+				number = numbers.compact.min
+				unit = number_to_unit(number, :units => default_units )
+				#p numbers_to(data, unit)
+				#p number_to_human(number, :format => "%n", :unit => unit)
+				array_of_units << unit
+			end
+
+			array_of_data = []
+			array_of_abundances.each_with_index do |abundances, i|
+				data = []
+				abundances.each_with_index do |abundance, j|
+					unit = array_of_units[j]
+					number = array_of_numbers[i][j]
+					data << (number ? number_to(number, unit) : nil)
+				end
+				array_of_data << data
+			end
 			
+			array_of_nicknames = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:nickname] }}
+			#array_of_units = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:unit] }}
+			#array_of_data = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:data] }}
+			
+			#p array_of_abundances
+			#p array_of_units
+			#p array_of_data
+
 			spot_methods = array_of_spot.map{|spot| spot.keys }.flatten.uniq.map{|m| "spot_#{m}"}
 			nicknames = array_of_nicknames.flatten.uniq
+			nicknames_with_unit = []
+			nicknames.each_with_index do |nickname, idx|
+				unit = array_of_units[idx]
+				nicknames_with_unit << "#{nickname} (#{unit})"
+			end
 			column_names = hashs.first.keys
 			column_names.concat(spot_methods)
-			column_names.concat(nicknames)
+			column_names.concat(nicknames_with_unit)
 			string = CSV.generate("", opts) do |csv|
 				csv << column_names
 				hashs.each_with_index do |h, idx|

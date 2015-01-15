@@ -50,6 +50,39 @@ module Casteml
 			end
 		end
 
+
+		describe ".dump_all" do
+			#let(:path){ "units.marshal"}
+			subject { klass.dump_all(path) }
+			let(:output_io){ double('io').as_null_object }
+			let(:data){ ['data'] }
+			before do
+				allow(klass).to receive(:find_all).and_return(data)
+			end
+			context "without path" do
+				let(:path){ nil }
+				it "marshal dump_path" do 
+					expect(File).to receive(:directory?).with(File.dirname(klass.dump_path)).and_return(true)
+					expect(File).to receive(:open).with(klass.dump_path,'w').and_yield(output_io)				
+					expect(Marshal).to receive(:dump).with(data, output_io)
+					subject
+				end
+			end
+			context "with path" do
+				subject { klass.dump_all(path) }
+				let(:path){ 'tmp/deleteme.marshal' }
+				before do
+					path
+				end
+				it "marshal into specified path" do 
+					expect(File).to receive(:open).with(path,'w').and_yield(output_io)				
+					expect(Marshal).to receive(:dump).with(data, output_io)
+					subject
+				end
+
+			end
+		end
+
 		describe ".find_or_create_by_name" do
 			subject { klass.find_or_create_by_name(name) }
 
@@ -58,7 +91,7 @@ module Casteml
 			let(:tech1){ double('tech-1', :id => 1, :name => 'tech-1').as_null_object }
 			let(:tech2){ double('tech-2', :id => 2, :name => 'tech-2').as_null_object }
 			let(:tech3){ double('tech-3', :id => 3, :name => 'tech-3').as_null_object }
-			context "with empty record_pool" do
+			context "with empty record_pool", :current => true do
 				before do
 					klass.record_pool = []
 				end

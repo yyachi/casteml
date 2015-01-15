@@ -136,10 +136,55 @@ module Casteml::Commands
 				end
 			end
 
-			context "with format tsv", :current => true do
+			context "with format tsv" do
 				let(:path){ 'tmp/mytable.tsv'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'tsv', path]}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+
+				it "calls Casteml.decode_file with path" do
+					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
+					cmd.invoke_with_build_args args, build_args
+				end
+			end
+
+			context "with format org", :current => true do
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:args){ ['-f', 'org', path]}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+
+				it "calls Casteml.decode_file with path" do
+					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
+					cmd.invoke_with_build_args args, build_args
+				end
+			end
+
+			context "with format isorg", :current => true do
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:args){ ['-f', 'isorg', path]}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+
+				it "calls Casteml.decode_file with path" do
+					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
+					cmd.invoke_with_build_args args, build_args
+				end
+			end
+
+			context "with format pdf", :current => true do
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:args){ ['-f', 'pdf', path]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)

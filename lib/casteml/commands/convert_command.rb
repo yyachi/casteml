@@ -32,7 +32,7 @@ SYNOPSIS
     #{program_name} [options] filein
 
 OPTIONS
-    -f, --format        OUTPUTFORMAT: {pml, csv, tsv, tex}
+    -f, --format        OUTPUTFORMAT: {pml, csv, tsv, org, isoorg, tex, pdf}
     -n, --number-format NUMBERFORMAT: {%.4g}
     -h, --help          Get help on this command
 

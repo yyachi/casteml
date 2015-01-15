@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'casteml/spot'
 module Casteml
 	describe Spot do
-
+		let(:global_id){ '0000-0034'}
 		let(:image_uid){ '000-001' }
 		let(:image_path){ 'tmp/example.jpg'}
 		let(:x_image){ '12.3' }
@@ -17,6 +17,17 @@ module Casteml
 				it { expect(subject.x_image).to be_eql(x_image) }
 				it { expect(subject.y_image).to be_eql(y_image) }
 			end
+			context "with attrib" do
+				let(:attrib){ {:global_id => global_id, 
+					:attachment_file_global_id => image_uid, :image_path => image_path, :x_image => x_image, :y_image => y_image } }			
+				it { expect(subject).to be_an_instance_of(Spot) }
+				it { expect(subject.global_id).to be_eql(global_id) }
+				it { expect(subject.attachment_file_global_id).to be_eql(image_uid) }
+				it { expect(subject.image_path).to be_eql(image_path) }				
+				it { expect(subject.x_image).to be_eql(x_image) }
+				it { expect(subject.y_image).to be_eql(y_image) }
+			end
+
 		end
 
 		describe "#spot_x", :current => true do

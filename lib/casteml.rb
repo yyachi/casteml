@@ -1,11 +1,25 @@
 require "casteml/version"
 require 'casteml/exceptions'
-require 'casteml/acquisition'
-require 'casteml/formats/xml_format'
-require 'casteml/formats/csv_format'
-require 'casteml/formats/tex_format'
+require 'tempfile'
+#require 'casteml/acquisition'
+#require 'casteml/formats/xml_format'
+#require 'casteml/formats/csv_format'
+#require 'casteml/formats/tex_format'
+
 module Casteml
-  # Your code goes here...
+  autoload(:Acquisition, 'casteml/acquisition.rb')
+  module Casteml::Formats
+    autoload(:XmlFormat, 'casteml/formats/xml_format.rb')
+    autoload(:CsvFormat, 'casteml/formats/csv_format.rb')
+    autoload(:TexFormat, 'casteml/formats/tex_format.rb')
+  end
+  autoload(:Unit, 'casteml/unit.rb')
+  autoload(:MeasurementItem, 'casteml/measurement_item.rb')
+
+  # Your code goes here
+  #REMOTE_DUMP_DIR = 'remote_dump'
+  CONFIG_DIR = 'config'
+  ABUNDANCE_UNIT_FILE = File.join(CONFIG_DIR, "alchemist", "abundance.yml")
   def self.convert_file(path, opts = {})
     #opts[:type] = opts.delete(:format)
     string = encode(decode_file(path), opts)
@@ -21,8 +35,20 @@ module Casteml
       string = Formats::CsvFormat.to_string(data, opts)
     when :tsv
       string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "\t"))
+    when :org, :isorg, :isoorg
+      string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "|")).gsub(/^/,"|").gsub(/\n/,"|\n")
+      lines = string.split("\n")
+      lines.insert(1,"|-")
+      lines.unshift "+TBLNAME: casteml"
+      string = lines.join("\n")
+
     when :tex
-      string = Formats::TexFormat.to_string(data, opts)      
+      string = Formats::TexFormat.to_string(data, opts)
+    when :pdf
+      source = Formats::TexFormat.document do |doc|
+        doc.puts Formats::TexFormat.to_string(data, opts)
+      end
+      string = compile_tex(source)
     else
       raise "not implemented"
     end
@@ -32,6 +58,22 @@ module Casteml
     # Formats::XmlFormat.write(doc, fp)
     # fp.close
     # fp.string
+  end
+
+  def self.compile_tex(tex, opts = {})
+      fp = Tempfile.open(["casteml-", ".tex"])
+      path = fp.path
+      fp.puts tex
+      fp.close(false)
+      basename = File.basename(path, ".tex")
+      dirname = File.dirname(path)
+      pdfname = basename + ".pdf"
+      string = ""
+      FileUtils.cd(dirname) {|dir|
+        system("pdflatex #{basename}.tex > pdflatex-out")
+        string = File.read(pdfname) if File.exist?(pdfname)
+      }
+      string
   end
 
   def self.file_type(path)

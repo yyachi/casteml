@@ -1,0 +1,22 @@
+---
+:abundance:
+  :parts: 1.0
+  :parts_per_cent: 1.0e-2
+  :percent: 1.0e-2
+  :ppc: 1.0e-2
+  :parts_per_mille: 1.0e-3
+  :permil: 1.0e-3
+  :parts_per_myriad: 1.0e-4
+  :parmyriad: 1.0e-4
+  :parts_per_milli: 1.0e-6
+  :ppm: 1.0e-6
+  :parts_per_billi: 1.0e-9
+  :ppb: 1.0e-9
+  :centi_gram_per_gram: 1.0e-2
+  :"cg/g": 1.0e-2
+  :micro_gram_per_gram: 1.0e-6
+  :"ug/g": 1.0e-6
+  :nano_gram_per_gram: 1.0e-9
+  :"ng/g": 1.0e-9
+  :pico_gram_per_gram: 1.0e-12
+  :"pg/g": 1.0e-12

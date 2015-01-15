@@ -6,7 +6,7 @@ module Casteml
 		set_remote_class MedusaRestClient::Spot
 		attr_accessor :target_uid, :image_uid, :name, :description, :image_path, :name, :x_image, :y_image, :radius_in_percent, :stroke_color, :stroke_width, :fill_color, :opacity, :with_cross
 		attr_remote :name, :description, :spot_x, :spot_y, :target_uid#, :radius_in_percent, :stroke_color, :stroke_width, :fill_color, :opacity, :with_cross
-		#alias_attribute :spot_x, :x_image
+		alias_attribute :attachment_file_global_id, :image_uid
 		#alias_attribute :spot_y, :y_image
 		#alias_attribute :ref_image_x_from_center, :x_image
 		#alias_attribute :ref_image_y_from_center, :y_image

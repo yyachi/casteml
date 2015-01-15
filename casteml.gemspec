@@ -18,6 +18,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ["lib"]
   spec.add_runtime_dependency 'medusa_rest_client', '~> 0.0.14'
+  spec.add_runtime_dependency 'alchemist', '~> 0.1.7'
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "rake", "~> 10.1.0"
   spec.add_development_dependency "rspec", "~> 3.0.0"

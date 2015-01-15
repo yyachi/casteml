@@ -1,7 +1,11 @@
 require 'casteml/acquisition'
+require 'casteml/number_helper'
+
 class Array
 	def to_array_of_arrays(opts = {})
 		fmt = opts[:number_format] || '%.4g'
+        units_for_display = {:centi => 'c', :mili => 'm', :micro => 'u', :nano => 'n', :pico => 'p'}
+        fmt_opts = {:format => "$%n%u$", :units => units_for_display }
 		acqs = []
 		each do |hash|
 			acqs << Casteml::Acquisition.new(hash)
@@ -17,12 +21,31 @@ class Array
 		array_of_arrays << ["session"].concat(acqs.map{|acq| Casteml::Formats::TexFormat.escape(acq.session) })
 
 		nicknames.each do |nickname|
-			array = [Casteml::Formats::TexFormat.escape(nickname) + "\t"]
+			item = Casteml::MeasurementItem.find_by_nickname(nickname)
+			array = item.display_in_tex ? [item.display_in_tex] : [Casteml::Formats::TexFormat.escape(nickname) + "\t"]
 			acqs.each do |acq|
-				value = acq.abundance_of(nickname)
-				text = value ? '$' + sprintf(fmt, value) + '$' : '---'
-				error = acq.error_of(nickname)
-				text += error ? "\t$\(" + sprintf(fmt, error) + "\)$" : "\t(---)"				
+				ab = acq.abundance_of(nickname)
+				value = ab.data_in_parts if ab && ab.data 
+				error = ab.error_in_parts if ab && ab.error	
+				#text = value ? '$' + sprintf(fmt, value) + '$' : '---'
+				if value
+					if ab.precision
+						fmt_opts[:precision] = ab.precision
+					else
+						fmt_opts.delete(:precision)
+					end
+					#tops = fmt_opts.merge(:precision => ab.precision) if ab.precision
+					if error
+						text = Casteml::Formats::TexFormat.number_with_error_to_human(value, error, fmt_opts.merge(:format => "$%n(%e)$%u"))
+					else
+						text = Casteml::Formats::TexFormat.number_to_human(value, fmt_opts.merge(:format => "$%n$%u"))
+					end
+				else
+					text = '---'
+				end
+				#text = value ? '$' + number_to_human(value, :precision => ab.precision) + '$' : '---'
+
+				#text += error ? "\t$\(" + sprintf(fmt, error) + "\)$" : "\t(---)"				
 				array << text
 			end
 			array_of_arrays << array
@@ -33,13 +56,20 @@ end
 
 module Casteml::Formats
 	class TexFormat
+	#	extend ActiveSupport::NumberHelper
+		extend Casteml::NumberHelper
+
+		# def self.number_with_error_to_human(number, error, options)
+		# 	number_to_human(number, options.merge(:error => error))
+		# end
 
 		def self.document(opts = {})
-			size = opts[:size] || 'a4paper'
+			size = opts[:size] || '12pt'
 			type = opts[:type] || 'article'
 			io = StringIO.new
 			io.puts <<-EOF
 \\documentclass[#{size}]{#{type}}
+\\usepackage{pmlatex}
 \\begin{document}
 			EOF
 			yield io
@@ -104,9 +134,10 @@ module Casteml::Formats
 			num_column = array_of_arrays.map(&:size).max
 			num_row = array_of_arrays.size
 			header = array_of_arrays.shift
-			document do |doc|
-				doc.puts array_of_arrays2table(array_of_arrays, :header => header)
-			end
+			#document do |doc|
+			#	doc.puts array_of_arrays2table(array_of_arrays, :header => header)
+			#end
+			array_of_arrays2table(array_of_arrays, :header => header)
 		end
 	end
 end

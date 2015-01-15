@@ -22,7 +22,7 @@ module Casteml
 				klass.record_pool = []
 			end
 			it {
-				expect(remote_class).to receive(:find).with(:all)
+				expect(klass).to receive(:load_from_dump)
 				subject
 			}
 		end
@@ -39,14 +39,9 @@ module Casteml
 
 
 			before do
-				klass.record_pool = []
-				allow(remote_class).to receive(:find).with(:all).and_return(records)
+				klass.record_pool = records
+				#allow(remote_class).to receive(:find).with(:all).and_return(records)
 			end
-
-			it {
-				expect(remote_class).to receive(:find).with(:all)
-				subject
-			}
 
 			context "with existing name" do
 				it { subject.to be_eql(robj_2) }

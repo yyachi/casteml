@@ -17,6 +17,7 @@ module Casteml
 		attr_accessor :device
 
 		alias_attribute :stone_ID, :sample_uid
+		alias_attribute :sample_global_id, :sample_uid
 		alias_attribute :bib_ID, :bibliography_uid
 		alias_attribute :name, :session
 		alias_attribute :operator, :analyst
@@ -51,11 +52,13 @@ module Casteml
 
 		def abundance_of(nickname)
 			abundance = abundances.find{|ab| ab.nickname == nickname }
-			abundance.data.to_f if abundance && abundance.data
+			#abundance.data.to_f if abundance && abundance.data
 		end
 
 		def error_of(nickname)
-			abundance = abundances.find{|ab| ab.nickname == nickname }
+			abundance = abundance_of(nickname)
+			#abundance = abundances.find{|ab| ab.nickname == nickname }
+			#abundance.error.to_f if abundance && abundance.error
 			abundance.error.to_f if abundance && abundance.error
 		end
 

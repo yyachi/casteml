@@ -2,7 +2,6 @@ require 'medusa_rest_client'
 require 'casteml/remote_interaction'
 module Casteml
   class MeasurementItem
-
 	  extend Casteml::RemoteInteraction
 	  set_remote_class MedusaRestClient::MeasurementItem
     attr_remote :nickname, :description, :display_in_html, :display_in_tex, :unit_id
@@ -12,7 +11,8 @@ module Casteml
 
 
     def self.setup
-      @record_pool = []
+      dump_all unless File.exist?(dump_path)
+      @record_pool = load_from_dump
     end
 
     def self.load_records_from_local(path)
@@ -23,6 +23,10 @@ module Casteml
         records << new(hash)
       end
       records
+    end
+
+    def self.find_by_nickname(nickname)
+      obj = record_pool.find{|obj| obj.nickname == nickname }
     end
 
 
@@ -44,6 +48,5 @@ module Casteml
       record_pool << obj
       obj
   	end
-
   end
 end

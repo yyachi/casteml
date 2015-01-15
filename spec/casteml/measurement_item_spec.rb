@@ -14,21 +14,37 @@ module Casteml
 			#klass.set_remote_class(remote_class)
 		end
 
-
-		describe ".record_pool" do
+		describe ".record_pool", :current => true do
 			subject { klass.record_pool }
 			let(:name){ 'deleteme-1' }
 			before do
 				klass.record_pool = []
 			end
-			it {
-				expect(remote_class).not_to receive(:find).with(:all)
-				subject
-			}
+			#it { expect(subject).not_to be_empty }
+			context "with dumpfile" do
+				it {
+					expect(remote_class).not_to receive(:find).with(:all)
+					expect(klass).to receive(:load_from_dump)
+					subject
+				}
+			end
+			context "without dumpfile" do
+				before do
+					klass.record_pool = []
+					#FileUtils.rm(klass.dump_path) if File.exist?(klass.dump_path)
+					allow(File).to receive(:exist?).with(klass.dump_path).and_return(false)
+				end
+				it {
+					expect(klass).to receive(:dump_all)
+					expect(klass).to receive(:load_from_dump)					
+					subject
+				}
+
+			end
 		end
 
 
-		describe ".load_from_local", :current => true do
+		describe ".load_from_local" do
 			subject { klass.load_records_from_local(path) }
 			let(:path){ 'tmp/default_measured_items.yml' }
 			before do
@@ -49,6 +65,7 @@ module Casteml
 			context "with empty record_pool" do
 				before do
 					klass.record_pool = []
+					allow(klass).to receive(:find_all).and_return([])
 					allow(remote_class).to receive(:find_by_nickname).and_return(item2)
 				end
 

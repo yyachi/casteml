@@ -28,6 +28,24 @@ RSpec::Matchers.define :exit_with_code do |code|
 
 end
 
+def texcompile(string, path = 'tmp/deleteme.tex')
+	puts "compiling..."
+	#string = "Hello World"
+	# string = Casteml::Formats::TexFormat.document do |doc|
+	# 	doc.puts string
+	# end
+
+	puts string
+	#puts Casteml.compile_tex(string)
+	#puts string
+	dir = File.dirname(path)
+	FileUtils.mkdir_p(dir) unless File.directory?(dir)
+	File.open(path, "w") do |f|
+		f.puts string
+	end
+	system("cd #{dir} && pdflatex #{File.basename(path)}")
+end
+
 def deleteall(delthem)
 	if FileTest.directory?(delthem) then
 		Dir.foreach( delthem ) do |file|

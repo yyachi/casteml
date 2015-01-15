@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'casteml/acquisition'
 module Casteml
 	describe Acquisition do
+		let(:global_id){ '0000-00123'}
 		let(:session){ 'deleteme-1' }
 		let(:analyst){ 'Yusuke Yachi' }
 		let(:description){ 'Hello casteml'}
@@ -30,6 +31,26 @@ module Casteml
 				it { expect(subject.bibliography_uid).to be_eql(bibliography_uid)}				
 			end
 
+			context "with download type attrib", :current => true do
+			 	let(:attrib){ {
+			 					:global_id => global_id,
+			 					:name => session, 
+			 					:device => 'SIMS5f',
+			 					:technique => 'SIMS',
+			 					:description => description, 
+			 					:operator => analyst, 
+			 					:sample_global_id => sample_uid,
+			 					:sample_name => 'hello', 
+			 					:"bib-ID" => bibliography_uid } }			
+			 	it { expect(subject).to be_an_instance_of(Acquisition) }
+			 	it { expect(subject.global_id).to be_eql(global_id) }
+			 	it { expect(subject.session).to be_eql(session) }
+			 	it { expect(subject.description).to be_eql(description) }
+			 	it { expect(subject.analyst).to be_eql(analyst) }
+				it { expect(subject.sample_uid).to be_eql(sample_uid)}
+				it { expect(subject.bibliography_uid).to be_eql(bibliography_uid)}
+			end
+
 		end
 
 		describe ".name" do
@@ -44,7 +65,7 @@ module Casteml
 			}
 		end
 
-		describe "#abundances=", :current => true do
+		describe "#abundances=" do
 			subject{ obj.abundances = array_of_abundances }
 			let(:obj){ Acquisition.new(attrib) }
 			let(:attrib){ {:session => session} }
@@ -55,7 +76,7 @@ module Casteml
 			before do
 				subject
 			end
-			it { expect(obj.abundance_of(nickname)).to be_eql(data.to_f )}
+			it { expect(obj.abundance_of(nickname).data).to be_eql(data )}
 		end
 
 		describe "#abundances" do
@@ -80,7 +101,7 @@ module Casteml
 			let(:unit){ 'cg/g' }
 			let(:data){ '54.34567898'}
 
-			it { expect(subject).to be_eql(data.to_f)}
+			it { expect(subject).to be_an_instance_of(Casteml::Abundance)}
 		end
 
 		describe "#error_of" do

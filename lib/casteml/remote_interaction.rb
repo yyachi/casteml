@@ -33,6 +33,10 @@ module Casteml::RemoteInteraction
   		obj
   	end
 
+    def find_all(per_page = 1000)
+      objs = @remote_class.find(:all, :params => {:per_page => per_page})
+    end
+
   	def find_by_name(name)
   		obj = record_pool.find{|obj| obj.name == name }
   	end
@@ -58,6 +62,28 @@ module Casteml::RemoteInteraction
   	def remote_class
   		@remote_class
   	end
+
+    def dump_path
+      File.join("remote_dump", @remote_class.to_s.split('::')) + '.marshal'
+    end
+
+    def dump_all(path = nil)
+      objs = find_all
+      path ||= dump_path
+      dir = File.dirname(path)
+      FileUtils.mkdir_p(dir) unless File.directory?(dir)
+      File.open(path, "w") do |f|
+        Marshal.dump(objs, f)
+      end
+    end
+
+    def load_from_dump(path = nil)
+      path ||= dump_path
+      file = File.open(path)
+      objs = Marshal.load(file)
+      file.close
+      objs.to_a
+    end
 
   	# def set_remote_attributes(array_of_symbols)
   	# 	@remote_attributes = array_of_symbols
