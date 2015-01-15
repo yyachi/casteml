@@ -2,7 +2,7 @@ require 'casteml'
 require 'casteml/command'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', 'Convert pmlfile to datafile with different format.'
+		super 'convert', 'Convert a {pml, csv, tsv} file to different format.'
 
 		add_option('-f', '--format OUTPUTFORMAT',
 						'Specify output format (pml, csv, tsv, tex)') do |v, options|
@@ -26,27 +26,28 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 	def description
 		<<-EOF
 NAME
-    #{program_name} -   Convert pmlfile to datafile with different format.
+    #{program_name} -   Convert a {pml, csv, tsv} file to different format.
 
 SYNOPSIS
     #{program_name} [options] filein
 
 OPTIONS
-    -f, --format        OUTPUTFORMAT: {pml, csv, tsv, org, isoorg, tex, pdf}
-    -n, --number-format NUMBERFORMAT: {%.4g}
+    -f, --format        OUTPUTFORMAT: {pml, csv, tsv, org, isorg, tex, pdf}
     -h, --help          Get help on this command
+    Below is only available when OUTPUTFORMAT is tex
+    -n, --number-format NUMBERFORMAT: {%.4g}
 
 DESCRIPTION
-    Convert pmlfile to datafile with different format.  Accept {pml, csv, tsv}.
+    Convert a {pml, csv, tsv} file to different format.
 
 EXAMPLE
-    $ casteml convert session.csv > session.pml
+    $ casteml convert MY_RAT_REEONLY@150106.csv > MY_RAT_REEONLY@150106.pml
     $ ls
-    session.pml
-    $ casteml split session.pml
+    MY_RAT_REEONLY@150106.pml
+    $ casteml split MY_RAT_REEONLY@150106.pml
 
-    $ casteml convert -f tex -n %.3f session.csv > session.tex
-    $ pdflatex session.tex
+    $ casteml convert -f tex -n %.5g  MY_RAT_REEONLY@150106.pml > MY_RAT_REEONLY@150106.tex
+    $ pdflatex MY_RAT_REEONLY@150106.tex
 
 SEE ALSO
     http://dream.misasa.okayama-u.ac.jp
