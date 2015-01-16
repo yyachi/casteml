@@ -114,6 +114,7 @@ module Casteml
   end
 
   def self.get(id, opts = {})
+    require 'medusa_rest_client'
     MedusaRestClient::Record.download_one(:from => MedusaRestClient::Record.casteml_path(id))
   end
 
