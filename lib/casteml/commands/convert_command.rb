@@ -5,7 +5,7 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		super 'convert', 'Convert a {pml, csv, tsv} file to different format.'
 
 		add_option('-f', '--format OUTPUTFORMAT',
-						'Specify output format (pml, csv, tsv, tex)') do |v, options|
+						'Specify output format (pml, csv, tsv, org, isorg, tex, pdf)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
 
@@ -17,7 +17,6 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		# add_option('-d', '--debug', 'Show debug information') do |v|
 		# 	options[:debug] = v
 		# end
-
 	end
 
 	def usage
@@ -74,17 +73,8 @@ EOF
     	path = args.shift
 
 
-    	opts = {}
-    	opts[:output_format] = options[:output_format]
-		unless opts[:output_format]
-			opts[:output_format] = Casteml.is_pml?(path) ? :csv : :pml
-		end
 
-		if opts[:output_format] == :tex
-			opts[:number_format] = "%.4g" unless options[:number_format]
-		end
-
-    	string = Casteml.convert_file(path, opts)
+    	string = Casteml.convert_file(path, options)
     	puts string
     	#xml = Casteml::Format::XmlFormat.from_array(data)
 	end

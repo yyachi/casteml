@@ -388,6 +388,20 @@ module Casteml::Formats
 			}
 		end
 
+		describe ".split_file with real", :current => true do
+			subject { XmlFormat.split_file(pml_path) }
+			let(:pml_path) { 'tmp/mytable1.pml' }
+			let(:data) { XmlFormat.decode_file(pml_path) }
+			let(:sessions) { data.map{|h| h[:session] }}
+			before do
+				setup_empty_dir('tmp')
+				setup_file(pml_path)
+			end
+			it {
+				expect(subject).to be_eql(sessions.map{|session| File.join('tmp', session + '.pml')})
+			}
+		end
+
 
 
 		describe ".join_files" do

@@ -45,7 +45,7 @@ module Casteml::Commands
 				end
 
 				it "calls Casteml.convert_file with path" do
-					expect(Casteml).to receive(:convert_file).with(path, :output_format => :pml).and_return('pml')					
+					expect(Casteml).to receive(:convert_file).with(path, {}).and_return('pml')					
 					cmd.invoke_with_build_args args, build_args
 				end
 			end
@@ -56,7 +56,7 @@ module Casteml::Commands
 				let(:args){ [path]}
 
 				it "calls Casteml.convert_file with path" do
-					expect(Casteml).to receive(:convert_file).with(path, :output_format => :csv).and_return('csv')	
+					expect(Casteml).to receive(:convert_file).with(path, {}).and_return('csv')	
 					cmd.invoke_with_build_args args, build_args
 				end
 			end
@@ -74,7 +74,7 @@ module Casteml::Commands
 				end
 
 				it "calls Casteml.decode_file with path" do
-					expect(Casteml).to receive(:convert_file).with(path, :output_format => :tex, :number_format => "%.4g").and_return('tex')
+					expect(Casteml).to receive(:convert_file).with(path, :output_format => :tex).and_return('tex')
 					subject
 				end
 

@@ -22,8 +22,18 @@ module Casteml
   GEM_DIR = File.dirname LIB_DIR
   CONFIG_DIR = File.join(GEM_DIR,'config')
   ABUNDANCE_UNIT_FILE = File.join(CONFIG_DIR, "alchemist", "abundance.yml")
-  def self.convert_file(path, opts = {})
+  def self.convert_file(path, options = {})
     #opts[:type] = opts.delete(:format)
+    opts = {}
+    opts[:output_format] = options[:output_format]
+    unless opts[:output_format]
+      opts[:output_format] = Casteml.is_pml?(path) ? :csv : :pml
+    end
+
+    if opts[:output_format] == :tex
+      opts[:number_format] = options[:number_format] || "%.4g"
+    end
+
     string = encode(decode_file(path), opts)
   end
 
@@ -103,6 +113,18 @@ module Casteml
     is_file_type?(path, :tex)
   end
 
+  def self.get(id, opts = {})
+    MedusaRestClient::Record.download_one(:from => MedusaRestClient::Record.casteml_path(id))
+  end
+
+  def self.download(id, opts = {})
+    pml = get(id, opts)
+    fp = Tempfile.open(["downloaded-", ".pml"])
+    path = fp.path
+    fp.puts pml
+    fp.close(false)
+    path    
+  end
 
   def self.decode_file(path)
     case File.extname(path)

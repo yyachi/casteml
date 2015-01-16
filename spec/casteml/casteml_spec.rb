@@ -134,6 +134,43 @@ module Casteml
 
 	end
 
+	describe ".get" do
+		subject { Casteml.get(id, opts) }
+		let(:id) { '0000-001' }
+		let(:pml) { File.read("spec/fixtures/files/my-great.pml") }
+		let(:opts){ {} }
+		before do
+			allow(MedusaRestClient::Record).to receive(:download_one).and_return(pml)
+		end
+		it {
+			expect(MedusaRestClient::Record).to receive(:download_one).with({:from => "/records/#{id}/casteml"}).and_return(pml)
+			subject
+		}
+		it {
+			expect(subject).to be_eql(pml)
+		}
+	end
+
+	describe ".download" do
+		subject { Casteml.download(id, opts) }
+		let(:id) { '0000-001' }
+		let(:pml) { File.read("spec/fixtures/files/my-great.pml") }
+		let(:opts){ {} }
+		before do
+			allow(Casteml).to receive(:get).with(id, opts).and_return(pml)
+		end
+		it {
+			expect(Casteml).to receive(:get).with(id, opts).and_return(pml)
+			subject
+		}
+		it {
+			expect(File.exists?(subject)).to be_truthy
+		}
+		it {
+			expect(File.read(subject)).to be_eql(pml)
+		}
+	end
+
 	describe ".save_remote" do
 		let(:hash_1){ {:session => 'deleteme-1'} }
 		let(:hash_2){ {:session => 'deleteme-2'} }

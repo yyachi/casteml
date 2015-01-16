@@ -149,7 +149,15 @@ module Casteml::Formats
 			sdocs = split_doc(doc)
 			files = []
 			sdocs.each_with_index do |sdoc, index|
-				split_fname = basename + '@' + (index + 1).to_s + extname
+				sdoc.elements.each('acquisition/session') do |element|
+				end
+				data = to_hash(sdoc)
+				session_name = data[:acquisition][:session] if data && data[:acquisition]
+				if session_name
+					split_fname = session_name + extname
+				else
+					split_fname = basename + '@' + (index + 1).to_s + extname
+				end
 				split_path = File.join(dirname,split_fname)
 				File.open(split_path,'w') do |o|
 					write(sdoc, o)

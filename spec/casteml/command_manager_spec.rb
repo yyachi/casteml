@@ -62,13 +62,20 @@ module Casteml
 				end
 
 				context "convert" do
-					let(:command_name){ 'convert'}
+					let(:command_name){ 'convert' }
 					it "load_and_instantiate a command class" do
 						expect(cmd).to receive(:load_and_instantiate).with(command_name.to_sym).and_return(command)	
 						cmd.run args
 					end
 				end
 
+				context "download" do
+					let(:command_name){ 'download' }
+					it "load_and_instantiate a command class" do
+						expect(cmd).to receive(:load_and_instantiate).with(command_name.to_sym).and_return(command)	
+						cmd.run args
+					end
+				end
 
 			end
 
@@ -86,6 +93,40 @@ module Casteml
 			after(:each) do
 				CommandManager.clear_instance
 			end
+		end
+
+		describe ".load_and_instantiate" do
+			subject{ cmd.send(:load_and_instantiate, command_name)}
+			let(:cmd){ CommandManager.instance}
+
+			context "download" do
+				let(:command_name){ :download }
+				it { expect(subject).to be_an_instance_of(Casteml::Commands::DownloadCommand) }
+			end
+
+			context "split" do
+				let(:command_name){ :split }
+				it { expect(subject).to be_an_instance_of(Casteml::Commands::SplitCommand) }
+			end
+
+			context "join" do
+				let(:command_name){ :join }
+				it { expect(subject).to be_an_instance_of(Casteml::Commands::JoinCommand) }
+			end
+
+			context "upload" do
+				let(:command_name){ :upload }
+				it { expect(subject).to be_an_instance_of(Casteml::Commands::UploadCommand) }
+			end
+
+			context "convert" do
+				let(:command_name){ :convert }
+				it { expect(subject).to be_an_instance_of(Casteml::Commands::ConvertCommand) }
+			end
+
+			after(:each) do
+				CommandManager.clear_instance				
+			end			
 		end
 	end
 end

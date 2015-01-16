@@ -7,6 +7,7 @@ class Casteml::CommandManager
 
 	attr_accessor :program_name
 	BUILTIN_COMMANDS = [
+						:download,
 						:join,
 						:split,
 						:upload,
