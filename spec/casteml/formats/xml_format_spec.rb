@@ -400,6 +400,71 @@ module Casteml::Formats
 			it {
 				expect(subject).to be_eql(sessions.map{|session| File.join('tmp', session + '.pml')})
 			}
+
+		end
+
+		describe ".split_file", :current => true do
+			subject { XmlFormat.split_file(path) }			
+			let(:doc){ REXML::Document.new xml}
+			let(:path){ 'tmp/deleteme.pml' }
+			before do
+				setup_empty_dir('tmp')
+				File.open(path, "w") do |f|
+					f.puts xml
+				end
+			end
+
+			context "with 3 acquisitions" do
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisitions>
+	<acquisition>
+		<session>session@1</session>
+	</acquisition>
+	<acquisition>
+		<session>session@2</session>	
+	</acquisition>
+	<acquisition>
+		<session>session@3</session>	
+	</acquisition>	
+</acquisitions>
+					EOF
+				}
+				it { expect(subject).to be_eql(['tmp/session@1.pml', 'tmp/session@2.pml', 'tmp/session@3.pml'])}
+			end
+			context "with 3 no session acquisitions" do
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisitions>
+	<acquisition>
+	</acquisition>
+	<acquisition>
+	</acquisition>
+	<acquisition>
+	</acquisition>	
+</acquisitions>
+					EOF
+				}
+				it { expect(subject).to be_eql(['tmp/deleteme@1.pml', 'tmp/deleteme@2.pml', 'tmp/deleteme@3.pml'])}
+			end
+
+			context "with 1 no session acquisitions" do
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisitions>
+	<acquisition>
+		<session>session@1</session>	
+	</acquisition>
+	<acquisition>
+	</acquisition>
+	<acquisition>
+	</acquisition>	
+</acquisitions>
+					EOF
+				}
+				it { expect(subject).to be_eql(['tmp/session@1.pml', 'tmp/deleteme@2.pml', 'tmp/deleteme@3.pml'])}
+			end
+
 		end
 
 

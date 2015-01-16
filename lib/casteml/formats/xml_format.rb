@@ -151,11 +151,11 @@ module Casteml::Formats
 			sdocs.each_with_index do |sdoc, index|
 				sdoc.elements.each('acquisition/session') do |element|
 				end
-				data = to_hash(sdoc)
-				session_name = data[:acquisition][:session] if data && data[:acquisition]
-				if session_name
+				begin
+					data = to_hash(sdoc)
+					session_name = data[:acquisition][:session]
 					split_fname = session_name + extname
-				else
+				rescue
 					split_fname = basename + '@' + (index + 1).to_s + extname
 				end
 				split_path = File.join(dirname,split_fname)
