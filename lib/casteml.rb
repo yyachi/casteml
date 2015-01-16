@@ -18,7 +18,9 @@ module Casteml
 
   # Your code goes here
   #REMOTE_DUMP_DIR = 'remote_dump'
-  CONFIG_DIR = 'config'
+  LIB_DIR = File.dirname File.expand_path(__FILE__)
+  GEM_DIR = File.dirname LIB_DIR
+  CONFIG_DIR = File.join(GEM_DIR,'config')
   ABUNDANCE_UNIT_FILE = File.join(CONFIG_DIR, "alchemist", "abundance.yml")
   def self.convert_file(path, opts = {})
     #opts[:type] = opts.delete(:format)

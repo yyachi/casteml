@@ -152,12 +152,14 @@ module Casteml::Commands
 			end
 
 			context "with format org", :current => true do
-				let(:path){ 'tmp/mytable.tsv'}
+				let(:path){ 'tmp/mytable1.pml'}
+				#let(:path){ '~/orochi-devel/gems/casteml/spec/fixtures/files/mydata@1.pml'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
-				let(:args){ ['-f', 'org', path]}
+				let(:args){ ['-f', 'org', path, '-d']}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
+				#	puts path
 				end
 
 				it "calls Casteml.decode_file with path" do
@@ -166,7 +168,7 @@ module Casteml::Commands
 				end
 			end
 
-			context "with format isorg", :current => true do
+			context "with format isorg" do
 				let(:path){ 'tmp/mytable.tsv'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'isorg', path]}
@@ -181,7 +183,7 @@ module Casteml::Commands
 				end
 			end
 
-			context "with format pdf", :current => true do
+			context "with format pdf" do
 				let(:path){ 'tmp/mytable.tsv'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'pdf', path]}

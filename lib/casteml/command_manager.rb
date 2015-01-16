@@ -79,9 +79,14 @@ class Casteml::CommandManager
 				@options[:verbose] = v
 			end
 
+			#opts.on_tail("-d", "--[no-]debug", "Show debug info") do |v|
+			#	@options[:debug] = v
+			#end
+
 			opts.on_tail("-V", "--version", "Show version") do |v|
 				@options[:version] = v
 			end
+
 		end
 	end
 
@@ -95,7 +100,15 @@ class Casteml::CommandManager
 	end
 
 	def show_version
-		say Casteml::VERSION
+		say "version: #{Casteml::VERSION}"
+		say <<EOF
+configuration:
+  alchemist: #{Casteml::ABUNDANCE_UNIT_FILE}
+  cache files:
+   #{Casteml::Unit.dump_path}
+   #{Casteml::MeasurementItem.dump_path}
+  *Delete the cache files to update.
+EOF
 	end
 
 

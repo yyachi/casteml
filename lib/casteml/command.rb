@@ -58,6 +58,7 @@ class Casteml::Command
 			execute
 		end		
 	rescue => ex
+		raise if options[:debug]
 			say "ERROR: #{ex}. See '#{program_name} --help'."
 	end
 
@@ -169,6 +170,11 @@ class Casteml::Command
 	add_common_option('-h', '--help', 'Get help on this command') do |value, options|
 		options[:help] = true
 	end
+
+	add_common_option('-d', '--debug', 'Show debug information') do |value, options|
+		options[:debug] = true
+	end
+
 
 # add_common_option('-v', '--[no-]verbose','Set the verbose level of output') do |value, options|
 # # Set us to "really verbose" so the progress meter works

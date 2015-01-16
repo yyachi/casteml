@@ -64,7 +64,7 @@ module Casteml::RemoteInteraction
   	end
 
     def dump_path
-      File.join("remote_dump", @remote_class.to_s.split('::')) + '.marshal'
+      File.join(Casteml::GEM_DIR, "remote_dump", @remote_class.to_s.split('::')) + '.marshal'
     end
 
     def dump_all(path = nil)

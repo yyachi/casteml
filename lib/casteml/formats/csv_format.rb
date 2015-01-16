@@ -86,7 +86,7 @@ module Casteml::Formats
 			array_of_units = []
 			array_of_numbers.transpose.each do |numbers|
 				number = numbers.compact.min
-				unit = number_to_unit(number, :units => default_units )
+				unit = number_to_unit(number, :units => default_units ) if number
 				#p numbers_to(data, unit)
 				#p number_to_human(number, :format => "%n", :unit => unit)
 				array_of_units << unit
@@ -116,7 +116,7 @@ module Casteml::Formats
 			nicknames_with_unit = []
 			nicknames.each_with_index do |nickname, idx|
 				unit = array_of_units[idx]
-				nicknames_with_unit << "#{nickname} (#{unit})"
+				nicknames_with_unit << (unit ? "#{nickname} (#{unit})" : nickname)
 			end
 			column_names = hashs.first.keys
 			column_names.concat(spot_methods)

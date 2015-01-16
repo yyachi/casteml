@@ -22,7 +22,7 @@ class Array
 
 		nicknames.each do |nickname|
 			item = Casteml::MeasurementItem.find_by_nickname(nickname)
-			array = item.display_in_tex ? [item.display_in_tex] : [Casteml::Formats::TexFormat.escape(nickname) + "\t"]
+			array = (item && item.display_in_tex) ? [item.display_in_tex] : [Casteml::Formats::TexFormat.escape(nickname) + "\t"]
 			acqs.each do |acq|
 				ab = acq.abundance_of(nickname)
 				value = ab.data_in_parts if ab && ab.data 

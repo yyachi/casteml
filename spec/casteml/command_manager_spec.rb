@@ -23,8 +23,11 @@ module Casteml
 				end
 			end
 
-			context "with -V" do
+			context "with -V", :current => true do
 				let(:args){ ['-V'] }
+				before do
+					puts cmd.show_version
+				end
 				it "shows version and exit" do
 					expect(cmd).to receive(:show_version)
 					expect{ cmd.run args }.to exit_with_code(0)

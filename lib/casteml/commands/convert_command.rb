@@ -14,6 +14,10 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 			options[:number_format] = v
 		end
 
+		# add_option('-d', '--debug', 'Show debug information') do |v|
+		# 	options[:debug] = v
+		# end
+
 	end
 
 	def usage
@@ -69,15 +73,18 @@ EOF
 		raise OptionParser::InvalidArgument.new('specify FILE') if args.empty?
     	path = args.shift
 
-		unless options[:output_format]
-			options[:output_format] = Casteml.is_pml?(path) ? :csv : :pml
+
+    	opts = {}
+    	opts[:output_format] = options[:output_format]
+		unless opts[:output_format]
+			opts[:output_format] = Casteml.is_pml?(path) ? :csv : :pml
 		end
 
-		if options[:output_format] == :tex
-			options[:number_format] = "%.4g" unless options[:number_format]
+		if opts[:output_format] == :tex
+			opts[:number_format] = "%.4g" unless options[:number_format]
 		end
 
-    	string = Casteml.convert_file(path, options)
+    	string = Casteml.convert_file(path, opts)
     	puts string
     	#xml = Casteml::Format::XmlFormat.from_array(data)
 	end
