@@ -66,23 +66,28 @@ module Casteml::Formats
 		def self.to_string(hashs, opts = {})
 			array_of_abundances = []
 			array_of_spot = []
-			hashs.each do |h|
-				array_of_spot << h.delete(:spot)
-				array_of_abundances << h.delete(:abundances).map{|ab| Casteml::Abundance.new(ab) } if h.has_key?(:abundances)
-			end
-			array_of_spot.compact!
-			array_of_abundances.compact!
 
-			array_of_nicknames = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance.nickname }}
+			hashs.each do |h|
+				spot_attrib = h.delete(:spot)
+				abundances = h.delete(:abundances)
+				array_of_spot << ( spot_attrib ? spot_attrib : nil )
+				array_of_abundances << ( abundances ? abundances.map{|ab| Casteml::Abundance.new(ab) } : nil )
+			end
+			#array_of_spot.compact!
+			#array_of_abundances.compact!
+
+			array_of_nicknames = array_of_abundances.compact.map{|abundances| abundances.map{|abundance| abundance.nickname }}
 			nicknames = array_of_nicknames.flatten.uniq
 
 			array_of_numbers = []
 
 			array_of_abundances.each do |abundances|
 				numbers = Array.new(nicknames.size, nil)
-				abundances.each do |ab|
-					idx = nicknames.index{|elem| elem == ab.nickname}
-					numbers[idx] = ab.data_in_parts
+				if abundances
+					abundances.each do |ab|
+						idx = nicknames.index{|elem| elem == ab.nickname}
+						numbers[idx] = ab.data_in_parts
+					end
 				end
 				array_of_numbers << numbers
 			end
@@ -103,16 +108,29 @@ module Casteml::Formats
 			array_of_data = []
 			array_of_abundances.each_with_index do |abundances, i|
 				data = Array.new(nicknames.size, nil)
-				abundances.each_with_index do |ab, j|
-					idx = nicknames.index{|elem| elem == ab.nickname}
-					unit = array_of_units[idx]
-					number = array_of_numbers[i][idx]
-					data[idx] = (number ? number_to(number, unit) : nil)
+				if abundances
+					abundances.each_with_index do |ab, j|
+						idx = nicknames.index{|elem| elem == ab.nickname}
+						unit = array_of_units[idx]
+						number = array_of_numbers[i][idx]
+						data[idx] = (number ? number_to(number, unit) : nil)
+					end
 				end
 				array_of_data << data
 			end
 
-			spot_methods = array_of_spot.map{|spot| spot.keys }.flatten.uniq.map{|m| "spot_#{m}"}
+			spot_keys = array_of_spot.compact.map{|spot| spot.keys }.flatten.uniq
+			spot_methods = spot_keys.map{|m| "spot_#{m}"}
+			array_of_spot_data = []
+			array_of_spot.each do |spot|
+				data = Array.new(spot_keys.size, nil)
+				if spot
+					spot_keys.each_with_index do |key, idx|
+						data[idx] = spot[key]
+					end
+				end
+				array_of_spot_data << data
+			end
 
 
 			column_names = hashs.first.keys
@@ -122,8 +140,8 @@ module Casteml::Formats
 				csv << column_names
 				hashs.each_with_index do |h, idx|
 					row = h.values
-					row.concat(array_of_spot[idx].values) if array_of_spot[idx]
-					row.concat(array_of_data[idx]) if array_of_data[idx]
+					row.concat(array_of_spot_data[idx])
+					row.concat(array_of_data[idx])
 					csv << row
 				end
 			end
