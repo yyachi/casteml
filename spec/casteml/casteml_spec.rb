@@ -12,19 +12,29 @@ module Casteml
 			}
 		end
 
-		context "with real file", :current => true do
+		context "with real file" do
 			subject { Casteml.convert_file(path, :output_format => :csv)}
-			let(:path){'tmp/mydata@1.pml'}
-			let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 			before do
 				setup_empty_dir('tmp')
 				setup_file(path)
+				puts subject
 			end
-			it {
-				#expect(Casteml::Formats::CsvFormat).to receive(:decode_file).with(path).and_return(data)
-				Casteml.convert_file(path)
-			}
+			context "mydata@1.pml" do
+				let(:path){'tmp/mydata@1.pml'}
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+			context "20110518194205-602-801.pml", :current => true do
+				let(:path){'tmp/20110518194205-602-801.pml'}
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+
 		end
+
+
 	end
 
 	describe ".is_file_type?" do
@@ -37,7 +47,7 @@ module Casteml
 
 	end
 
-	describe ".is_pml?", :current => true do
+	describe ".is_pml?" do
 		context "with pml" do
 			subject{ Casteml.is_pml?(path) }
 			let(:path){ 'tmp/example.pml' }
@@ -56,7 +66,7 @@ module Casteml
 
 	end
 
-	describe ".encode", :current => true do
+	describe ".encode" do
 		let(:data){ [{:session => 'session-1',:sample_name => 'stone-1'},{:session => 'session-2',:sample_name => 'stone-2'}] }
 		context "without opts" do
 			it {
@@ -109,9 +119,15 @@ module Casteml
 	end
 
 	describe ".decode_file" do
-		context "with realfile", :current => true do
+
+		context "with realfile" do
 			subject { Casteml.decode_file(path) }
 			let(:path){ 'tmp/mydata@1.pml' }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+
 			it {
 				expect(subject).to be_an_instance_of(Array)
 			}

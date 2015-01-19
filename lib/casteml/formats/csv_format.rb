@@ -67,18 +67,22 @@ module Casteml::Formats
 			array_of_abundances = []
 			array_of_spot = []
 			hashs.each do |h|
-				array_of_spot << h.delete(:spot)				
-				array_of_abundances << h.delete(:abundances)
+				array_of_spot << h.delete(:spot)
+				array_of_abundances << h.delete(:abundances).map{|ab| Casteml::Abundance.new(ab) } if h.has_key?(:abundances)
 			end
 			array_of_spot.compact!
 			array_of_abundances.compact!
 
+			array_of_nicknames = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance.nickname }}
+			nicknames = array_of_nicknames.flatten.uniq
+
 			array_of_numbers = []
 
 			array_of_abundances.each do |abundances|
-				numbers = []
-				abundances.each do |abundance|
-					numbers << Casteml::Abundance.new(abundance).data_in_parts
+				numbers = Array.new(nicknames.size, nil)
+				abundances.each do |ab|
+					idx = nicknames.index{|elem| elem == ab.nickname}
+					numbers[idx] = ab.data_in_parts
 				end
 				array_of_numbers << numbers
 			end
@@ -87,37 +91,30 @@ module Casteml::Formats
 			array_of_numbers.transpose.each do |numbers|
 				number = numbers.compact.min
 				unit = number_to_unit(number, :units => default_units ) if number
-				#p numbers_to(data, unit)
-				#p number_to_human(number, :format => "%n", :unit => unit)
 				array_of_units << unit
 			end
 
-			array_of_data = []
-			array_of_abundances.each_with_index do |abundances, i|
-				data = []
-				abundances.each_with_index do |abundance, j|
-					unit = array_of_units[j]
-					number = array_of_numbers[i][j]
-					data << (number ? number_to(number, unit) : nil)
-				end
-				array_of_data << data
-			end
-			
-			array_of_nicknames = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:nickname] }}
-			#array_of_units = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:unit] }}
-			#array_of_data = array_of_abundances.map{|abundances| abundances.map{|abundance| abundance[:data] }}
-			
-			#p array_of_abundances
-			#p array_of_units
-			#p array_of_data
-
-			spot_methods = array_of_spot.map{|spot| spot.keys }.flatten.uniq.map{|m| "spot_#{m}"}
-			nicknames = array_of_nicknames.flatten.uniq
 			nicknames_with_unit = []
 			nicknames.each_with_index do |nickname, idx|
 				unit = array_of_units[idx]
 				nicknames_with_unit << (unit ? "#{nickname} (#{unit})" : nickname)
 			end
+
+			array_of_data = []
+			array_of_abundances.each_with_index do |abundances, i|
+				data = Array.new(nicknames.size, nil)
+				abundances.each_with_index do |ab, j|
+					idx = nicknames.index{|elem| elem == ab.nickname}
+					unit = array_of_units[idx]
+					number = array_of_numbers[i][idx]
+					data[idx] = (number ? number_to(number, unit) : nil)
+				end
+				array_of_data << data
+			end
+
+			spot_methods = array_of_spot.map{|spot| spot.keys }.flatten.uniq.map{|m| "spot_#{m}"}
+
+
 			column_names = hashs.first.keys
 			column_names.concat(spot_methods)
 			column_names.concat(nicknames_with_unit)

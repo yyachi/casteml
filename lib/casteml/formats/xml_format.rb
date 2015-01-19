@@ -106,16 +106,21 @@ module Casteml::Formats
 	        		acquisition[:spot] = spot if spot.instance_of?(Hash)
 	        	end
 
-	        	hash = acquisition.delete(:abundances) if acquisition.has_key?(:abundances)
-	       		if hash.instance_of?(Hash) && hash.has_key?(:abundance)
-	       			abundances = []
-	       			case hash[:abundance]
-	       			when Hash
-	       				abundances << hash[:abundance]
-	       			when Array
-	       				abundances.concat(hash[:abundance])
-	       			end
-	       			acquisition[:abundances] = abundances
+	        	if acquisition.has_key?(:abundances) || acquisition.has_key?(:chemistries)
+	        		abs_key = acquisition.has_key?(:abundances) ? :abundances : :chemistries
+	        		hash = acquisition.delete(abs_key)
+		       		if hash.instance_of?(Hash) && ( hash.has_key?(:abundance) || hash.has_key?(:analysis))
+				 		ab_key = hash.has_key?(:abundance) ? :abundance : :analysis
+
+		       			abundances = []
+		       			case hash[ab_key]
+		       			when Hash
+		       				abundances << hash[ab_key]
+		       			when Array
+		       				abundances.concat(hash[ab_key])
+		       			end
+		       			acquisition[:abundances] = abundances
+		        	end
 	        	end
 	        end
 	        acquisitions
