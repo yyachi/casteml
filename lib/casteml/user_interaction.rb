@@ -234,6 +234,31 @@ class Casteml::StreamUI
 	def say(statement="")
 		@outs.puts statement
 	end
+	 ##
+	# Display an informational alert. Will ask +question+ if it is not nil.
+	def alert(statement, question=nil)
+		@outs.puts "INFO: #{statement}"
+		ask(question) if question
+	end
+	##
+	# Display a warning on stderr. Will ask +question+ if it is not nil.
+	def alert_warning(statement, question=nil)
+		@errs.puts "WARNING: #{statement}"
+		ask(question) if question
+	end
+	##
+	# Display an error message in a location expected to get error messages.
+	# Will ask +question+ if it is not nil.
+	def alert_error(statement, question=nil)
+		@errs.puts "ERROR: #{statement}"
+		ask(question) if question
+	end
+	##
+	# Display a debug message on the same location as error messages.
+	def debug(statement)
+		@errs.puts statement
+	end
+	
 end
 
 class Casteml::ConsoleUI < Casteml::StreamUI

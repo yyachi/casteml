@@ -55,6 +55,11 @@ module Casteml
 			#abundance.data.to_f if abundance && abundance.data
 		end
 
+		def value_of(nickname)
+			abundance = abundance_of(nickname)
+			abundance.data.to_f if abundance && abundance.data
+		end
+
 		def error_of(nickname)
 			abundance = abundance_of(nickname)
 			#abundance = abundances.find{|ab| ab.nickname == nickname }

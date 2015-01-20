@@ -59,7 +59,7 @@ class Casteml::Command
 		end		
 	rescue => ex
 		raise if options[:debug]
-			say "ERROR: #{ex}. See '#{program_name} --help'."
+			alert_error "#{ex}. See '#{program_name} --help'."
 	end
 
 	def handle_options(args)

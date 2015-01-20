@@ -25,6 +25,10 @@ module Casteml
 			@unit ||= :parts
 		end
 
+		def to_f
+			data.to_f
+		end
+
 		def data_in_parts
 			self.class.number_from(@data.to_f, @unit.to_sym) if @data
 		end

@@ -29,7 +29,7 @@ module Casteml
 					expect(subject).to be_an_instance_of(String)
 				}
 			end
-			context "20110518194205-602-801.pml", :current => true do
+			context "20110518194205-602-801.pml" do
 				let(:path){'tmp/20110518194205-602-801.pml'}
 				let(:from_original){ Casteml.decode_file(path).map{|attrib| Casteml::Acquisition.new(attrib) } }
 				let(:from_converted){ Casteml.decode_file(output_path).map{|attrib| Casteml::Acquisition.new(attrib) } }

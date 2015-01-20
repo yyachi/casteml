@@ -12,6 +12,7 @@ class Casteml::CommandManager
 						:split,
 						:upload,
 						:convert,
+						:spots,
 						:help,
 	]
 	def self.instance
@@ -131,9 +132,9 @@ EOF
 		cmd = find_command cmd_name
 		cmd.invoke_with_build_args args, build_args
 	rescue OptionParser::InvalidOption => ex
-		say "ERROR: #{ex}. See '#{program_name} --help'."
+		alert_error "#{ex}. See '#{program_name} --help'."
 	rescue Casteml::CommandLineError => ex
-		say "ERROR: #{ex}. See '#{program_name} --help'."
+		alert_error "#{ex}. See '#{program_name} --help'."
 	end
 
 	def [](command_name)

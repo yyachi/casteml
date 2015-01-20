@@ -77,6 +77,14 @@ module Casteml
 					end
 				end
 
+				context "spots" do
+					let(:command_name){ 'spots' }
+					it "load_and_instantiate a command class" do
+						expect(cmd).to receive(:load_and_instantiate).with(command_name.to_sym).and_return(command)	
+						cmd.run args
+					end
+				end
+
 			end
 
 
@@ -85,7 +93,7 @@ module Casteml
 				let(:command_name){ 'hoge'}
 				let(:args){ [command_name] }
 				it "shows error message" do
-					expect(cmd).to receive(:say).with("ERROR: Unknown command #{command_name}. See 'casteml --help'.")					
+					expect(cmd).to receive(:alert_error).with("Unknown command #{command_name}. See 'casteml --help'.")					
 					cmd.run args
 				end
 			end
@@ -122,6 +130,11 @@ module Casteml
 			context "convert" do
 				let(:command_name){ :convert }
 				it { expect(subject).to be_an_instance_of(Casteml::Commands::ConvertCommand) }
+			end
+
+			context "spots" do
+				let(:command_name){ :spots }
+				it { expect(subject).to be_an_instance_of(Casteml::Commands::SpotsCommand) }
 			end
 
 			after(:each) do

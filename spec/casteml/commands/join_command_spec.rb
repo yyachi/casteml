@@ -23,7 +23,7 @@ module Casteml::Commands
 			context "without args" do
 				let(:args){ [] }
 				it "shows error message" do
-					expect(cmd).to receive(:say).with("ERROR: invalid argument: specify PMLFILES. See 'casteml join --help'.")
+					expect(cmd).to receive(:alert_error).with("invalid argument: specify PMLFILES. See 'casteml join --help'.")
 					cmd.invoke_with_build_args args, build_args
 				end
 			end

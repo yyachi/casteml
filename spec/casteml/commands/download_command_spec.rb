@@ -20,7 +20,7 @@ module Casteml::Commands
 			context "without args" do
 				let(:args){ [] }
 				it "shows error message" do
-					expect(cmd).to receive(:say).with("ERROR: invalid argument: specify stone-ID or analysis-ID. See 'casteml download --help'.")
+					expect(cmd).to receive(:alert_error).with("invalid argument: specify stone-ID or analysis-ID. See 'casteml download --help'.")
 					cmd.invoke_with_build_args args, build_args
 				end
 			end

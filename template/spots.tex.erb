@@ -1,0 +1,27 @@
+<%- overpic_tag(picture, "width=#{params[:image_width]}\\textwidth") do |op| -%>
+  <%= op.put(1.0, 74.0, op.colorbox("white", "(\\sublabel{#{picture}}) \\nolinkurl{#{picture}}")) -%>
+<%- acquisitions.each do |acq| -%>
+  <%- spot = acq.spot -%>
+  <%- next unless (spot && spot.x_image && spot.y_image) -%>
+  <%- comment = "% #{acq.session} #{spot.x_image} #{spot.y_image}" -%>
+  <%# show spot-number even a spot has isotope-ratio whatever, 2014-09-11 %>
+  <%- if flag_ab && acq.abundance && flag_iso && acq.isotope -%>
+    <%- dia1 = ref_width * Math::sqrt(acq.abundance/ref_ab) -%>
+    <%- comment += " #{acq.abundance} #{acq.isotope}" %>
+    <%#= op.put_isoclock(spot.x_image,spot.y_image,acq.isotope,{:radius => dia1/2.0, :range => [iso_range_min,iso_range_max], :caption => footnotesize(acq.isotope)}) + " #{comment}" -%>
+    <%= op.put_isoclock(spot.x_image,spot.y_image,acq.isotope,{:radius => dia1/2.0, :range => [iso_range_min,iso_range_max], :caption => footnotesize("\\color{red}"+acq.session)}) + " #{comment}" -%>
+  <%- elsif flag_iso && acq.isotope -%>
+    <%- dia1 = ref_width -%>
+    <%- comment += " #{acq.isotope}" %>
+    <%#= op.put_isoclock(spot.x_image,spot.y_image,acq.isotope,{:radius => dia1/2.0, :range => [iso_range_min,iso_range_max], :caption => footnotesize(acq.isotope)}) + " #{comment}" -%>
+    <%= op.put_isoclock(spot.x_image,spot.y_image,acq.isotope,{:radius => dia1/2.0, :range => [iso_range_min,iso_range_max], :caption => footnotesize("\\color{red}"+acq.session)}) + " #{comment}" -%>
+  <%- else %>
+    <%= op.put_circle(spot.x_image, spot.y_image, 0.7, {:caption => footnotesize("\\color{red}"+acq.session)}) + " #{comment}" -%>
+  <%- end -%>
+<%- end -%>
+<%- iso = 0 %>
+
+        % legend
+        <%= op.put_isoclock(ref_width/2.0,ref_width/2.0,iso,{:radius => ref_width/2.0, :range => [iso_range_min,iso_range_max], :ticks => true, :tick_captions => true, :caption => footnotesize("\\color{red} #{ref_ab} \\ppm")}) %>
+<%- end -%>
+%% <%= commandline -%>
