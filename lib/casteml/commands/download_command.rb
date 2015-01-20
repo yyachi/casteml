@@ -1,4 +1,6 @@
 require 'casteml/command'
+require 'casteml'
+require 'casteml/formats/xml_format'
 class Casteml::Commands::DownloadCommand < Casteml::Command
 	def initialize
 		super 'download', 'Download pml-file'
@@ -57,10 +59,9 @@ EOS
     	#pml = Casteml.get(id, options)
     	opts = {}
     	path = Casteml.download(id, opts)
+    	string = File.read(path)
     	if options[:output_format]
-	    	string = Casteml.convert_file(path, options)
-    	else
-    		string = File.read(path)
+	    	string = Casteml.encode(Casteml::Formats::XmlFormat.decode_string(string), options)
     	end
     	say string
 	end

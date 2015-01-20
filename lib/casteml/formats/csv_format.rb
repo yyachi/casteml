@@ -52,7 +52,7 @@ class CSV::Row
 	end
 
 	def unit_row?
-		self[0] =~ /unit/i || self["session"].nil?
+		self[0] =~ /unit/i || ( self["session"].nil? && self["name"].nil? )
 	end
 end
 
@@ -80,16 +80,19 @@ module Casteml::Formats
 			nicknames = array_of_nicknames.flatten.uniq
 
 			array_of_numbers = []
-
+			array_of_error_numbers = []
 			array_of_abundances.each do |abundances|
 				numbers = Array.new(nicknames.size, nil)
+				error_numbers = Array.new(nicknames.size, nil)
 				if abundances
 					abundances.each do |ab|
 						idx = nicknames.index{|elem| elem == ab.nickname}
 						numbers[idx] = ab.data_in_parts
+						error_numbers[idx] = ab.error_in_parts
 					end
 				end
 				array_of_numbers << numbers
+				array_of_error_numbers << error_numbers
 			end
 
 			array_of_units = []
@@ -102,7 +105,7 @@ module Casteml::Formats
 			nicknames_with_unit = []
 			nicknames.each_with_index do |nickname, idx|
 				unit = array_of_units[idx]
-				nicknames_with_unit << (unit ? "#{nickname} (#{unit})" : nickname)
+				nicknames_with_unit << [(unit ? "#{nickname} (#{unit})" : nickname), "#{nickname}_error"]
 			end
 
 			array_of_data = []
@@ -113,7 +116,8 @@ module Casteml::Formats
 						idx = nicknames.index{|elem| elem == ab.nickname}
 						unit = array_of_units[idx]
 						number = array_of_numbers[i][idx]
-						data[idx] = (number ? number_to(number, unit) : nil)
+						error_number = array_of_error_numbers[i][idx]
+						data[idx] = [(number ? number_to(number, unit) : nil), (error_number ? number_to(error_number, unit) : nil)]
 					end
 				end
 				array_of_data << data
@@ -135,13 +139,13 @@ module Casteml::Formats
 
 			column_names = hashs.first.keys
 			column_names.concat(spot_methods)
-			column_names.concat(nicknames_with_unit)
+			column_names.concat(nicknames_with_unit.flatten)
 			string = CSV.generate("", opts) do |csv|
 				csv << column_names
 				hashs.each_with_index do |h, idx|
 					row = h.values
 					row.concat(array_of_spot_data[idx])
-					row.concat(array_of_data[idx])
+					row.concat(array_of_data[idx].flatten)
 					csv << row
 				end
 			end

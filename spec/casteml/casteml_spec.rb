@@ -12,12 +12,16 @@ module Casteml
 			}
 		end
 
-		context "with real file" do
-			subject { Casteml.convert_file(path, :output_format => :csv)}
+		context "with real file to output_format csv" do
+			subject { Casteml.convert_file(path, :output_format => output_format)}
+			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
+			let(:output_format){ :csv }
 			before do
 				setup_empty_dir('tmp')
 				setup_file(path)
-				puts subject
+				File.open(output_path, "w") do |out|
+					out.puts subject
+				end
 			end
 			context "mydata@1.pml" do
 				let(:path){'tmp/mydata@1.pml'}
@@ -27,9 +31,25 @@ module Casteml
 			end
 			context "20110518194205-602-801.pml", :current => true do
 				let(:path){'tmp/20110518194205-602-801.pml'}
+				let(:from_original){ Casteml.decode_file(path).map{|attrib| Casteml::Acquisition.new(attrib) } }
+				let(:from_converted){ Casteml.decode_file(output_path).map{|attrib| Casteml::Acquisition.new(attrib) } }
 				it {
 					expect(subject).to be_an_instance_of(String)
 				}
+				it {
+					expect(from_original[0].name).to be_eql(from_converted[0].name)
+				}
+				it {
+					expect(from_original[0].abundances[0].data_in_parts).to be_eql(from_converted[0].abundances[0].data_in_parts)
+				}
+
+				it {
+					expect(from_original[0].abundance_of("SiO2").data_in_parts).to be_eql(from_converted[0].abundance_of("SiO2").data_in_parts)
+				}
+				it {
+					expect(from_original[0].abundance_of("SiO2").error_in_parts).to be_eql(from_converted[0].abundance_of("SiO2").error_in_parts)
+				}
+
 			end
 
 		end

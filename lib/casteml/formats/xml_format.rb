@@ -83,6 +83,11 @@ module Casteml::Formats
 			decode_doc(doc)
 		end
 
+		def self.decode_string(string, opts ={})
+			doc = REXML::Document.new string
+			decode_doc(doc)
+		end
+
 		def self.decode_doc(doc, opts = {})
 	        raise "invalid xml" unless doc.root
 

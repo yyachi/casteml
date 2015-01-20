@@ -19,7 +19,7 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g)
 				expect(subject).to be_an_instance_of(String)
 			}
 
-			context "with unit", :current => true do
+			context "with unit" do
 				let(:data){
 					[
 						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '12.345', :unit => 'cg/g'},{:nickname => 'Li', :data => '1.345', :unit => 'ug/g'}]},
@@ -311,9 +311,25 @@ UNIT,,,cg/g,ug/g
 				it { expect(subject[0]).to include("ID") }
 				#it { expect(subject[0][:abundances][0]).to include(:nickname => "SiO2") }
 			end
-			context "separate unit without keyword" do
+			context "separate unit with session nil" do
 				let(:string){ <<-EOF
 ID,session,sample_name,SiO2,B
+,,,cg/g,ug/g
+,test-1,sample-1,12.4,1.2
+,test-2,sample-2,34.5,3.4
+						EOF
+				}
+				it { expect(subject.size).to be_eql(2) }
+				it { expect(subject[0][:abundances][0]).to include(:nickname => "SiO2") }
+				it { expect(subject[0][:abundances][0]).to include(:unit => "cg/g") }
+				it { expect(subject[0][:abundances][0]).to include(:data => "12.4") }				
+				it { expect(subject[0]).to include("ID") }
+				#it { expect(subject[0][:abundances][0]).to include(:nickname => "SiO2") }
+			end
+
+			context "separate unit with name nil" do
+				let(:string){ <<-EOF
+ID,name,sample_name,SiO2,B
 ,,,cg/g,ug/g
 ,test-1,sample-1,12.4,1.2
 ,test-2,sample-2,34.5,3.4

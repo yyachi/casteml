@@ -44,14 +44,21 @@ module Casteml::Commands
 					expect(Casteml).to receive(:download).with(id, {}).and_return(path)
 					cmd.invoke_with_build_args args, build_args
 				end
-				context "with -f csv" do
+				context "with -f csv", :current => true do
 					let(:args){ [id, '-f', 'csv']}
 					it "calls download with id" do
-						expect(Casteml).to receive(:convert_file).with(path, {:output_format => :csv})
 						cmd.invoke_with_build_args args, build_args
 					end
 
 				end
+				context "with -f tex", :current => true do
+					let(:args){ [id, '-f', 'tex']}
+					it "calls download with id" do
+						cmd.invoke_with_build_args args, build_args
+					end
+
+				end
+
 			end
 
 		end		

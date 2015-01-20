@@ -130,6 +130,38 @@ module Casteml::Formats
 			}
 		end
 
+		describe ".decode_string", :current => true do
+			subject{ XmlFormat.decode_string(xml) }
+			let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisition>
+	<session>deleteme</session>
+	<instrument>SIMS-5f</instrument>
+	<technique></technique>
+	<analyst></analyst>
+	<sample_uid></sample_uid>
+	<sample_name></sample_name>
+	<bibliography_uid></bibliography_uid>
+	<description></description>
+	<abundance>
+		<nickname>Li</nickname>
+		<data>1.9</data>
+		<unit>ug/g</unit>
+		<error>0.2</error>
+		<label></label>
+		<info></info>
+	</abundance>
+</acquisition>
+				EOF
+			}
+			it {
+				expect(subject).to be_an_instance_of(Array)
+			}
+			it {
+				expect(subject[0][:session]).to be_eql("deleteme")
+			}
+		end
+
 		describe ".decode_doc" do
 			subject{ XmlFormat.decode_doc(doc) }
 
