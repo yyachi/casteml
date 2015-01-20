@@ -110,7 +110,7 @@ module Casteml::Formats
 
 			array_of_data = []
 			array_of_abundances.each_with_index do |abundances, i|
-				data = Array.new(nicknames.size, nil)
+				data = Array.new(nicknames.size, [nil, nil])
 				if abundances
 					abundances.each_with_index do |ab, j|
 						idx = nicknames.index{|elem| elem == ab.nickname}

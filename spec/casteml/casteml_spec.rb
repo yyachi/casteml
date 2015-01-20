@@ -44,10 +44,24 @@ module Casteml
 				}
 
 				it {
-					expect(from_original[0].abundance_of("SiO2").data_in_parts).to be_eql(from_converted[0].abundance_of("SiO2").data_in_parts)
+					expect(from_converted).to all(be_an_instance_of(Casteml::Acquisition))
 				}
 				it {
-					expect(from_original[0].abundance_of("SiO2").error_in_parts).to be_eql(from_converted[0].abundance_of("SiO2").error_in_parts)
+					from_original.each_with_index do |original, idx|
+						expect(original.name).to be_eql(from_converted[idx].name)
+						original.abundances.each do |ab|
+							nickname = ab.nickname
+							expect(ab.data_in_parts).to be_eql(from_converted[idx].abundance_of(nickname).data_in_parts)
+							expect(ab.error_in_parts).to be_eql(from_converted[idx].abundance_of(nickname).error_in_parts)							
+						end
+					end
+					#expect(from_original.map{|acq| acq.abundances })
+				}
+				it {
+					expect(from_original[0].abundance_of("MgO").data_in_parts).to be_eql(from_converted[0].abundance_of("MgO").data_in_parts)
+				}
+				it {
+					expect(from_original[0].abundance_of("MgO").error_in_parts).to be_eql(from_converted[0].abundance_of("MgO").error_in_parts)
 				}
 
 			end
