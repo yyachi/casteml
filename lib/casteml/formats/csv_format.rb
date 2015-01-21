@@ -165,6 +165,21 @@ module Casteml::Formats
 			string.gsub(/\t/,',')
 		end
 
+		def self.org_mode?(string)
+			string =~ /^\|.*\|$/
+		end
+
+		def self.org2csv(string)
+			string.gsub!(/^\+TBLNAME:.*\n/,"")
+			string.gsub!(/^\|\-.*\n/,"")
+			string.gsub!(/^\|/,"")
+			string.gsub!(/\|$/,"")
+			string.gsub!(/\|\Z/,"")
+			string.gsub!(/\|/,",")
+			string
+		end
+
+
 		def self.column_wise?(string)
 			csv = CSV.new(string)
 			array_of_arrays = csv.to_a
@@ -199,12 +214,25 @@ module Casteml::Formats
 
 		def self.decode_string(string, opts = {})
 			raise "empty csv!" if string.empty?
-			string = tsv2csv(string) if tab_separated?(string)
+			if org_mode?(string)
+				string = org2csv(string)
+			elsif tab_separated?(string)
+				string = tsv2csv(string)
+			end
 			string = transpose(string) if column_wise?(string)
 
 			sio = StringIO.new(string,"r")
+			strip_filter = Proc.new do |v|
+				begin
+					v.strip
+				rescue
+					v
+				end
+			end
 			csv = CSV.new(sio, {
 				:headers => true, 
+				:header_converters => strip_filter,
+				:converters => strip_filter
 				})
 			rows = []
 			csv.each do |row|

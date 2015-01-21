@@ -134,6 +134,78 @@ ID,session,sample_name,SiO2 (cg/g)
 			end
 		end
 
+		describe ".org2csv", :current => true do
+			subject { CsvFormat.org2csv(string) }
+			context "with normal table" do
+				let(:string){ <<-EOF
++TBLNAME: castemls					
+|ID|session|technique|
+|-
+|111|test-1|EPMA|
+|222|test-2|XRF|
+						EOF
+				}
+				it { expect(subject).to be_truthy }
+			end
+
+			context "with tab table" do
+				let(:string){ <<-EOF
++TBLNAME: castemls					
+|	ID	|	session	|	technique 	|
+|-
+|	111	|	test-1 	|	EPMA 		|
+|	222	|	test-2 	|	XRF 		|
+						EOF
+				}
+				it { expect(subject).to be_truthy }
+			end
+		end
+		describe ".org_mode?", :current => true do
+			subject { CsvFormat.org_mode?(string) }
+			context "with normal table" do
+				let(:string){ <<-EOF
++TBLNAME: castemls					
+|ID|session|technique|
+|-
+|111|test-1|EPMA|
+|222|test-2|XRF|
+						EOF
+				}
+				it { expect(subject).to be_truthy }
+			end
+
+			context "with tab table" do
+				let(:string){ <<-EOF
++TBLNAME: castemls					
+|	ID	|	session	|	technique 	|
+|-
+|	111	|	test-1 	|	EPMA 		|
+|	222	|	test-2 	|	XRF 		| 	
+						EOF
+				}
+				it { expect(subject).to be_truthy }
+			end
+
+			context "with empty table" do
+				let(:string){ <<-EOF
++TBLNAME: castemls					
+						EOF
+				}
+				it { expect(subject).not_to be_truthy }
+			end
+
+			context "with csv" do
+				let(:string){ <<-EOF		
+ID,session,technique
+111,test|-1,EPMA
+222,test-2,XRF
+						EOF
+				}
+				it { expect(subject).not_to be_truthy }
+			end
+
+		end
+
 		describe ".transpose" do
 			subject { CsvFormat.transpose(string) }
 			context "transposed csv" do
@@ -255,6 +327,33 @@ ID\tsession\ttechnique
 				it { expect(subject[0]).to include("session" => "test-1") }
 				it { expect(subject[0]).to include("technique" => "EPMA") }
 			end
+
+			context "with org_mode", :current => true do
+				let(:string){ <<-EOF
++TBLNAME: casteml
+|ID|session|technique|
+|111|test-1|EPMA|
+|222|test-2|XRF|
+						EOF
+				}
+				it { expect(subject[0]).to include("ID" => "111") }
+				it { expect(subject[0]).to include("session" => "test-1") }
+				it { expect(subject[0]).to include("technique" => "EPMA") }
+			end
+
+			context "with tab inserted org_mode", :current => true do
+				let(:string){ <<-EOF
++TBLNAME: casteml
+| 	ID 	|	session 	|	technique 	|
+|	111	|	test-1 		|	EPMA 		|
+|	222	|	test-2 		|	XRF 		|
+										EOF
+				}
+				it { expect(subject[0]).to include("ID" => "111") }
+				it { expect(subject[0]).to include("session" => "test-1") }
+				it { expect(subject[0]).to include("technique" => "EPMA") }
+			end
+
 
 			context "abundance with error" do
 				let(:string){ <<-EOF

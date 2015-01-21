@@ -2,6 +2,7 @@ require 'casteml'
 require 'casteml/command'
 require 'casteml/formats/xml_format'
 require 'casteml/tex_helper'
+require 'erb'
 #require 'casteml/tex_helper/over_pic'
 class Casteml::Commands::SpotsCommand < Casteml::Command
 	attr_accessor :params

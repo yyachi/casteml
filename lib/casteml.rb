@@ -134,6 +134,8 @@ module Casteml
   	 Formats::XmlFormat.decode_file(path)
     when ".csv", ".tsv"
       Formats::CsvFormat.decode_file(path)
+    when ".org", ".isorg"
+      Formats::CsvFormat.decode_file(path)
     else
       raise "not implemented"
     end

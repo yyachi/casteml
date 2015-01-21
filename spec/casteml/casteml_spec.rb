@@ -12,6 +12,33 @@ module Casteml
 			}
 		end
 
+		context "with real org", :current => true do
+			subject { Casteml.convert_file(path, :output_format => output_format)}
+			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
+			let(:output_format){ :csv }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+				puts subject
+				File.open(output_path, "w") do |out|
+					out.puts subject
+				end
+			end
+			context "mydata@1.org" do
+				let(:path){'tmp/ys_pl_bytownite_c.org'}
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+			context "mydata@1.isorg" do
+				let(:path){'tmp/ys_pl_bytownite_c.isorg'}
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+
+		end
+
 		context "with real file to output_format csv" do
 			subject { Casteml.convert_file(path, :output_format => output_format)}
 			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
