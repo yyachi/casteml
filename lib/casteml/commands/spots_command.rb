@@ -55,47 +55,47 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 	def description
 		<<-EOS
 NAME
-    #{program_name} -   Create latex spot from pml file
+    #{program_name} -   Store pml spots info in tex file
 
 SYNOPSIS
     #{program_name} [options] inputfile [abundance isotope]
 
 DESCRIPTION
-    To describe your spots, have tt_bcg12@4032.pml with spot info
-    in it.  As of April 3 (2014), use Matlab-script spots.m.
-
-    Creation of \LaTeX file of spots with number or isocircle is shown below EXAMPLE.
+    Store pml spots info in tex file.  To describe your spots, create
+    a pml file with spots info by using Matlab-script spots.m as of
+    April 3 (2014).  Creation of tex file of spots with number or
+    isocircle is shown below EXAMPLE.
 
 EXAMPLE
-    $ vi tt_bcg12@4032.pml
-    # => correct spot number
+    matlab> spots   # => input spots on an image file
+    $ ls
+    tt_bcg12@4032.pml
     $ casteml spots tt_bcg12@4032.pml
     $ ls
-    tt_bcg12@4032.pml  tt_bcg12@4032.tex
+    tt_bcg12@4032.pml tt_bcg12@4032.tex
 
-    $ casteml convert tt_bcg12@4032.pml
+    ### for isocircle insertion ###
+    $ casteml convert tt_bcg12@4032.pml -f csv > tt_bcg12@4032.csv
     $ ls
     tt_bcg12@4032.pml  tt_bcg12@4032.csv
-    $ cygstart tt_bcg12@4032.csv
-    # => add two columns with label Li d7Li in Excel
-    $ casteml convert tt_bcg12@4032.csv
+    # => edit the csv file to add two columns with label Li and d7Li in Excel
+    $ casteml convert tt_bcg12@4032.csv -f pml > tt_bcg12@4032.pml
     $ ls
     tt_bcg12@4032.pml  tt_bcg12@4032.csv
     $ casteml spots tt_bcg12@4032.pml Li d7Li -a 2.1,10 -i -30,+30
     $ ls
     tt_bcg12@4032.pml  tt_bcg12@4032.csv  tt_bcg12@4032.tex
-    $ casteml spots --help
 
 SEE ALSO
     http://dream.misasa.okayama-u.ac.jp
+    spots.m
 
 IMPLEMENTATION
     Orochi, version 9
     Copyright (C) 2014 Okayama University
     License GPLv3+: GNU GPL version 3 or later
 
-OPTIONS  		
-		EOS
+EOS
 	end
 
 	def execute
