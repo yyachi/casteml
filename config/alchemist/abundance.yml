@@ -12,6 +12,8 @@
   :ppm: 1.0e-6
   :parts_per_billi: 1.0e-9
   :ppb: 1.0e-9
+  :gram_per_gram: 1.0
+  :"g/g": 1.0
   :centi_gram_per_gram: 1.0e-2
   :"cg/g": 1.0e-2
   :micro_gram_per_gram: 1.0e-6

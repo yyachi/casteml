@@ -23,6 +23,21 @@ module Casteml
   TEMPLATE_DIR = File.join(GEM_DIR,'template')
   CONFIG_DIR = File.join(GEM_DIR,'config')
   ABUNDANCE_UNIT_FILE = File.join(CONFIG_DIR, "alchemist", "abundance.yml")
+
+  def self.integer_string?(str)
+    Integer(str)
+    true
+  rescue ArgumentError
+    false
+  end
+
+  def self.float_string?(str)
+    Float(str)
+    true
+  rescue ArgumentError
+    false
+  end
+
   def self.convert_file(path, options = {})
     #opts[:type] = opts.delete(:format)
     opts = {}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<acquisition>
+   <session>to_int_ok10cb@1</session>
+   <sample_uid/>
+   <abundances>
+      <abundance>
+         <nickname>SiO2</nickname>
+         <data>0.38</data>
+         <unit>g/g</unit>
+         <error>NaN</error>
+         <label/>
+         <info/>
+      </abundance>
+      <abundance>
+         <nickname>Li</nickname>
+         <data>1.01791444939236e-06</data>
+         <unit>g/g</unit>
+         <error>4.46049167979273e-08</error>
+         <label/>
+         <info/>
+      </abundance>
+      <abundance>
+         <nickname>P2O5</nickname>
+         <data>0.000412007758606875</data>
+         <unit>g/g</unit>
+         <error>1.36568004143553e-05</error>
+         <label/>
+         <info/>
+      </abundance>
+   </abundances>
+</acquisition>

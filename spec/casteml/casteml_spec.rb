@@ -12,7 +12,7 @@ module Casteml
 			}
 		end
 
-		context "with real org", :current => true do
+		context "with real org" do
 			subject { Casteml.convert_file(path, :output_format => output_format)}
 			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
 			let(:output_format){ :csv }
@@ -37,6 +37,18 @@ module Casteml
 				}
 			end
 
+		end
+
+		context "with to_int_ok10cb@1.pml", :current => true do
+			subject { Casteml.convert_file(path) }
+			let(:path) { 'spec/fixtures/files/to_int_ok10cb@1.pml'}
+			before do
+				puts subject
+			end
+			it {
+				expect(File.exist?(path)).to be_truthy
+				expect(subject).to be_an_instance_of(String)
+			}
 		end
 
 		context "with real file to output_format csv" do

@@ -30,11 +30,11 @@ module Casteml
 		end
 
 		def data_in_parts
-			self.class.number_from(@data.to_f, @unit.to_sym) if @data
+			self.class.number_from(@data.to_f, @unit.to_sym) if @data && Casteml.float_string?(@data)
 		end
 
 		def error_in_parts
-			self.class.number_from(@error.to_f, @unit.to_sym) if @error	
+			self.class.number_from(@error.to_f, @unit.to_sym) if @error	&& Casteml.float_string?(@error)
 		end
 
 

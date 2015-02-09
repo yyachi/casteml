@@ -83,6 +83,23 @@ module Casteml
 				it { expect(subject.info).to be_eql(info)}				
 			end
 
+			context "with error NAN and unit", :current => true do
+				let(:attrib){ {:nickname => nickname, :data => data, :unit => unit, :error => error, :label => label, :info => info } }			
+				let(:data){ "12.3456" }
+				let(:error){ "NAN" }
+				let(:unit){ "cg/g" }
+				it { expect(subject).to be_an_instance_of(Abundance) }
+				it { expect(subject.nickname).to be_eql(nickname) }
+				it { expect(subject.data).to be_eql(data) }
+				it { expect(subject.data_in_parts).to be_eql(data.to_f/100) }				
+				it { expect(subject.error).to be_eql(error) }
+				it { expect(subject.error_in_parts).to be_eql(nil) }								
+				it { expect(subject.precision).to be_nil }				
+				it { expect(subject.unit).to be_eql(unit)}
+				it { expect(subject.label).to be_eql(label)}
+				it { expect(subject.info).to be_eql(info)}				
+			end
+
 			context "without unit" do
 				let(:attrib){ {:nickname => nickname, :data => data, :error => error, :label => label, :info => info } }			
 				let(:data){ "12.3456" }
@@ -99,10 +116,10 @@ module Casteml
 				it { expect(subject.info).to be_eql(info)}				
 			end
 
-			context "without error", :current => true do
+			context "without error" do
 				let(:attrib){ {:nickname => nickname, :data => data, :unit => unit, :label => label, :info => info } }			
 				let(:data){ "33.3" }
-				let(:unit){ "cg/g" }
+				let(:unit){ "g/g" }
 				before do
 					puts data
 					puts subject.data_in_parts
@@ -110,7 +127,7 @@ module Casteml
 				it { expect(subject).to be_an_instance_of(Abundance) }
 				it { expect(subject.nickname).to be_eql(nickname) }
 				it { expect(subject.data).to be_eql(data) }
-				it { expect(subject.data_in_parts.to_s).to be_eql("0.333") }				
+				it { expect(subject.data_in_parts.to_s).to be_eql("33.3") }				
 				it { expect(subject.precision).to be_nil }				
 				it { expect(subject.unit).to be_eql(unit)}
 				it { expect(subject.label).to be_eql(label)}
