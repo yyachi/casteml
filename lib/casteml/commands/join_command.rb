@@ -2,7 +2,7 @@ require 'casteml/command'
 require 'casteml/formats/xml_format'
 class Casteml::Commands::JoinCommand < Casteml::Command
 	def initialize
-		super 'join', 'Join multiple pml-files'
+		super 'join', 'Merge multiple pmlfiles to a single pmlfile'
 
 		add_option('-o', '--outfile OUTPUTFILE',
 						'Specify output filename') do |v, options|
@@ -12,7 +12,7 @@ class Casteml::Commands::JoinCommand < Casteml::Command
 	end
 
 	def usage
-		"#{program_name} PMLFILES"
+		"#{program_name} file0 file1 [file2 ...] > outfile"
 	end
 	def arguments
 		"PMLFILES\t pmlfiles to be joined (ex; session-1.pml session-2.pml ... session-n.pml)"
@@ -20,15 +20,6 @@ class Casteml::Commands::JoinCommand < Casteml::Command
 
 	def description
 		<<-EOF
-NAME
-    #{program_name} -  Merge multiple pmlfiles to a single pmlfile.
-
-SYNOPSIS
-    #{program_name} [options] file0 file1 [file2 ...] > outfile
-
-DESCRIPTION
-    Merge multiple pmlfiles to a single pmlfile.
-
 EXAMPLE
 	$ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml > session.pml
 	$ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml -o session.pml
@@ -38,7 +29,7 @@ SEE ALSO
     split
 
 IMPLEMENTATION
-    Copyright (c) 2014 ISEI, Okayama University
+    Copyright (c) 2015 ISEI, Okayama University
     Licensed under the same terms as Ruby
 
 OPTIONS

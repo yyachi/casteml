@@ -2,7 +2,7 @@ require 'casteml/command'
 require 'casteml/formats/xml_format'
 class Casteml::Commands::SplitCommand < Casteml::Command
 	def initialize
-		super 'split', 'Split single pml-file'
+		super 'split', 'Split a single pmlfile into multiple pmlfiles'
 
 	end
 
@@ -15,15 +15,6 @@ class Casteml::Commands::SplitCommand < Casteml::Command
 
 	def description
 		<<-EOF
-NAME
-    #{program_name} -   Split a single pmlfile into multiple pmlfiles.
-
-SYNOPSIS
-    #{program_name} [options] file
-
-DESCRIPTION
-    Split a single pmlfile into multiple pmlfiles.
-
 EXAMPLE
 	$ casteml split session.pml
 	$ ls
@@ -34,7 +25,7 @@ SEE ALSO
     join
 
 IMPLEMENTATION
-    Copyright (c) 2014 ISEI, Okayama University
+    Copyright (c) 2015 ISEI, Okayama University
     Licensed under the same terms as Ruby
 
 OPTIONS

@@ -28,21 +28,6 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 
 	def description
 		<<-EOF
-NAME
-    #{program_name} -   Convert a {pml, csv, tsv} file to different format.
-
-SYNOPSIS
-    #{program_name} [options] filein
-
-OPTIONS
-    -f, --format        OUTPUTFORMAT: {pml, csv, tsv, org, isorg, tex, pdf}
-    -h, --help          Get help on this command
-    Below is only available when OUTPUTFORMAT is tex
-    -n, --number-format NUMBERFORMAT: {%.4g}
-
-DESCRIPTION
-    Convert a {pml, csv, tsv} file to different format.
-
 EXAMPLE
     $ casteml convert MY_RAT_REEONLY@150106.csv > MY_RAT_REEONLY@150106.pml
     $ ls
@@ -58,7 +43,7 @@ SEE ALSO
     casteml split
 
 IMPLEMENTATION
-    Copyright (c) 2014 ISEI, Okayama University
+    Copyright (c) 2015 ISEI, Okayama University
     Licensed under the same terms as Ruby
 
 EOF

@@ -8,7 +8,7 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 	attr_accessor :params
 	include Casteml::TexHelper
 	def initialize
-		super 'spots', 'Create latex spot from pml file'
+		super 'spots', 'Store pml spots info in tex file'
 
 	    @params = {
 	    	:image_width => 0.49, 
@@ -54,13 +54,6 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 
 	def description
 		<<-EOS
-NAME
-    #{program_name} -   Store pml spots info in tex file
-
-SYNOPSIS
-    #{program_name} [options] inputfile [abundance isotope]
-
-DESCRIPTION
     Store pml spots info in tex file.  To describe your spots, create
     a pml file with spots info by using Matlab-script spots.m as of
     April 3 (2014).  Creation of tex file of spots with number or
@@ -92,7 +85,7 @@ SEE ALSO
 
 IMPLEMENTATION
     Orochi, version 9
-    Copyright (C) 2014 Okayama University
+    Copyright (C) 2015 Okayama University
     License GPLv3+: GNU GPL version 3 or later
 
 EOS
