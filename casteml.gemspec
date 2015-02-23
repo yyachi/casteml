@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake", "~> 10.1.0"
   spec.add_development_dependency "rspec", "~> 3.0.0"
   spec.add_development_dependency "geminabox", "~> 0.12.4"
-  spec.add_development_dependency "simplecov", "~> 0.9.2"
+  spec.add_development_dependency "simplecov-rcov", "~> 0.2.3"
   spec.add_development_dependency "rspec_junit_formatter", "~> 0.2.0"
   #spec.add_development_dependency "ci_reporter_rspec", "~> 1.0.0"
   #spec.add_development_dependency "ci_reporter", "~> 2.0.0"
