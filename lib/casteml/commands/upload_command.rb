@@ -1,7 +1,7 @@
 require 'casteml/command'
 class Casteml::Commands::UploadCommand < Casteml::Command
 	def initialize
-		super 'upload', 'Upload pml-file'
+		super 'upload', 'Upload a pmlfile to Medusa 9'
 
 	end
 
@@ -14,13 +14,6 @@ class Casteml::Commands::UploadCommand < Casteml::Command
 
 	def description
 		<<-EOF
-NAME
-    #{program_name} -  Upload a pmlfile to Medusa 9.
-
-SYNOPSIS
-    #{program_name} [options] file
-
-DESCRIPTION
     Upload a pmlfile to Medusa 9.  Users are encoraged to call this
     program through `orochi-upload'.
 
@@ -44,7 +37,7 @@ SEE ALSO
     orochi-upload
 
 IMPLEMENTATION
-    Copyright (c) 2014 ISEI, Okayama University
+    Copyright (c) 2015 ISEI, Okayama University
     Licensed under the same terms as Ruby
 
 OPTIONS

@@ -3,7 +3,7 @@ require 'casteml'
 require 'casteml/formats/xml_format'
 class Casteml::Commands::DownloadCommand < Casteml::Command
 	def initialize
-		super 'download', 'Download pml-file'
+		super 'download', 'Download pmlfile from Medusa'
 
 		add_option('-f', '--format OUTPUTFORMAT',
 						'Specify output format (pml, csv, tsv, org, isorg, tex, pdf)') do |v, options|
@@ -22,29 +22,15 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 
 	def description
 		<<-EOS
-NAME
-    #{program_name} -    Download pml file from Medusa
-
-SYNOPSIS
-    #{program_name} [options] <STONE-/ANALYSIS-ID>
-
-OPTIONS
-    -f, --format        OUTPUTFORMAT: {pml, csv, tsv, org, isorg, tex, pdf}
-    -h, --help          Get help on this command
-    Below is only available when OUTPUTFORMAT is tex
-    -n, --number-format NUMBERFORMAT: {%.4g}
-
-DESCRIPTION
-    Download pml file from Medusa.
-
 EXAMPLE
     casteml download 20110518194205-602-801
+
 SEE ALSO
     http://dream.misasa.okayama-u.ac.jp
 
 IMPLEMENTATION
     Orochi, version 9
-    Copyright (C) 2014 Okayama University
+    Copyright (C) 2015 Okayama University
     License GPLv3+: GNU GPL version 3 or later
 
 EOS
