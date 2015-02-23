@@ -51,6 +51,18 @@ module Casteml
 			}
 		end
 
+		context "with cbk1.pml", :current => true do
+			subject { Casteml.convert_file(path) }
+			let(:path) { 'spec/fixtures/files/cbk1.pml'}
+			before do
+				puts subject
+			end
+			it {
+				expect(File.exist?(path)).to be_truthy
+				expect(subject).to be_an_instance_of(String)
+			}
+		end
+
 		context "with real file to output_format csv" do
 			subject { Casteml.convert_file(path, :output_format => output_format)}
 			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
@@ -232,7 +244,7 @@ module Casteml
 			allow(MedusaRestClient::Record).to receive(:download_one).and_return(pml)
 		end
 		it {
-			expect(MedusaRestClient::Record).to receive(:download_one).with({:from => "/records/#{id}/casteml"}).and_return(pml)
+			expect(MedusaRestClient::Record).to receive(:download_one).with({:from => "#{MedusaRestClient::Record.prefix}records/#{id}/casteml"}).and_return(pml)
 			subject
 		}
 		it {
