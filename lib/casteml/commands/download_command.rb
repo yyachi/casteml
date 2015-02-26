@@ -25,7 +25,9 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 EXAMPLE
     $ casteml download 20110518194205-602-801
     $
-    $ for i in `orochi-ls -R --id 20130528105235-594267`; do casteml download $i > $i.pml; done
+    $ mkdir chunk_CBK-1
+    $ cd chunk_CBK-1
+    $ for i in `orochi-ls --id -R 20130528105235-594267`; do casteml download $i > $i.pml; done
     $ casteml join *.pml > data-from-casteml.pml
     $ casteml convert data-from-casteml.pml -f csv > data-from-casteml.csv
 
