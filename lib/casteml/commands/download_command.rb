@@ -3,7 +3,7 @@ require 'casteml'
 require 'casteml/formats/xml_format'
 class Casteml::Commands::DownloadCommand < Casteml::Command
 	def initialize
-		super 'download', 'Download pmlfile from Medusa'
+		super 'download', 'Download casteml file from Medusa 9.  Prepare STONE-ID/ANALYSIS-ID with other tools.'
 
 		add_option('-f', '--format OUTPUTFORMAT',
 						'Specify output format (pml, csv, tsv, org, isorg, tex, pdf)') do |v, options|
@@ -17,15 +17,20 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 	end
 
 	def usage
-		"#{program_name} [options] <STONE-/ANALYSIS-ID>"
+		"#{program_name} [options] <STONE-ID/ANALYSIS-ID>"
 	end
 
 	def description
 		<<-EOS
 EXAMPLE
-    casteml download 20110518194205-602-801
+    $ casteml download 20110518194205-602-801
+    $
+    $ orochi-ls 20110518194205-602-801 -R --id > demo_casteml_download.sh
+    $ vi demo_casteml_download.sh
+    $ sh demo_casteml_download.sh
 
 SEE ALSO
+    orochi-ls
     http://dream.misasa.okayama-u.ac.jp
 
 IMPLEMENTATION
