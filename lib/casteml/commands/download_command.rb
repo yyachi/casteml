@@ -25,9 +25,9 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 EXAMPLE
     $ casteml download 20110518194205-602-801
     $
-    $ orochi-ls 20110518194205-602-801 -R --id > demo_casteml_download.sh
-    $ vi demo_casteml_download.sh
-    $ sh demo_casteml_download.sh
+    $ for i in `orochi-ls -R --id 20130528105235-594267`; do casteml download $i > $i.pml; done
+    $ casteml join *.pml > data-from-casteml.pml
+    $ casteml convert data-from-casteml.pml -f csv > data-from-casteml.csv
 
 SEE ALSO
     orochi-ls
