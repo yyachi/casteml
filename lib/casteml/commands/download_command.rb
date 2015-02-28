@@ -39,9 +39,6 @@ EXAMPLE
     $ cd chunk_CBK-1
     $ casteml download -r descendants 20130528105235-594267 > data-from-casteml.pml
     $ casteml convert data-from-casteml.pml -f csv > data-from-casteml.csv    
-    #$ for i in `orochi-ls --id -R 20130528105235-594267`; do casteml download $i > $i.pml; done
-    #$ casteml join *.pml > data-from-casteml.pml
-    #$ casteml convert data-from-casteml.pml -f csv > data-from-casteml.csv
 
 SEE ALSO
     orochi-ls
