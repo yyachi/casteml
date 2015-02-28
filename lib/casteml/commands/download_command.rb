@@ -37,7 +37,7 @@ EXAMPLE
     $
     $ mkdir chunk_CBK-1
     $ cd chunk_CBK-1
-    $ casteml download -r descendants 20130528105235-594267 > data-from-casteml.pml
+    $ casteml download -r 20130528105235-594267 > data-from-casteml.pml
     $ casteml convert data-from-casteml.pml -f csv > data-from-casteml.csv    
 
 SEE ALSO
