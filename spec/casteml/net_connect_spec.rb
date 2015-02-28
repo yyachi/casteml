@@ -5,6 +5,23 @@ module Casteml
 	@allow_net_connect = false
 	if @allow_net_connect
 		describe "with_net_connection" do
+			before do
+				MedusaRestClient.config = {'uri' => 'localhost:3000', 'user' => 'admin', 'password' => 'admin'}
+			end
+			describe Casteml, :current => true do
+				describe "get" do
+					let(:opts){{:recursive => :families}}
+					#let(:opts){{}}
+					let(:id){ '20130528105407-768847' }
+					it "should download" do
+						Casteml.download(id, opts)
+				    	path = Casteml.download(id, opts)
+				    	string = File.read(path)
+				    	#puts string
+				    	expect(string).to be_present
+					end
+				end
+			end
 			describe Acquisition do
 				describe "#save_remote" do
 					subject{ acquisition.save_remote }
@@ -148,6 +165,9 @@ module Casteml
 				end
 
 			end
+			after do
+				MedusaRestClient.config = nil			
+			end			
 		end
 	end
 end

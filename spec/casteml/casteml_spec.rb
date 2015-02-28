@@ -39,7 +39,7 @@ module Casteml
 
 		end
 
-		context "with to_int_ok10cb@1.pml", :current => true do
+		context "with to_int_ok10cb@1.pml" do
 			subject { Casteml.convert_file(path) }
 			let(:path) { 'spec/fixtures/files/to_int_ok10cb@1.pml'}
 			before do
@@ -51,7 +51,7 @@ module Casteml
 			}
 		end
 
-		context "with cbk1.pml", :current => true do
+		context "with cbk1.pml" do
 			subject { Casteml.convert_file(path) }
 			let(:path) { 'spec/fixtures/files/cbk1.pml'}
 			before do
@@ -235,21 +235,38 @@ module Casteml
 
 	end
 
-	describe ".get" do
+	describe ".get", :current => true do
 		subject { Casteml.get(id, opts) }
 		let(:id) { '0000-001' }
 		let(:pml) { File.read("spec/fixtures/files/my-great.pml") }
 		let(:opts){ {} }
 		before do
+			
 			allow(MedusaRestClient::Record).to receive(:download_one).and_return(pml)
 		end
 		it {
-			expect(MedusaRestClient::Record).to receive(:download_one).with({:from => "#{MedusaRestClient::Record.prefix}records/#{id}/casteml"}).and_return(pml)
+			expect(MedusaRestClient::Record).to receive(:download_one).with({:from => "#{MedusaRestClient::Record.prefix}records/#{id}.pml", :params => {}}).and_return(pml)
 			subject
 		}
 		it {
 			expect(subject).to be_eql(pml)
 		}
+		context "with options {:recursive => :descendants}" do
+			let(:opts) { {:recursive => :descendants} }
+			it {
+				expect(MedusaRestClient::Record).to receive(:download_one).with({:from => "#{MedusaRestClient::Record.prefix}records/#{id}/descendants.pml", :params => {}}).and_return(pml)
+				subject
+			}
+
+		end
+		context "with options {:recursive => :families}" do
+			let(:opts) { {:recursive => :families} }
+			it {
+				expect(MedusaRestClient::Record).to receive(:download_one).with({:from => "#{MedusaRestClient::Record.prefix}records/#{id}/families.pml", :params => {}}).and_return(pml)
+				subject
+			}
+		end
+
 	end
 
 	describe ".download" do

@@ -1,11 +1,13 @@
 require "casteml/version"
 require 'casteml/exceptions'
 require 'tempfile'
+#require 'medusa_rest_client'
+
 #require 'casteml/acquisition'
 #require 'casteml/formats/xml_format'
 #require 'casteml/formats/csv_format'
 #require 'casteml/formats/tex_format'
-
+autoload(:MedusaRestClient, 'medusa_rest_client.rb')
 module Casteml
   autoload(:Acquisition, 'casteml/acquisition.rb')
   module Casteml::Formats
@@ -130,8 +132,17 @@ module Casteml
   end
 
   def self.get(id, opts = {})
-    require 'medusa_rest_client'
-    MedusaRestClient::Record.download_one(:from => MedusaRestClient::Record.casteml_path(id))
+    #require 'medusa_rest_client'
+    #path = MedusaRestClient::Record.casteml_path(id)
+    path = MedusaRestClient::Record.element_path(id)
+    dirname = File.dirname(path)
+    basename = File.basename(path, ".*")
+    ext = File.extname(path)
+    path = "#{dirname}/#{basename}"
+    recursive = opts.delete(:recursive)
+    path += "/#{recursive}" if recursive
+    path += ".pml"
+    MedusaRestClient::Record.download_one(:from => path, :params => opts)
   end
 
   def self.download(id, opts = {})

@@ -10,6 +10,16 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 			options[:output_format] = v.to_sym
 		end
 
+		add_option('-r', '--recursive', 
+						'Output descendants analyses together') do |v|
+			options[:recursive] = :descendants
+		end
+
+		add_option('-R', '--Recursive', 
+						'Output families analyses together') do |v|
+			options[:recursive] = :families
+		end
+
 		add_option('-n', '--number-format NUMBERFORMAT',
 						'Specify number format (%.4g)') do |v, options|
 			options[:number_format] = v
@@ -27,9 +37,11 @@ EXAMPLE
     $
     $ mkdir chunk_CBK-1
     $ cd chunk_CBK-1
-    $ for i in `orochi-ls --id -R 20130528105235-594267`; do casteml download $i > $i.pml; done
-    $ casteml join *.pml > data-from-casteml.pml
-    $ casteml convert data-from-casteml.pml -f csv > data-from-casteml.csv
+    $ casteml download -r descendants 20130528105235-594267 > data-from-casteml.pml
+    $ casteml convert data-from-casteml.pml -f csv > data-from-casteml.csv    
+    #$ for i in `orochi-ls --id -R 20130528105235-594267`; do casteml download $i > $i.pml; done
+    #$ casteml join *.pml > data-from-casteml.pml
+    #$ casteml convert data-from-casteml.pml -f csv > data-from-casteml.csv
 
 SEE ALSO
     orochi-ls
@@ -49,9 +61,9 @@ EOS
 		args = options.delete(:args)
 		raise OptionParser::InvalidArgument.new('specify stone-ID or analysis-ID') if args.empty?
 		id = args.shift
-    	#pml = Casteml.get(id, options)
-    	opts = {}
-    	path = Casteml.download(id, opts)
+		options_download = {}
+		options_download[:recursive] = options[:recursive] if options[:recursive]
+    	path = Casteml.download(id, options_download)
     	string = File.read(path)
     	if options[:output_format]
 	    	string = Casteml.encode(Casteml::Formats::XmlFormat.decode_string(string), options)

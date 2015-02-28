@@ -44,21 +44,36 @@ module Casteml::Commands
 					expect(Casteml).to receive(:download).with(id, {}).and_return(path)
 					cmd.invoke_with_build_args args, build_args
 				end
-				context "with -f csv", :current => true do
+				context "with -f csv" do
 					let(:args){ [id, '-f', 'csv']}
 					it "calls download with id" do
 						cmd.invoke_with_build_args args, build_args
 					end
 
 				end
-				context "with -f tex", :current => true do
+				context "with -f tex" do
 					let(:args){ [id, '-f', 'tex']}
 					it "calls download with id" do
 						cmd.invoke_with_build_args args, build_args
 					end
-
 				end
 
+				context "with -r", :current => true do
+					let(:args){ [id, '-r']}
+					it "calls download with id" do
+						expect(Casteml).to receive(:download).with(id, {:recursive => :descendants}).and_return(path)
+						cmd.invoke_with_build_args args, build_args
+					end
+				end
+
+
+				context "with -R", :current => true do
+					let(:args){ [id, '-R']}
+					it "calls download with id" do
+						expect(Casteml).to receive(:download).with(id, {:recursive => :families}).and_return(path)
+						cmd.invoke_with_build_args args, build_args
+					end
+				end
 			end
 
 		end		
