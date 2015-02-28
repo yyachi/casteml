@@ -5,9 +5,9 @@ module Casteml::Formats
 		describe ".to_string" do
 			subject { CsvFormat.to_string(data) }
 			let(:org_string){ <<-EOF
-ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g)
-,test-1,sample-1,12.4,2.4,3.4
-,test-2,sample-2,34.5,,4.5
+ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error,Li_error
+,test-1,sample-1,12.4,2.4,3.4,0.9,0.2,0.01
+,test-2,sample-2,34.5,,4.5,,,
 					EOF
 			}
 			let(:data){ CsvFormat.decode_string(org_string) }
@@ -38,6 +38,14 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g)
 			context "with opts" do
 				subject { CsvFormat.to_string(data, opts) }
 				let(:opts){ {:col_sep => "\t" } }
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+
+			context "with opts {:without_error => true, :without_unit => true}", :current => true do
+				subject { CsvFormat.to_string(data, opts) }
+				let(:opts){ {:without_error => true, :without_unit => true } }
 				it {
 					expect(subject).to be_an_instance_of(String)
 				}
@@ -134,7 +142,7 @@ ID,session,sample_name,SiO2 (cg/g)
 			end
 		end
 
-		describe ".org2csv", :current => true do
+		describe ".org2csv" do
 			subject { CsvFormat.org2csv(string) }
 			context "with normal table" do
 				let(:string){ <<-EOF
@@ -160,7 +168,7 @@ ID,session,sample_name,SiO2 (cg/g)
 				it { expect(subject).to be_truthy }
 			end
 		end
-		describe ".org_mode?", :current => true do
+		describe ".org_mode?" do
 			subject { CsvFormat.org_mode?(string) }
 			context "with normal table" do
 				let(:string){ <<-EOF
@@ -328,7 +336,7 @@ ID\tsession\ttechnique
 				it { expect(subject[0]).to include("technique" => "EPMA") }
 			end
 
-			context "with org_mode", :current => true do
+			context "with org_mode" do
 				let(:string){ <<-EOF
 +TBLNAME: casteml
 |ID|session|technique|
@@ -341,7 +349,7 @@ ID\tsession\ttechnique
 				it { expect(subject[0]).to include("technique" => "EPMA") }
 			end
 
-			context "with tab inserted org_mode", :current => true do
+			context "with tab inserted org_mode" do
 				let(:string){ <<-EOF
 +TBLNAME: casteml
 | 	ID 	|	session 	|	technique 	|

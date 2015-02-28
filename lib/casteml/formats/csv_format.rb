@@ -73,6 +73,10 @@ module Casteml::Formats
 				array_of_spot << ( spot_attrib ? spot_attrib : nil )
 				array_of_abundances << ( abundances ? abundances.map{|ab| Casteml::Abundance.new(ab) } : nil )
 			end
+
+			without_error = opts.delete(:without_error)
+			without_unit = opts.delete(:without_unit)
+			without_spot = opts.delete(:without_spot)
 			#array_of_spot.compact!
 			#array_of_abundances.compact!
 
@@ -105,7 +109,11 @@ module Casteml::Formats
 			nicknames_with_unit = []
 			nicknames.each_with_index do |nickname, idx|
 				unit = array_of_units[idx]
-				nicknames_with_unit << [(unit ? "#{nickname} (#{unit})" : nickname), "#{nickname}_error"]
+				if without_error
+					nicknames_with_unit << (unit ? "#{nickname} (#{unit})" : nickname)
+				else
+					nicknames_with_unit << [(unit ? "#{nickname} (#{unit})" : nickname), "#{nickname}_error"]
+				end
 			end
 
 			array_of_data = []
@@ -117,7 +125,11 @@ module Casteml::Formats
 						unit = array_of_units[idx]
 						number = array_of_numbers[i][idx]
 						error_number = array_of_error_numbers[i][idx]
-						data[idx] = [(number ? number_to(number, unit) : nil), (error_number ? number_to(error_number, unit) : nil)]
+						if without_error
+							data[idx] = (number ? number_to(number, unit) : nil)
+						else
+							data[idx] = [(number ? number_to(number, unit) : nil), (error_number ? number_to(error_number, unit) : nil)]
+						end
 					end
 				end
 				array_of_data << data
@@ -138,13 +150,17 @@ module Casteml::Formats
 
 
 			column_names = hashs.first.keys
-			column_names.concat(spot_methods)
-			column_names.concat(nicknames_with_unit.flatten)
+			column_names.concat(spot_methods) unless without_spot
+			if without_unit
+				column_names.concat(nicknames.flatten)				
+			else
+				column_names.concat(nicknames_with_unit.flatten)
+			end
 			string = CSV.generate("", opts) do |csv|
 				csv << column_names
 				hashs.each_with_index do |h, idx|
 					row = h.values
-					row.concat(array_of_spot_data[idx])
+					row.concat(array_of_spot_data[idx]) unless without_spot
 					row.concat(array_of_data[idx].flatten)
 					csv << row
 				end

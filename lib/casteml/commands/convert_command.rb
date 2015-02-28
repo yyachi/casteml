@@ -2,10 +2,10 @@ require 'casteml'
 require 'casteml/command'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', 'Convert a {pml, csv, tsv, org, isorg} file to different format.'
+		super 'convert', 'Convert a {pml, csv, tsv, org, isorg, tex, pdf, dataframe} file to different format.'
 
 		add_option('-f', '--format OUTPUTFORMAT',
-						'Specify output format (pml, csv, tsv, org, isorg, tex, pdf)') do |v, options|
+						'Specify output format (pml, csv, tsv, org, isorg, tex, pdf, dataframe)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
 

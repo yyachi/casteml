@@ -63,6 +63,27 @@ module Casteml
 			}
 		end
 
+		context "with real file to output_format dataframe", :current => true do
+			subject { Casteml.convert_file(path, :output_format => output_format)}
+			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
+			let(:output_format){ :dataframe }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+				puts subject
+				File.open(output_path, "w") do |out|
+					out.puts subject
+				end
+			end
+			context "data-from-casteml.csv" do
+				let(:path){'tmp/data-from-casteml.csv'}
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+
+		end
+
 		context "with real file to output_format csv" do
 			subject { Casteml.convert_file(path, :output_format => output_format)}
 			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
@@ -235,13 +256,13 @@ module Casteml
 
 	end
 
-	describe ".get", :current => true do
+	describe ".get" do
 		subject { Casteml.get(id, opts) }
 		let(:id) { '0000-001' }
 		let(:pml) { File.read("spec/fixtures/files/my-great.pml") }
 		let(:opts){ {} }
 		before do
-			
+
 			allow(MedusaRestClient::Record).to receive(:download_one).and_return(pml)
 		end
 		it {

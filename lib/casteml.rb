@@ -65,13 +65,29 @@ module Casteml
       string = Formats::CsvFormat.to_string(data, opts)
     when :tsv
       string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "\t"))
+    when :dataframe
+      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => true, :without_unit => true, :without_spot => true))
+      string = Formats::CsvFormat.transpose(string)
+      string.sub!(/session/,"element")
+      string.gsub!(/global\_id.*\n/,"")
+      string.gsub!(/device.*\n/,"")
+      string.gsub!(/instrument.*\n/,"")
+      string.gsub!(/analyst.*\n/,"")
+      string.gsub!(/bib-ID.*\n/,"")
+      string.gsub!(/stone-ID.*\n/,"")
+      string.gsub!(/technique.*\n/,"")
+      string.gsub!(/operator.*\n/,"")
+      string.gsub!(/sample_name.*\n/,"")
+      string.gsub!(/sample_description.*\n/,"")
+
+
+
     when :org, :isorg, :isoorg
       string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "|")).gsub(/^/,"|").gsub(/\n/,"|\n")
       lines = string.split("\n")
       lines.insert(1,"|-")
       lines.unshift "+TBLNAME: casteml"
       string = lines.join("\n")
-
     when :tex
       string = Formats::TexFormat.to_string(data, opts)
     when :pdf
