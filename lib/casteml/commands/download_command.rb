@@ -11,12 +11,12 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 		end
 
 		add_option('-r', '--recursive', 
-						'Output descendants analyses together') do |v|
+						'Output descendants analyses together (for STONE-ID only)') do |v|
 			options[:recursive] = :descendants
 		end
 
 		add_option('-R', '--Recursive', 
-						'Output families analyses together') do |v|
+						'Output families analyses together (for STONE-ID only)') do |v|
 			options[:recursive] = :families
 		end
 
