@@ -47,7 +47,6 @@ module Casteml::Commands
 
 				it "does something" do
 					expect(Casteml).to receive(:exec_command).with("R --vanilla --slave < #{plotfile}")
-					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
 					cmd.invoke_with_build_args args, build_args
 				end
 			end			

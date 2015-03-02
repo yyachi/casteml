@@ -184,6 +184,10 @@ module Casteml
     path    
   end
 
+  def self.exec_command(command)
+    exec(command)
+  end
+
   def self.decode_file(path)
     case File.extname(path)
     when ".pml"
