@@ -198,10 +198,10 @@ module Casteml::Commands
 				end
 			end
 
-			context "with format dataframe" do
-				let(:path){ 'tmp/20130528105235-594267-r.pml'}
-				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
-				let(:args){ ['-f', 'dataframe', path]}
+			context "with format dataframe", :current => true do
+				let(:path){ 'tmp/20130704180915-127898.pml'}
+				#let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:args){ ['-f', 'dataframe', '-c', 'trace', path]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
@@ -213,8 +213,8 @@ module Casteml::Commands
 				end
 			end
 
-			context "with category trace" do
-				let(:path){ 'tmp/20130528105235-594267-r.pml'}
+			context "with category trace", :current => false do
+				let(:path){ 'tmp/20130704180915-127898.pml'}
 				#let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-c', 'trace', path]}
 				before(:each) do

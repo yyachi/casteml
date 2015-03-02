@@ -62,7 +62,6 @@ module Casteml
       end
       opts.merge!(:with_nicknames => category.nicknames) if category && category.nicknames
     end
-
     string = encode(decode_file(path), opts)
   end
 
@@ -77,7 +76,7 @@ module Casteml
     when :tsv
       string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "\t"))
     when :dataframe
-      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => true, :with_unit => :parts, :without_spot => true))
+      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => true, :without_spot => true))
       string = Formats::CsvFormat.transpose(string)
       #puts string
       string.gsub!(/\s\(.*\)/,"")

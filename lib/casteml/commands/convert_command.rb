@@ -64,7 +64,6 @@ EOF
 		raise OptionParser::InvalidArgument.new('specify FILE') if args.empty?
     	path = args.shift
 
-
     	string = Casteml.convert_file(path, options)
     	puts string
     	#xml = Casteml::Format::XmlFormat.from_array(data)
