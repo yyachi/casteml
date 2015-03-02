@@ -3,7 +3,7 @@ require 'casteml'
 require 'casteml/formats/xml_format'
 class Casteml::Commands::DownloadCommand < Casteml::Command
 	def initialize
-		super 'download', 'Download casteml file from Medusa 9.  Prepare STONE-ID/ANALYSIS-ID with other tools.'
+		super 'download', 'Download casteml file from Medusa 9.'
 
 		add_option('-f', '--format OUTPUTFORMAT',
 						'Specify output format (pml, csv, tsv, org, isorg, tex, pdf)') do |v, options|
@@ -11,12 +11,12 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 		end
 
 		add_option('-r', '--recursive', 
-						'Output descendants analyses together (for STONE-ID only)') do |v|
+						'Have analyses with descendants of a stone') do |v|
 			options[:recursive] = :descendants
 		end
 
 		add_option('-R', '--Recursive', 
-						'Output families analyses together (for STONE-ID only)') do |v|
+						'Have analyses with a whole family of a stone') do |v|
 			options[:recursive] = :families
 		end
 
@@ -35,13 +35,11 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 EXAMPLE
     $ casteml download 20110518194205-602-801
     $
-    $ mkdir chunk_CBK-1
-    $ cd chunk_CBK-1
-    $ casteml download -r 20130528105235-594267 > data-from-casteml.pml
-    $ casteml convert data-from-casteml.pml -f csv > data-from-casteml.csv    
+    $ casteml download -r 20130528105235-594267 > download.pml
+    $ casteml convert download.pml -f csv > data-from-casteml.csv    
 
 SEE ALSO
-    orochi-ls
+    casteml convert
     http://dream.misasa.okayama-u.ac.jp
 
 IMPLEMENTATION
