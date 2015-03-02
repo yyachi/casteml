@@ -36,7 +36,7 @@ module Casteml::Commands
 			end
 
 			context "without options" do
-				let(:path){ 'tmp/20130528105235-594267-r.pml'}
+				let(:path){ 'tmp/20130528105235-594267-R.pml'}
 				let(:plotfile){ File.basename(path,".*") + '.R'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ [path]}

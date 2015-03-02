@@ -33,7 +33,7 @@ xxx_ree   <- tbl_ree$Z
 <% if regexp -%>
 tll_ree1  <- tbl_ree[grep(regexp,names(tbl_ree))] # extract certain dataset
 <% else -%>
-tll_ree1  <- subset(tbl_ree, select = c(-element,-Z,-volatii,-compati))
+tll_ree1  <- subset(tbl_ree, select = c(-element,-Z,-volatii,-compati,-ref))
 <% end %>
 tll_ree2  <- tll_ree1 / tbl_ree$ref
 ### SPIDER TRACE
@@ -47,7 +47,7 @@ if (acq == "5f") {
 <% if regexp -%>
 tll2      <- tbl[grep(regexp,names(tbl))] # extract certain dataset
 <% else -%>
-tll2      <- subset(tbl, select = c(-element,-Z,-volatii,-compati))
+tll2      <- subset(tbl, select = c(-element,-Z,-volatii,-compati,-ref))
 <% end -%>
 tll3      <- tll2 / tbl$ref
 col2      <- rainbow(ncol(tll_ree2))
