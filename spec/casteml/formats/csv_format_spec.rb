@@ -43,9 +43,9 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 				}
 			end
 
-			context "with opts {:without_error => true, :without_unit => true}", :current => true do
+			context "with opts {:without_error => true, :with_unit => g/g}" do
 				subject { CsvFormat.to_string(data, opts) }
-				let(:opts){ {:without_error => true, :without_unit => true } }
+				let(:opts){ {:without_error => true, :with_unit => "g/g" } }
 				it {
 					expect(subject).to be_an_instance_of(String)
 				}
