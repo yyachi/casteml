@@ -64,7 +64,7 @@ module Casteml
 		end
 
 		context "with real file to output_format dataframe", :current => true do
-			subject { Casteml.convert_file(path, :output_format => output_format)}
+			subject { Casteml.convert_file(path, :output_format => output_format, :category => 'trace')}
 			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
 			let(:output_format){ :dataframe }
 			before do

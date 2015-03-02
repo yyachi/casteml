@@ -17,6 +17,7 @@ module Casteml
   end
   autoload(:Unit, 'casteml/unit.rb')
   autoload(:MeasurementItem, 'casteml/measurement_item.rb')
+  autoload(:MeasurementCategory, 'casteml/measurement_category.rb')
 
   # Your code goes here
   #REMOTE_DUMP_DIR = 'remote_dump'
@@ -50,6 +51,16 @@ module Casteml
 
     if opts[:output_format] == :tex
       opts[:number_format] = options[:number_format] || "%.4g"
+    end
+
+    category_name = options.delete(:with_category)
+    if category_name
+      category = MeasurementCategory.find_by_name(category_name)
+      if category.unit_name
+        unit = Unit.find_by_name(category.unit_name)
+        opts.merge!(:with_unit => (unit && unit.text ? unit.text : category.unit_name))
+      end
+      opts.merge!(:with_nicknames => category.nicknames) if category && category.nicknames
     end
 
     string = encode(decode_file(path), opts)

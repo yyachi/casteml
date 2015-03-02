@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'casteml/measurement_item'
+require 'casteml'
 module Casteml
 	describe MeasurementItem do
 		let(:klass){ MeasurementItem }
@@ -15,6 +16,17 @@ module Casteml
 		end
 
 		describe ".record_pool", :current => true do
+			subject { klass.record_pool }
+			before do
+				p subject
+			end
+			it {
+				expect(subject).to be_present
+			}
+		end
+
+
+		describe ".record_pool", :current => false do
 			subject { klass.record_pool }
 			let(:name){ 'deleteme-1' }
 			before do

@@ -69,6 +69,11 @@ module Casteml::Formats
 			unit = number_to_unit(number, :units => default_units ) if number
 		end
 
+		def self.nicknames_from_array_of_abundances(array_of_abundances)
+			array_of_nicknames = array_of_abundances.compact.map{|abundances| abundances.map{|abundance| abundance.nickname }}
+			nicknames = array_of_nicknames.flatten.uniq			
+		end
+
 		def self.to_string(hashs, opts = {})
 			array_of_abundances = []
 			array_of_spot = []
@@ -83,11 +88,16 @@ module Casteml::Formats
 			without_error = opts.delete(:without_error)
 			with_unit = opts.delete(:with_unit)
 			without_spot = opts.delete(:without_spot)
+			with_nicknames = opts.delete(:with_nicknames)
 			#array_of_spot.compact!
 			#array_of_abundances.compact!
-
-			array_of_nicknames = array_of_abundances.compact.map{|abundances| abundances.map{|abundance| abundance.nickname }}
-			nicknames = array_of_nicknames.flatten.uniq
+			if with_nicknames
+				nicknames = with_nicknames
+			else
+				nicknames = nicknames_from_array_of_abundances(array_of_abundances)
+				# array_of_nicknames = array_of_abundances.compact.map{|abundances| abundances.map{|abundance| abundance.nickname }}
+				# nicknames = array_of_nicknames.flatten.uniq
+			end
 
 			array_of_numbers = []
 			array_of_error_numbers = []
@@ -97,8 +107,10 @@ module Casteml::Formats
 				if abundances
 					abundances.each do |ab|
 						idx = nicknames.index{|elem| elem == ab.nickname}
-						numbers[idx] = ab.data_in_parts
-						error_numbers[idx] = ab.error_in_parts
+						if idx
+							numbers[idx] = ab.data_in_parts
+							error_numbers[idx] = ab.error_in_parts
+						end
 					end
 				end
 				array_of_numbers << numbers
@@ -131,16 +143,13 @@ module Casteml::Formats
 				if abundances
 					abundances.each_with_index do |ab, j|
 						idx = nicknames.index{|elem| elem == ab.nickname}
-						unit = array_of_units[idx]
-						number = array_of_numbers[i][idx]
-						error_number = array_of_error_numbers[i][idx]
-						values[idx] = (number ? number_to(number, unit) : nil)
-						errors[idx] = (error_number ? number_to(error_number, unit) : nil)
-						# if without_error
-						# 	data[idx] = (number ? number_to(number, unit) : nil)
-						# else
-						# 	data[idx] = [(number ? number_to(number, unit) : nil), (error_number ? number_to(error_number, unit) : nil)]
-						# end
+						if idx
+							unit = array_of_units[idx]
+							number = array_of_numbers[i][idx]
+							error_number = array_of_error_numbers[i][idx]
+							values[idx] = (number ? number_to(number, unit) : nil)
+							errors[idx] = (error_number ? number_to(error_number, unit) : nil)
+						end
 					end
 				end
 				if without_error

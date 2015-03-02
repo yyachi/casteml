@@ -1,5 +1,6 @@
 require 'casteml'
 require 'casteml/command'
+require 'casteml/measurement_category'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
 		super 'convert', 'Convert a {pml, csv, tsv, org, isorg, tex, pdf, dataframe} file to different format.'
@@ -12,6 +13,12 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		add_option('-n', '--number-format NUMBERFORMAT',
 						'Specify number format (%.4g)') do |v, options|
 			options[:number_format] = v
+		end
+		#MeasurementCategory.find_all
+		category_names = Casteml::MeasurementCategory.find_all.map{|category| "'" + category.name + "'"}
+		add_option('-c', '--category CATEGORY',
+						"Specify measurment category (#{category_names.join(', ')})") do |v, options|
+			options[:with_category] = v
 		end
 
 		# add_option('-d', '--debug', 'Show debug information') do |v|
@@ -56,7 +63,6 @@ EOF
 		args = options.delete(:args)
 		raise OptionParser::InvalidArgument.new('specify FILE') if args.empty?
     	path = args.shift
-
 
 
     	string = Casteml.convert_file(path, options)

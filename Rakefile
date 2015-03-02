@@ -2,7 +2,7 @@ require "bundler/gem_tasks"
 require 'casteml'
 require 'medusa_rest_client'
 namespace :remote_dump do
-  klasses = [Casteml::Unit, Casteml::MeasurementItem]
+  klasses = [Casteml::Unit, Casteml::MeasurementItem, Casteml::MeasurementCategory]
   desc "clear local-data"
   task :clear do |task, args|
     klasses.each do |klass|
@@ -20,7 +20,7 @@ namespace :remote_dump do
   	  	dump_path = klass.dump_path
     	puts "#{dump_path} is generating..."
     	klass.dump_all
-	end
+	  end
   end
 
 end

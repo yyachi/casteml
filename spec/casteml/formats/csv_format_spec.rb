@@ -51,6 +51,14 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 				}
 			end
 
+			context "with opts {:with_nicknames => ['SiO2', 'TiO2', 'Al2O3']}", :current => true do
+				subject { CsvFormat.to_string(data, opts) }
+				let(:opts){ {:with_nicknames => %w(SiO2 TiO2 Al2O3) } }
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+
 			context "with spot" do
 				let(:org_string){ <<-EOF
 	ID,session,sample_name,spot_x_image,spot_y_image

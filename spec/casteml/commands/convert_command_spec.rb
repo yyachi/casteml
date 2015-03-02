@@ -198,10 +198,25 @@ module Casteml::Commands
 				end
 			end
 
-			context "with format dataframe", :current => true do
+			context "with format dataframe" do
 				let(:path){ 'tmp/20130528105235-594267-r.pml'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'dataframe', path]}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+
+				it "calls Casteml.decode_file with path" do
+					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
+					cmd.invoke_with_build_args args, build_args
+				end
+			end
+
+			context "with category trace", :current => true do
+				let(:path){ 'tmp/20130528105235-594267-r.pml'}
+				#let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:args){ ['-c', 'trace', path]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
