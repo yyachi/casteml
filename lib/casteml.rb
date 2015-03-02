@@ -71,6 +71,7 @@ module Casteml
       #puts string
       string.gsub!(/\s\(.*\)/,"")
       string.sub!(/session/,"element")
+      string.sub!(/name/,"element")
       string.gsub!(/global\_id.*\n/,"")
       string.gsub!(/device.*\n/,"")
       string.gsub!(/instrument.*\n/,"")
@@ -81,7 +82,7 @@ module Casteml
       string.gsub!(/operator.*\n/,"")
       string.gsub!(/sample_name.*\n/,"")
       string.gsub!(/sample_description.*\n/,"")
-      puts string
+      #puts string
 
 
     when :org, :isorg, :isoorg
