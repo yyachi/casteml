@@ -76,7 +76,7 @@ module Casteml
     when :tsv
       string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "\t"))
     when :dataframe
-      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => true, :without_spot => true))
+      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => true, :without_spot => true, :omit_null => true))
       string = Formats::CsvFormat.transpose(string)
       #puts string
       string.gsub!(/\s\(.*\)/,"")

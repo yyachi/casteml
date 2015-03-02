@@ -200,20 +200,32 @@ module Casteml::Commands
 
 			context "with format dataframe", :current => true do
 				let(:path){ 'tmp/20130704180915-127898.pml'}
-				#let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'dataframe', '-c', 'trace', path]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
+					allow(Casteml).to receive(:decode_file).with(path).and_return(instance)
 				end
 
-				it "calls Casteml.decode_file with path" do
-					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
+				it "calls Casteml.convert_file with path and options" do
+					expect(Casteml).to receive(:convert_file).with(path, :output_format => :dataframe, :with_category => "trace")
 					cmd.invoke_with_build_args args, build_args
 				end
+
+				it "calls Casteml.encode with array and options" do
+					expect(Casteml).to receive(:encode).with(instance, :output_format => :dataframe, :with_unit => "ug/g", :with_nicknames => Casteml::MeasurementCategory.find_by_name("trace").nicknames)
+					cmd.invoke_with_build_args args, build_args
+				end
+
+				it "calls Casteml::Formats::CsvFormat.encode with array and options" do
+					expect(Casteml::Formats::CsvFormat).to receive(:to_string).with(instance, :omit_null => true, :without_error => true, :without_spot => true, :with_unit => "ug/g", :with_nicknames => Casteml::MeasurementCategory.find_by_name("trace").nicknames)
+					cmd.invoke_with_build_args args, build_args
+				end
+
 			end
 
-			context "with category trace", :current => false do
+			context "with category trace" do
 				let(:path){ 'tmp/20130704180915-127898.pml'}
 				#let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-c', 'trace', path]}

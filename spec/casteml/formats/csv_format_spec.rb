@@ -35,6 +35,25 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 				}
 			end
 
+			context "with omit_null" do
+				subject { CsvFormat.to_string(data, opts) }
+				let(:data){
+					[
+						{:session => 1, :abundances => [{:nickname => 'B', :data => '12.345', :unit => 'ug/g'},{:nickname => 'Lu', :data => '1.345', :unit => 'ug/g'}]},
+						{:session => 2, :abundances => [{:nickname => 'SiO2', :data => '14.345', :unit => 'cg/g'},{:nickname => 'Li', :data => '0.00000001245', :unit => 'cg/g'}]},						
+						{:session => 3, :abundances => [{:nickname => 'Si', :data => '0.15345'},{:nickname => 'Lu', :data => '1.145', :unit => 'ug/g'}]},
+					]
+				}
+				let(:opts){ {:with_nicknames => %w(Lu Ba B), :omit_null => true} }
+				before do
+					puts subject
+				end
+				it {
+					expect(subject).to be_an_instance_of(String)
+					expect(subject.split("\n").count).to be_eql(3)
+				}
+			end
+
 			context "with opts" do
 				subject { CsvFormat.to_string(data, opts) }
 				let(:opts){ {:col_sep => "\t" } }
@@ -51,7 +70,7 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 				}
 			end
 
-			context "with opts {:with_nicknames => ['SiO2', 'TiO2', 'Al2O3']}", :current => true do
+			context "with opts {:with_nicknames => ['SiO2', 'TiO2', 'Al2O3']}" do
 				subject { CsvFormat.to_string(data, opts) }
 				let(:opts){ {:with_nicknames => %w(SiO2 TiO2 Al2O3) } }
 				it {

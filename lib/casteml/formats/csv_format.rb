@@ -89,6 +89,7 @@ module Casteml::Formats
 			with_unit = opts.delete(:with_unit)
 			without_spot = opts.delete(:without_spot)
 			with_nicknames = opts.delete(:with_nicknames)
+			omit_null = opts.delete(:omit_null)
 			#array_of_spot.compact!
 			#array_of_abundances.compact!
 			if with_nicknames
@@ -173,6 +174,13 @@ module Casteml::Formats
 			end
 
 
+			if omit_null
+				omit_ids = []
+				array_of_data.each_with_index do |data, idx|
+					omit_ids << idx if data.flatten.none?
+				end
+			end
+
 			column_names = hashs.first.keys
 			column_names.concat(spot_methods) unless without_spot
 			column_names.concat(nicknames_with_unit.flatten)
@@ -180,6 +188,7 @@ module Casteml::Formats
 			string = CSV.generate("", opts) do |csv|
 				csv << column_names
 				hashs.each_with_index do |h, idx|
+					next if omit_null && omit_ids.include?(idx)
 					row = h.values
 					row.concat(array_of_spot_data[idx]) unless without_spot
 					row.concat(array_of_data[idx].flatten)
