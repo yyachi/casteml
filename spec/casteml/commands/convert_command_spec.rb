@@ -213,7 +213,7 @@ module Casteml::Commands
 				end
 			end
 
-			context "with category trace", :current => true do
+			context "with category trace" do
 				let(:path){ 'tmp/20130528105235-594267-r.pml'}
 				#let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-c', 'trace', path]}

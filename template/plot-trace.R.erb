@@ -1,11 +1,5 @@
-args <- commandArgs(trailingOnly = T)
-if(length(args) != 2) { # check number of args
- write("Error: commandline arguments for <infile> <outfile> is required", stderr())
- write("Usage: R --vanilla --slave --args data.csv plot.pdf < plot-trac.R", stderr())
- q() #finish
-}
-input = args[1]
-output = args[2]
+input = "<%= File.basename(dataframe_path,'*') -%>"
+output = "<%= File.basename(output_path,'*') -%>"
 pdf(output)
 tbl0 <- read.csv(input,header=T,stringsAsFactors=F)
 
@@ -28,13 +22,19 @@ tbl0[tbl0 == 0] <- NA
 ### REE AND SPIDER
 #######################################
 tbl       <- tbl0
-regexp    <- "CBK"
-acq       <- "5f" # 5f or ICP-MS
+<% if regexp %>
+regexp    <- "<%= regexp -%>"
+<% end %>
+acq       <- "<%= acq -%>" # 5f or ICP-MS
 ### RARE EARTH ONLY
 tbl_ree   <- subset(tbl,subset=(Z > 56 & Z < 72 & Z != 65 & Z != 67 & Z != 69 )) # REE extraction
 tbl_ree   <- tbl_ree[sort.list(tbl_ree$Z),] # Rage for order
 xxx_ree   <- tbl_ree$Z
+<% if regexp -%>
 tll_ree1  <- tbl_ree[grep(regexp,names(tbl_ree))] # extract certain dataset
+<% else -%>
+tll_ree1  <- subset(tbl_ree, select = c(-element,-Z,-volatii,-compati))
+<% end %>
 tll_ree2  <- tll_ree1 / tbl_ree$ref
 ### SPIDER TRACE
 if (acq == "5f") {
@@ -44,7 +44,11 @@ if (acq == "5f") {
   tbl     <- tbl[sort.list(tbl$volatii),]
   xxx_trc <- tbl$volatii
 }
+<% if regexp -%>
 tll2      <- tbl[grep(regexp,names(tbl))] # extract certain dataset
+<% else -%>
+tll2      <- subset(tbl, select = c(-element,-Z,-volatii,-compati))
+<% end -%>
 tll3      <- tll2 / tbl$ref
 col2      <- rainbow(ncol(tll_ree2))
 pch2      <- c(1,1,1,2,3,4)

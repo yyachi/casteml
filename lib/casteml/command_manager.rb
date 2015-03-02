@@ -13,6 +13,7 @@ class Casteml::CommandManager
 						:upload,
 						:convert,
 						:spots,
+						:plot,
 						:help,
 	]
 	def self.instance
