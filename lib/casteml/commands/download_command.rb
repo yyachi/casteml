@@ -12,7 +12,7 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 
 		add_option('-r', '--recursive', 
 						'Have analyses with descendants of a stone') do |v|
-			options[:recursive] = :descendants
+			options[:recursive] = :self_and_descendants
 		end
 
 		add_option('-R', '--Recursive', 
