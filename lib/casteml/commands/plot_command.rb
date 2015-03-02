@@ -1,6 +1,7 @@
 require 'casteml'
 require 'casteml/command'
 require 'casteml/measurement_category'
+require 'erb'
 class Casteml::Commands::PlotCommand < Casteml::Command
 	attr_accessor :params	
 	def initialize
