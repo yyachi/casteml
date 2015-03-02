@@ -151,7 +151,7 @@ module Casteml::Commands
 				end
 			end
 
-			context "with format org", :current => true do
+			context "with format org" do
 				let(:path){ 'tmp/mytable1.pml'}
 				#let(:path){ '~/orochi-devel/gems/casteml/spec/fixtures/files/mydata@1.pml'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
@@ -198,8 +198,8 @@ module Casteml::Commands
 				end
 			end
 
-			context "with format dataframe" do
-				let(:path){ 'tmp/mytable.tsv'}
+			context "with format dataframe", :current => true do
+				let(:path){ 'tmp/20130528105235-594267-r.pml'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'dataframe', path]}
 				before(:each) do

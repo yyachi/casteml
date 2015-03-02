@@ -63,6 +63,12 @@ module Casteml::Formats
 		def self.default_units
 			{:centi => 'cg/g', :micro => 'ug/g', :nano => 'ng/g', :pico => 'pg/g'}			
 		end
+
+		def self.unit_from_numbers(numbers)
+			number = numbers.compact.min
+			unit = number_to_unit(number, :units => default_units ) if number
+		end
+
 		def self.to_string(hashs, opts = {})
 			array_of_abundances = []
 			array_of_spot = []
@@ -75,7 +81,7 @@ module Casteml::Formats
 			end
 
 			without_error = opts.delete(:without_error)
-			without_unit = opts.delete(:without_unit)
+			with_unit = opts.delete(:with_unit)
 			without_spot = opts.delete(:without_spot)
 			#array_of_spot.compact!
 			#array_of_abundances.compact!
@@ -101,8 +107,9 @@ module Casteml::Formats
 
 			array_of_units = []
 			array_of_numbers.transpose.each do |numbers|
-				number = numbers.compact.min
-				unit = number_to_unit(number, :units => default_units ) if number
+				unit = with_unit ? with_unit : unit_from_numbers(numbers)
+				# number = numbers.compact.min
+				# unit = number_to_unit(number, :units => default_units ) if number
 				array_of_units << unit
 			end
 
@@ -118,23 +125,31 @@ module Casteml::Formats
 
 			array_of_data = []
 			array_of_abundances.each_with_index do |abundances, i|
-				data = Array.new(nicknames.size, [nil, nil])
+				#data = Array.new(nicknames.size, [nil, nil])
+				values = Array.new(nicknames.size, nil)
+				errors = Array.new(nicknames.size, nil)
 				if abundances
 					abundances.each_with_index do |ab, j|
 						idx = nicknames.index{|elem| elem == ab.nickname}
 						unit = array_of_units[idx]
 						number = array_of_numbers[i][idx]
 						error_number = array_of_error_numbers[i][idx]
-						if without_error
-							data[idx] = (number ? number_to(number, unit) : nil)
-						else
-							data[idx] = [(number ? number_to(number, unit) : nil), (error_number ? number_to(error_number, unit) : nil)]
-						end
+						values[idx] = (number ? number_to(number, unit) : nil)
+						errors[idx] = (error_number ? number_to(error_number, unit) : nil)
+						# if without_error
+						# 	data[idx] = (number ? number_to(number, unit) : nil)
+						# else
+						# 	data[idx] = [(number ? number_to(number, unit) : nil), (error_number ? number_to(error_number, unit) : nil)]
+						# end
 					end
+				end
+				if without_error
+					data = values
+				else
+					data = values.zip(errors)
 				end
 				array_of_data << data
 			end
-
 			spot_keys = array_of_spot.compact.map{|spot| spot.keys }.flatten.uniq
 			spot_methods = spot_keys.map{|m| "spot_#{m}"}
 			array_of_spot_data = []
@@ -151,11 +166,8 @@ module Casteml::Formats
 
 			column_names = hashs.first.keys
 			column_names.concat(spot_methods) unless without_spot
-			if without_unit
-				column_names.concat(nicknames.flatten)				
-			else
-				column_names.concat(nicknames_with_unit.flatten)
-			end
+			column_names.concat(nicknames_with_unit.flatten)
+
 			string = CSV.generate("", opts) do |csv|
 				csv << column_names
 				hashs.each_with_index do |h, idx|

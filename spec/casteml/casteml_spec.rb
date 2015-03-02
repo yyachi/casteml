@@ -70,13 +70,13 @@ module Casteml
 			before do
 				setup_empty_dir('tmp')
 				setup_file(path)
-				puts subject
+				#puts subject
 				File.open(output_path, "w") do |out|
 					out.puts subject
 				end
 			end
 			context "data-from-casteml.csv" do
-				let(:path){'tmp/data-from-casteml.csv'}
+				let(:path){'tmp/20130528105235-594267-r.pml'}
 				it {
 					expect(subject).to be_an_instance_of(String)
 				}
