@@ -31,10 +31,10 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 	end
 
 	def usage
-		"#{program_name} FILE"
+		"#{program_name} CASTEMLFILE"
 	end
 	def arguments
-		"FILE\t file to be plot (ex; session-all.csv)"
+		"CASTEMLFILE\t file to be plot (ex; session-all.csv, session-all.org)"
 	end
 
 	def description
