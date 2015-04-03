@@ -3,7 +3,7 @@ require 'casteml'
 require 'casteml/formats/xml_format'
 class Casteml::Commands::DownloadCommand < Casteml::Command
 	def initialize
-		super 'download', 'Download casteml file from Medusa 9.'
+		super 'download', 'Copy pmlfile from Medusa to local computer.'
 
 		add_option('-f', '--format OUTPUTFORMAT',
 						'Specify output format (pml, csv, tsv, org, isorg, tex, pdf)') do |v, options|
@@ -31,18 +31,37 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 	end
 
 	def description
-		<<-EOS
-EXAMPLE
-    $ casteml download 20110518194205-602-801
+      <<-EOS
+    Download pmlfile from Medusa.  Specify ID as argument.  The
+    default output is toward to the standard output.  Redirect to
+    certain file.
+
+    As of April 3 (2015), this command only accept one ID.  Note that
+    you can obtain a multiple pmlfile for a whole family.  If you need
+    multiple pmlfile, download seperately then join them by a command
+    `casteml join'.
+
+    You may want to plot the multiple pmlfile by a command `casteml
+    plot'.
+
+Example:
+    $ casteml download 20130528105235-594267
     $
     $ casteml download -r 20130528105235-594267 > download.pml
-    $ casteml convert download.pml -f csv > data-from-casteml.csv    
+    $ casteml convert download.pml -f csv > data-from-casteml.csv
+    $
+    $ casteml download 20110205103129-336-399 > a.pml
+    $ casteml download 20110203174950-308-353 > b.pml
+    $ casteml join a.pml b.pml > c.pml
+    $ casteml plot c.pml
 
-SEE ALSO
+See Also:
     casteml convert
+    casteml join
+    casteml plot
     http://dream.misasa.okayama-u.ac.jp
 
-IMPLEMENTATION
+Implementation:
     Orochi, version 9
     Copyright (C) 2015 Okayama University
     License GPLv3+: GNU GPL version 3 or later

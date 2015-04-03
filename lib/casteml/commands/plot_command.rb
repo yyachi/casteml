@@ -5,7 +5,7 @@ require 'erb'
 class Casteml::Commands::PlotCommand < Casteml::Command
 	attr_accessor :params	
 	def initialize
-		super 'plot', 'Plot data.'
+		super 'plot', 'Generate a spider diagram from a pmlfile using R.'
 
 	    @params = {
 	    	:category => 'trace',
@@ -31,29 +31,41 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 	end
 
 	def usage
-		"#{program_name} CASTEMLFILE"
+		"#{program_name} pmlfile"
 	end
 	def arguments
-		"CASTEMLFILE\t file to be plot (ex; session-all.csv, session-all.org)"
+		"pmlfile\twith datasets of single or multiple stones (this can be csv and isorg)"
 	end
 
 	def description
 		<<-EOF
-EXAMPLE
-    $ casteml download -R 20130528105235-594267 > download.pml
-    $ casteml plot download.pml
+
+    Create a spider diagram from a pmlfile.  Specify pmlfile as
+    argument.  Multiple stones can be plotted at the same time.
+    Download pmlfiles for stones, and merge them into a single
+    multiple pmlfile by command `casteml join' in advance.
+
+    To modify the plot, revise corresponding R file then run vanilla
+    R.
+
+Example:
+    $ casteml download -R 20130528105235-594267 > cbkstones.pml
+    $ casteml plot cbkstones.pml
     $ ls
-    download.pml
-    download.dataframe
-    download.R
-    download.pdf
+    cbkstones.pml
+    cbkstones.dataframe
+    cbkstones.R
+    cbkstones.pdf
+    $ vi cbkstones.R
+    ...
+    $ R --vanilla --slave < cbkstones.R
 
-SEE ALSO
-    http://dream.misasa.okayama-u.ac.jp
+See Also:
     casteml download
-    casteml convert
+    casteml join
+    http://dream.misasa.okayama-u.ac.jp
 
-IMPLEMENTATION
+Implementation:
     Copyright (c) 2015 ISEI, Okayama University
     Licensed under the same terms as Ruby
 
