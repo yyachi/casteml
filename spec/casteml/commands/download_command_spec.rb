@@ -33,6 +33,28 @@ module Casteml::Commands
 				end
 			end
 
+            context "with ids", :current => true do
+			  let(:id_1){ '0000-0001'}
+			  let(:id_2){ '0000-0002'}
+              
+				let(:args){ [id_1, id_2]}
+				let(:path_1){ "spec/fixtures/files/my-great.pml" }
+				let(:path_2){ "spec/fixtures/files/my-great.pml" }
+
+				before do
+				  allow(Casteml).to receive(:download).with(id_1, {}).and_return(path_1)
+				  allow(Casteml).to receive(:download).with(id_2, {}).and_return(path_2)
+                  
+				end
+				it "calls download with id" do
+				  expect(Casteml).to receive(:download).with(id_1, {}).and_return(path_1)
+				  expect(Casteml).to receive(:download).with(id_2, {}).and_return(path_2)
+                  
+					cmd.invoke_with_build_args args, build_args
+				end
+              
+            end
+            
 			context "with id" do
 				let(:id){ '0000-0001'}
 				let(:args){ [id]}

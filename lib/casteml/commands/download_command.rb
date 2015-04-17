@@ -74,11 +74,16 @@ EOS
 		options.delete(:build_args)
 		args = options.delete(:args)
 		raise OptionParser::InvalidArgument.new('specify stone-ID or analysis-ID') if args.empty?
-		id = args.shift
+		#id = args.shift
 		options_download = {}
 		options_download[:recursive] = options[:recursive] if options[:recursive]
-    	path = Casteml.download(id, options_download)
-    	string = File.read(path)
+        paths = []
+        while(id = args.shift) do 
+    	  paths << Casteml.download(id, options_download)
+        end
+        path = Casteml::Formats::XmlFormat.join_files(paths)
+
+        string = File.read(path)
     	if options[:output_format]
 	    	string = Casteml.encode(Casteml::Formats::XmlFormat.decode_string(string), options)
     	end
