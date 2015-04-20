@@ -1,3 +1,3 @@
 module Casteml
-  VERSION = "0.8.16"
+  VERSION = "0.8.17"
 end
