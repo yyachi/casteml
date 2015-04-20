@@ -69,7 +69,7 @@ module Casteml
   def self.encode(data, opts = {})
     type = opts.delete(:output_format) || :pml
     case type
-    when :pml
+    when :pml, :xml
       string = Formats::XmlFormat.to_string(data, opts)
     when :csv
       string = Formats::CsvFormat.to_string(data, opts)

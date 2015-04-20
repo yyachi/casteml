@@ -80,7 +80,7 @@ module Casteml::Commands
 					end
 				end
 
-				context "with -r", :current => true do
+				context "with -r" do
 					let(:args){ [id, '-r']}
 					it "calls download with id" do
 						expect(Casteml).to receive(:download).with(id, {:recursive => :self_and_descendants}).and_return(path)
@@ -89,13 +89,22 @@ module Casteml::Commands
 				end
 
 
-				context "with -R", :current => true do
+				context "with -R" do
 					let(:args){ [id, '-R']}
 					it "calls download with id" do
 						expect(Casteml).to receive(:download).with(id, {:recursive => :families}).and_return(path)
 						cmd.invoke_with_build_args args, build_args
 					end
 				end
+
+				context "with -R and -f", :current => true do
+					let(:args){ [id, '-R', '-f', 'org']}
+					it "calls download with id" do
+						expect(Casteml).to receive(:download).with(id, {:recursive => :families}).and_return(path)
+						cmd.invoke_with_build_args args, build_args
+					end
+				end
+
 			end
 
 		end		

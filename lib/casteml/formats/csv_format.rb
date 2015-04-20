@@ -85,6 +85,9 @@ module Casteml::Formats
 				array_of_abundances << ( abundances ? abundances.map{|ab| Casteml::Abundance.new(ab) } : nil )
 			end
 
+			csv_opts = {}
+			csv_opts[:col_sep] = opts.delete(:col_sep) || ","
+
 			without_error = opts.delete(:without_error)
 			with_unit = opts.delete(:with_unit)
 			without_spot = opts.delete(:without_spot)
@@ -184,8 +187,7 @@ module Casteml::Formats
 			column_names = hashs.first.keys
 			column_names.concat(spot_methods) unless without_spot
 			column_names.concat(nicknames_with_unit.flatten)
-
-			string = CSV.generate("", opts) do |csv|
+			string = CSV.generate("", csv_opts) do |csv|
 				csv << column_names
 				hashs.each_with_index do |h, idx|
 					next if omit_null && omit_ids.include?(idx)
