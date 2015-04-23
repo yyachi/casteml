@@ -5,7 +5,7 @@ require 'erb'
 class Casteml::Commands::PlotCommand < Casteml::Command
 	attr_accessor :params	
 	def initialize
-		super 'plot', 'Generate a spider diagram from a pmlfile using R.'
+		super 'plot', '    Generate a spider diagram from a pmlfile using R.'
 
 	    @params = {
 	    	:category => 'trace',
@@ -34,12 +34,11 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 		"#{program_name} pmlfile"
 	end
 	def arguments
-		"pmlfile\twith datasets of single or multiple stones (this can be csv and isorg)"
+		"    pmlfile: of single or multiple stones (this can be csv and isorg)"
 	end
 
 	def description
 		<<-EOF
-
     Create a spider diagram from a pmlfile.  Specify pmlfile as
     argument.  Multiple stones can be plotted at the same time.
     Download pmlfiles for stones, and merge them into a single
