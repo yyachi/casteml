@@ -2,22 +2,23 @@ require 'spec_helper'
 require 'casteml/formats/csv_format'
 module Casteml::Formats
 	describe CsvFormat do
-		describe ".to_string" do
-			subject { CsvFormat.to_string(data) }
+		describe ".to_string", :current => true do
+			subject { CsvFormat.to_string(data, opts) }
 			let(:org_string){ <<-EOF
 ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error,Li_error
 ,test-1,sample-1,12.4,2.4,3.4,0.9,0.2,0.01
 ,test-2,sample-2,34.5,,4.5,,,
 					EOF
 			}
+			let(:opts){ {} }
 			let(:data){ CsvFormat.decode_string(org_string) }
 				before do
 					puts subject
 				end
 			
-			it {
-				expect(subject).to be_an_instance_of(String)
-			}
+			it { expect(subject).to be_an_instance_of(String) }
+			it { expect(subject).to match(/ID,session/)}
+
 
 			context "with unit" do
 				let(:data){
@@ -54,14 +55,19 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 				}
 			end
 
-			context "with opts" do
+			context "with opts col_sep => '\t'" do
 				subject { CsvFormat.to_string(data, opts) }
 				let(:opts){ {:col_sep => "\t" } }
 				it {
-					expect(subject).to be_an_instance_of(String)
+					expect(subject).to match(/ID\tsession/)
 				}
 			end
 
+
+			context "with col_sep => '|'" do
+				let(:opts){ {:col_sep => "|"} }
+				it { expect(subject).to match(/ID\|session/) }
+			end
 			context "with opts {:without_error => true, :with_unit => g/g}" do
 				subject { CsvFormat.to_string(data, opts) }
 				let(:opts){ {:without_error => true, :with_unit => "g/g" } }

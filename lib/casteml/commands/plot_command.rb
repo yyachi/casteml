@@ -34,12 +34,11 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 		"#{program_name} pmlfile"
 	end
 	def arguments
-		"pmlfile\twith datasets of single or multiple stones (this can be csv and isorg)"
+		"multi-pmlfile (or csv, isorg)"
 	end
 
 	def description
-		<<-EOF
-
+	<<-EOF
     Create a spider diagram from a pmlfile.  Specify pmlfile as
     argument.  Multiple stones can be plotted at the same time.
     Download pmlfiles for stones, and merge them into a single
