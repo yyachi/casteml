@@ -3,9 +3,9 @@ require 'casteml'
 require 'casteml/formats/xml_format'
 class Casteml::Commands::DownloadCommand < Casteml::Command
 	def initialize
-		super 'download', 'Copy pmlfile from Medusa to local computer.'
+		super 'download', '    Download pmlfile from Medusa'
 
-		add_option('-f', '--format OUTPUTFORMAT',
+		add_option('-f', '--format OUTFORMAT',
 						'Specify output format (pml, csv, tsv, org, isorg, tex, pdf)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
@@ -20,7 +20,7 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 			options[:recursive] = :families
 		end
 
-		add_option('-n', '--number-format NUMBERFORMAT',
+		add_option('-n', '--number-format NUMFORMAT',
 						'Specify number format (%.4g)') do |v, options|
 			options[:number_format] = v
 		end		
@@ -31,7 +31,7 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 	end
 
 	def description
-      <<-EOS
+    <<-EOS
     Download pmlfile from Medusa.  Specify ID as argument.  The
     default output is toward to the standard output.  Redirect to
     certain file.

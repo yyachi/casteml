@@ -38,7 +38,7 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 	end
 
 	def description
-		<<-EOF
+	<<-EOF
     Create a spider diagram from a pmlfile.  Specify pmlfile as
     argument.  Multiple stones can be plotted at the same time.
     Download pmlfiles for stones, and merge them into a single
