@@ -14,7 +14,7 @@ class Casteml::Commands::JoinCommand < Casteml::Command
 		"#{program_name} file0 file1 [file2 ...] > outfile"
 	end
 	def arguments
-		"    pmlfiles to be joined (ex. session1.pml session2.pml ... sessionN.pml)"
+		"    pmlfiles to be joined (ex. session1.pml ... sessionN.pml)"
 	end
 
 	def description
@@ -24,8 +24,8 @@ class Casteml::Commands::JoinCommand < Casteml::Command
     many datesets).  Use this program to merge the pmlfiles.
 
 Example:
-    $ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml > session.pml
-    $ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml -o session.pml
+    $ casteml join JB1.pml stone2.pml JB3.pml > session.pml
+    $ casteml join JB1.pml stone2.pml JB3.pml -o session.pml
 
 See Also:
     casteml split

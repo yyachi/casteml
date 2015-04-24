@@ -53,7 +53,7 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 
 
 	def description
-		<<-EOS
+	<<-EOS
     Store pml spots info in tex file.  To describe your spots, create
     a pml file with spots info by using Matlab-script spots.m as of
     April 3 (2014).  Creation of tex file of spots with number or

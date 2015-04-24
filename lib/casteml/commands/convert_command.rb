@@ -30,12 +30,12 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		"#{program_name} FILE"
 	end
 	def arguments
-		"    FILE\t file to be converted (ex; session-all.csv)"
+		"    file to be converted (ex. session-all.csv)"
 	end
 
 	def description
 		<<-EOF
-    Convert a {pml, csv, tsv, org, isorg, tex, pdf, dataframe} file to different format.
+    Convert {pml, csv, tsv, org, isorg, tex, pdf, dataframe} file to different format.
 
 Example:
     $ casteml convert MY_RAT_REEONLY@150106.csv > MY_RAT_REEONLY@150106.pml
@@ -57,7 +57,6 @@ Implementation:
 
 EOF
 	end
-
 
 	def execute
 		original_options = options.clone

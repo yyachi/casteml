@@ -10,7 +10,7 @@ class Casteml::Commands::SplitCommand < Casteml::Command
 		"#{program_name} PMLFILE"
 	end
 	def arguments
-		"    PMLFILE\t pmlfile to be splited (ex; session-all.pml)"
+		"    pmlfile to be splited (ex. session-all.pml)"
 	end
 
 	def description
@@ -20,7 +20,7 @@ class Casteml::Commands::SplitCommand < Casteml::Command
 Example:
     $ casteml split session.pml
     $ ls
-    stone-1.pml stone-2.pml JB3-1.pml JB3-2.pml
+    stone-1.pml JB3-1.pml JB3-2.pml
 
 See Also:
     casteml join

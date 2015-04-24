@@ -9,18 +9,18 @@ class Casteml::Commands::UploadCommand < Casteml::Command
 		"#{program_name} PMLFILE"
 	end
 	def arguments
-		"    PMLFILE\t pmlfile to be uploaded"
+		"    pmlfile to be uploaded"
 	end
 
 	def description
-		<<-EOF
-    Upload a pmlfile to Medusa 9.  Users are encoraged to call this
+	<<-EOF
+    Upload pmlfile to Medusa 9.  Users are encoraged to call this
     program through `orochi-upload'.
 
-    CASTEML stores spot location as relative coordinate of an image.  
-    Origin of a coordinate is center of an image.
-    A spot coordinate is normalized by the longest side.
-    As a consequence, the longest side ranges from $-50$ to $50$.
+    CASTEML stores spot location as relative coordinate of an image.
+    Origin of a coordinate is center of an image.  A spot coordinate
+    is normalized by the longest side.  As a consequence, the longest
+    side ranges from $-50$ to $50$.
      
     A utility #{program_name} tries to upload data-sets, image file
     my-spot-region.jpg, and coordinate.  If there is Affine
@@ -28,7 +28,7 @@ class Casteml::Commands::UploadCommand < Casteml::Command
     it also uploads the Affine matrix at the same time.
 
 Example:
-    $ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml > session.pml
+    $ casteml join JB1.pml stone2.pml JB3.pml > session.pml
     $ casteml upload session.pml
 
 See Also:
