@@ -9,7 +9,7 @@ class Casteml::Commands::UploadCommand < Casteml::Command
 		"#{program_name} PMLFILE"
 	end
 	def arguments
-		"    PMLFILE\t pmlfile to be uploaded"
+		"    pmlfile to be uploaded"
 	end
 
 	def description
