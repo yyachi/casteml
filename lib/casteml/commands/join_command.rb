@@ -14,7 +14,7 @@ class Casteml::Commands::JoinCommand < Casteml::Command
 		"#{program_name} file0 file1 [file2 ...] > outfile"
 	end
 	def arguments
-		"pmlfiles to be joined (ex. session1.pml session2.pml ... sessionN.pml)"
+		"    pmlfiles to be joined (ex. session1.pml session2.pml ... sessionN.pml)"
 	end
 
 	def description
@@ -23,20 +23,19 @@ class Casteml::Commands::JoinCommand < Casteml::Command
     for `casteml plot' can only accept a single pmlfile (including
     many datesets).  Use this program to merge the pmlfiles.
 
-EXAMPLE
-	$ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml > session.pml
-	$ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml -o session.pml
+Example:
+    $ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml > session.pml
+    $ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml -o session.pml
 
-SEE ALSO
+See Also:
     casteml split
     casteml download
     http://dream.misasa.okayama-u.ac.jp
 
-IMPLEMENTATION
+Implementation:
     Copyright (c) 2015 ISEI, Okayama University
     Licensed under the same terms as Ruby
 
-OPTIONS
 EOF
 	end
 

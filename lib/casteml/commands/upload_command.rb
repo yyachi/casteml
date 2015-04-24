@@ -9,7 +9,7 @@ class Casteml::Commands::UploadCommand < Casteml::Command
 		"#{program_name} PMLFILE"
 	end
 	def arguments
-		"PMLFILE\t pmlfile to be uploaded"
+		"    PMLFILE\t pmlfile to be uploaded"
 	end
 
 	def description
@@ -27,20 +27,19 @@ class Casteml::Commands::UploadCommand < Casteml::Command
     matrix file my-spot-region.affine (xy-on-image to vs space),
     it also uploads the Affine matrix at the same time.
 
-EXAMPLE
-	$ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml > session.pml
-	$ casteml upload session.pml
+Example:
+    $ casteml join JB3-1.pml stone-1.pml stone-2.pml JB3-2.pml > session.pml
+    $ casteml upload session.pml
 
-SEE ALSO
+See Also:
     http://dream.misasa.okayama-u.ac.jp
     join
     orochi-upload
 
-IMPLEMENTATION
+Implementation:
     Copyright (c) 2015 ISEI, Okayama University
     Licensed under the same terms as Ruby
 
-OPTIONS
 EOF
 	end
 

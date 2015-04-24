@@ -34,7 +34,7 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 		"#{program_name} pmlfile"
 	end
 	def arguments
-		"multi-pmlfile (or csv, isorg)"
+		"    multi-pmlfile (or csv, isorg)"
 	end
 
 	def description

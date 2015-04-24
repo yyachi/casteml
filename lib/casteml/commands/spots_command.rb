@@ -59,7 +59,7 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
     April 3 (2014).  Creation of tex file of spots with number or
     isocircle is shown below EXAMPLE.
 
-EXAMPLE
+Example:
     matlab> spots   # => input spots on an image file
     $ ls
     tt_bcg12@4032.pml
@@ -79,11 +79,11 @@ EXAMPLE
     $ ls
     tt_bcg12@4032.pml  tt_bcg12@4032.csv  tt_bcg12@4032.tex
 
-SEE ALSO
+See Also:
     http://dream.misasa.okayama-u.ac.jp
     spots.m
 
-IMPLEMENTATION
+Implementation:
     Orochi, version 9
     Copyright (C) 2015 Okayama University
     License GPLv3+: GNU GPL version 3 or later

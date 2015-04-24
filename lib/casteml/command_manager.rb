@@ -60,18 +60,18 @@ class Casteml::CommandManager
 	def opts
 		@opts ||= OptionParser.new do |opts|
 			opts.banner = "casteml: a comprehensive utility for CASTEML"
-			opts.define_head "SYNOPSIS: casteml [options] [command [options]]"
+			opts.define_head "Usage: casteml [options] [command [options]]"
 			opts.separator ""
-			opts.separator "COMMANDS:"
-            opts.separator "  #{BUILTIN_COMMANDS.join(', ')}"
+			opts.separator "Commands:"
+            opts.separator "    #{BUILTIN_COMMANDS.join(', ')}"
 			opts.separator ""
-			opts.separator "SEE ALSO"
-			opts.separator "  casteml [command] --help"
+			opts.separator "See Also:"
+			opts.separator "    casteml [command] --help"
 			# opts.separator "EXAMPLE:"
 			# opts.separator "  casteml join session-1.pml session-2.pml ... session-n.pml"
 			# opts.separator "  casteml split session-all.pml"
 			opts.separator ""
-			opts.separator "OPTIONS:"
+			opts.separator "Options:"
 
 
 			opts.on_tail("-?", "--help", "Show this message") do |v|

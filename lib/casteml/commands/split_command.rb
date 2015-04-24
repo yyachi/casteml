@@ -10,25 +10,26 @@ class Casteml::Commands::SplitCommand < Casteml::Command
 		"#{program_name} PMLFILE"
 	end
 	def arguments
-		"PMLFILE\t pmlfile to be splited (ex; session-all.pml)"
+		"    PMLFILE\t pmlfile to be splited (ex; session-all.pml)"
 	end
 
 	def description
 		<<-EOF
-EXAMPLE
-	$ casteml split session.pml
-	$ ls
+    Split a single pmlfile into multiple pmlfiles
+
+Example:
+    $ casteml split session.pml
+    $ ls
     stone-1.pml stone-2.pml JB3-1.pml JB3-2.pml
 
-SEE ALSO
+See Also:
     http://dream.misasa.okayama-u.ac.jp
     join
 
-IMPLEMENTATION
+Implementation:
     Copyright (c) 2015 ISEI, Okayama University
     Licensed under the same terms as Ruby
 
-OPTIONS
 EOF
 	end
 
