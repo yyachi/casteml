@@ -32,9 +32,9 @@ Example:
     $ casteml upload session.pml
 
 See Also:
-    http://dream.misasa.okayama-u.ac.jp
-    join
+    casteml join
     orochi-upload
+    http://dream.misasa.okayama-u.ac.jp
 
 Implementation:
     Copyright (c) 2015 ISEI, Okayama University

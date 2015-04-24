@@ -47,9 +47,9 @@ Example:
     $ pdflatex MY_RAT_REEONLY@150106.tex
 
 See Also:
-    http://dream.misasa.okayama-u.ac.jp
     casteml join
     casteml split
+    http://dream.misasa.okayama-u.ac.jp
 
 Implementation:
     Copyright (c) 2015 ISEI, Okayama University

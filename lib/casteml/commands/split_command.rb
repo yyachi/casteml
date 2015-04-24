@@ -23,8 +23,9 @@ Example:
     stone-1.pml stone-2.pml JB3-1.pml JB3-2.pml
 
 See Also:
+    casteml join
+    casteml convert
     http://dream.misasa.okayama-u.ac.jp
-    join
 
 Implementation:
     Copyright (c) 2015 ISEI, Okayama University

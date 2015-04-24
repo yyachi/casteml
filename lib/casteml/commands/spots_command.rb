@@ -80,8 +80,8 @@ Example:
     tt_bcg12@4032.pml  tt_bcg12@4032.csv  tt_bcg12@4032.tex
 
 See Also:
-    http://dream.misasa.okayama-u.ac.jp
     spots.m
+    http://dream.misasa.okayama-u.ac.jp
 
 Implementation:
     Orochi, version 9
