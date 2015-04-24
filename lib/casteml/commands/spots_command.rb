@@ -51,7 +51,6 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 		 "#{program_name} inputfile [abundance isotope]"
 	end
 
-
 	def description
 	<<-EOS
     Store pml spots info in tex file.  To describe your spots, create

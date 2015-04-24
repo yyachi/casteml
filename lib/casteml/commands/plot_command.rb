@@ -5,13 +5,12 @@ require 'erb'
 class Casteml::Commands::PlotCommand < Casteml::Command
 	attr_accessor :params	
 	def initialize
-		super 'plot', 'Generate a spider diagram from a pmlfile using R.'
+		super 'plot', 'Generate a spider diagram from a pmlfile using R'
 
 	    @params = {
 	    	:category => 'trace',
       		:template_file => File.join(Casteml::TEMPLATE_DIR, 'plot-trace.R.erb')
       	}
-
 
 		#MeasurementCategory.find_all
 		category_names = Casteml::MeasurementCategory.find_all.map{|category| "'" + category.name + "'"}
@@ -23,7 +22,6 @@ class Casteml::Commands::PlotCommand < Casteml::Command
         add_option("-t", "--template-file path", "Specify template file path (default: #{@params[:template_file]})") do |v|
           options[:template_file] = v
         end 
-
 
 		# add_option('-d', '--debug', 'Show debug information') do |v|
 		# 	options[:debug] = v

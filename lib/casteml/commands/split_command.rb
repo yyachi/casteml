@@ -2,23 +2,25 @@ require 'casteml/command'
 require 'casteml/formats/xml_format'
 class Casteml::Commands::SplitCommand < Casteml::Command
 	def initialize
-		super 'split', 'Split a single pmlfile into multiple pmlfiles'
+		super 'split', 'Split one multi-pmlfile into multiple pmlfiles'
 
 	end
 
 	def usage
-		"#{program_name} PMLFILE"
+		"#{program_name} pmlfile"
 	end
 	def arguments
 		"    pmlfile to be splited (ex. session-all.pml)"
 	end
 
 	def description
-		<<-EOF
-    Split a single pmlfile into multiple pmlfiles
+	<<-EOF
+    Split one multi-pmlfile into multiple pmlfiles.  This is useful
+    when you download datasets of a whole family but want to separete
+    it into several files.
 
 Example:
-    $ casteml split session.pml
+    $ casteml split session-all.pml
     $ ls
     stone-1.pml JB3-1.pml JB3-2.pml
 

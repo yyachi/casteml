@@ -6,7 +6,7 @@ class Casteml::Commands::UploadCommand < Casteml::Command
 	end
 
 	def usage
-		"#{program_name} PMLFILE"
+		"#{program_name} pmlfile"
 	end
 	def arguments
 		"    pmlfile to be uploaded"
@@ -14,7 +14,7 @@ class Casteml::Commands::UploadCommand < Casteml::Command
 
 	def description
 	<<-EOF
-    Upload pmlfile to Medusa 9.  Users are encoraged to call this
+    Upload pmlfile to Medusa.  Users are encoraged to call this
     program through `orochi-upload'.
 
     CASTEML stores spot location as relative coordinate of an image.
@@ -22,10 +22,10 @@ class Casteml::Commands::UploadCommand < Casteml::Command
     is normalized by the longest side.  As a consequence, the longest
     side ranges from $-50$ to $50$.
      
-    A utility #{program_name} tries to upload data-sets, image file
-    my-spot-region.jpg, and coordinate.  If there is Affine
-    matrix file my-spot-region.affine (xy-on-image to vs space),
-    it also uploads the Affine matrix at the same time.
+    An utility #{program_name} tries to upload data-sets, image file
+    my-spot-region.jpg, and coordinate.  If there is Affine matrix
+    file my-spot-region.affine (xy-on-image to vs space), it also
+    uploads the Affine matrix at the same time.
 
 Example:
     $ casteml join JB1.pml stone2.pml JB3.pml > session.pml
@@ -52,5 +52,4 @@ EOF
     	data = Casteml.decode_file(pml_path)
     	Casteml.save_remote(data)
 	end
-
 end
