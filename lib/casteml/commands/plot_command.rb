@@ -17,7 +17,7 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 		category_names = Casteml::MeasurementCategory.find_all.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
 						"Specify measurment category (#{category_names.join(', ')}) (default: #{@params[:category]})") do |v, options|
-			options[:with_category] = v
+			options[:category] = v
 		end
 
         add_option("-t", "--template-file path", "Specify template file path (default: #{@params[:template_file]})") do |v|
@@ -78,7 +78,6 @@ EOF
 		options.delete(:build_args)
 		args = options.delete(:args)
 		params.merge!(options)
-
 		raise OptionParser::InvalidArgument.new('specify FILE') if args.empty?
     	path = args.shift
 		dir = File.dirname(path)

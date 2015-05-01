@@ -49,7 +49,25 @@ module Casteml::Commands
 					expect(Casteml).to receive(:exec_command).with("R --vanilla --slave < #{plotfile}")
 					cmd.invoke_with_build_args args, build_args
 				end
-			end			
+			end
+
+			context "with -c" do
+				subject { cmd.invoke_with_build_args args, build_args }
+				let(:path){ 'tmp/20130528105235-594267-R.pml'}
+				let(:plotfile){ File.basename(path,".*") + '.R'}
+				let(:args){ [path, '-c', 'isotope (delta)']}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+					allow(Casteml).to receive(:exec_command)
+					allow(Casteml).to receive(:convert_file)
+				end
+
+				it "call convert" do
+					expect(Casteml).to receive(:convert_file).with(path, {:output_format => :dataframe, :with_category => 'isotope (delta)'})
+					subject
+				end
+			end
 		end
 	end
 end
