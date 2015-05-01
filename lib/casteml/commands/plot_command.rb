@@ -9,7 +9,7 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 
 	    @params = {
 	    	:category => 'trace',
-      		:template_file => File.join(Casteml::TEMPLATE_DIR, 'plot-trace.R.erb')
+#      		:template_file => File.join(Casteml::TEMPLATE_DIR, 'plot-trace.R.erb')
       	}
 
 		#MeasurementCategory.find_all
@@ -19,7 +19,7 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 			options[:category] = v
 		end
 
-        add_option("-t", "--template-file path", "Specify template file path (default: #{@params[:template_file]})") do |v|
+        add_option("-t", "--template-file TEMPLATE_PATH", "Specify template file path (default: #{default_template(@params[:category])})") do |v|
           options[:template_file] = v
         end 
 
@@ -69,12 +69,21 @@ Implementation:
 EOF
 	end
 
+	def default_template(category)
+    	File.join(Casteml::TEMPLATE_DIR, "plot-#{category}.R.erb")
+	end
+
+	def read_template(path)
+		raise OptionParser::InvalidArgument.new('specify TEMPLATE_PATH') unless File.exists?(path)
+		File.read(path)
+	end
 
 	def execute
 		original_options = options.clone
 		options.delete(:build_args)
 		args = options.delete(:args)
 		params.merge!(options)
+		params[:template_file] = default_template(params[:category]) unless params[:template_file]
 		raise OptionParser::InvalidArgument.new('specify FILE') if args.empty?
     	path = args.shift
 		dir = File.dirname(path)
@@ -86,7 +95,8 @@ EOF
 		File.open(dataframe_path,'w') do |output|
 			output.puts dataframe
 	    end
-        template = File.read(params[:template_file])
+        #template = File.read(params[:template_file])
+        template = read_template(params[:template_file])
         regexp = nil
         regexp = params[:regexp] if params[:regexp]
         acq = "5f"

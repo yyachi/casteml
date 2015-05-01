@@ -56,6 +56,7 @@ module Casteml
     category_name = options.delete(:with_category)
     if category_name
       category = MeasurementCategory.find_by_name(category_name)
+      raise "no category |#{category_name}|" unless category
       if category.unit_name
         unit = Unit.find_by_name(category.unit_name)
         opts.merge!(:with_unit => (unit && unit.text ? unit.text : category.unit_name))

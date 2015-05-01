@@ -36,6 +36,8 @@ module Casteml::Commands
 			end
 
 			context "without options" do
+				subject { cmd.invoke_with_build_args args, build_args }
+
 				let(:path){ 'tmp/20130528105235-594267-R.pml'}
 				let(:plotfile){ File.basename(path,".*") + '.R'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
@@ -43,11 +45,17 @@ module Casteml::Commands
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
+					allow(Casteml).to receive(:exec_command)
 				end
 
-				it "does something" do
+				it "execute R" do
 					expect(Casteml).to receive(:exec_command).with("R --vanilla --slave < #{plotfile}")
-					cmd.invoke_with_build_args args, build_args
+					subject
+				end
+
+				it "select template for trace" do
+					expect(cmd).to receive(:default_template).with('trace').and_return(File.join(Casteml::TEMPLATE_DIR, "plot-trace.R.erb"))
+					subject
 				end
 			end
 
@@ -55,16 +63,28 @@ module Casteml::Commands
 				subject { cmd.invoke_with_build_args args, build_args }
 				let(:path){ 'tmp/20130528105235-594267-R.pml'}
 				let(:plotfile){ File.basename(path,".*") + '.R'}
-				let(:args){ [path, '-c', 'isotope (delta)']}
+				let(:category){ 'isotope-dev'} 
+				let(:args){ [path, '-c', category]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
 					allow(Casteml).to receive(:exec_command)
 					allow(Casteml).to receive(:convert_file)
+					#allow(cmd).to receive(:read_template).and_return("Hello")
 				end
 
 				it "call convert" do
-					expect(Casteml).to receive(:convert_file).with(path, {:output_format => :dataframe, :with_category => 'isotope (delta)'})
+					expect(Casteml).to receive(:convert_file).with(path, {:output_format => :dataframe, :with_category => category})
+					subject
+				end
+
+				it "select template for category" do
+					expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot-#{category}.R.erb"))
+					subject
+				end
+
+				it "execute command with template" do
+					expect(Casteml).to receive(:exec_command).with("R --vanilla --slave < #{plotfile}")
 					subject
 				end
 			end

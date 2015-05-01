@@ -1,0 +1,39 @@
+input = "<%= File.basename(dataframe_path,'*') -%>"
+output = "<%= File.basename(output_path,'*') -%>"
+pdf(output)
+tbl0 <- read.csv(input,header=T,stringsAsFactors=F)
+
+tbl1   <- subset(tbl0, subset = (element == "d18O" | element == "d17O"))
+tbl2   <- tbl1[, colSums(is.na(tbl1)) != nrow(tbl1)] # exclude clumn include NA
+tll3   <- subset(tbl2, select = c(-element))
+legend <- names(tll3)
+col    <- rainbow(length(tll3))
+pch    <- c(16)
+cex    <- c(1.5)
+xlim   <- c(0,10)
+ylim   <- c(0,10)
+plot(0, 0, type="n", xlim=xlim, ylim=ylim, xlab="d18O", ylab="d17O", asp=1)
+### reference lines
+abline(0,0.52)   # TF line
+abline(-4,0.94)  # CCAM line
+abline(-1.04,1)  # YR line
+text(3.7,1.5,"TF")
+text(6.2,1.0,"CCAM")
+text(1.8,0,"Y&R")
+### CBK bulk
+d18O.CBK <- c(4.88,4.93,5.06,4.73,4.87,4.93,4.96,4.96,4.80,4.78,4.69,4.77,5.09,4.97,5.08,5.16,5.10,4.90,4.43,4.82,4.92,4.81,5.06,5.11,4.76,5.19,5.10,5.13)
+d17O.CBK <- c(3.78,3.83,3.90,3.75,3.81,3.86,3.88,3.83,3.76,3.73,3.65,3.75,3.89,3.86,3.88,3.92,3.90,3.80,3.57,3.75,3.79,3.71,3.83,4.00,3.71,3.95,3.93,3.95)
+points(d18O.CBK, d17O.CBK, pch=3)
+text(4.2,4.0,"CBK")
+### Itokawa grain
+d18O.ITK <- c(5.2, 2.4, 4.0, 5.1, 7.2, 8.0, 8.8, 2.9, 1.7, 6.9)
+d17O.ITK <- c(5.2, 2.5, 4.6, 5.0, 5.5, 4.2, 5.8, 2.6, 1.7, 4.1)
+points(d18O.ITK, d17O.ITK, pch=1)
+text(5.2,5.6,"ITK")
+### plot stones
+for(i in 1:length(tll3)){
+    points(tll3[2,i], tll3[1,i], col=col[i], pch=pch, cex=cex)
+}
+legend("topleft", legend, pch=pch, col=col)
+#
+dev.off()
