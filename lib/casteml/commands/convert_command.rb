@@ -3,7 +3,7 @@ require 'casteml/command'
 require 'casteml/measurement_category'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', 'Convert a {pml, csv, tsv, org, isorg, tex, pdf, dataframe} file to different format.'
+		super 'convert', '    Convert a {pml, csv, tsv, org, isorg, tex, pdf, dataframe} file to different format.'
 
 		add_option('-f', '--format OUTPUTFORMAT',
 						'Specify output format (pml, csv, tsv, org, isorg, tex, pdf, dataframe)') do |v, options|
@@ -30,12 +30,14 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		"#{program_name} FILE"
 	end
 	def arguments
-		"FILE\t file to be converted (ex; session-all.csv)"
+		"    file to be converted (ex. session-all.csv)"
 	end
 
 	def description
 		<<-EOF
-EXAMPLE
+    Convert {pml, csv, tsv, org, isorg, tex, pdf, dataframe} file to different format.
+
+Example:
     $ casteml convert MY_RAT_REEONLY@150106.csv > MY_RAT_REEONLY@150106.pml
     $ ls
     MY_RAT_REEONLY@150106.pml
@@ -44,18 +46,17 @@ EXAMPLE
     $ casteml convert -f tex -n %.5g  MY_RAT_REEONLY@150106.pml > MY_RAT_REEONLY@150106.tex
     $ pdflatex MY_RAT_REEONLY@150106.tex
 
-SEE ALSO
-    http://dream.misasa.okayama-u.ac.jp
+See Also:
     casteml join
     casteml split
+    http://dream.misasa.okayama-u.ac.jp
 
-IMPLEMENTATION
+Implementation:
     Copyright (c) 2015 ISEI, Okayama University
     Licensed under the same terms as Ruby
 
 EOF
 	end
-
 
 	def execute
 		original_options = options.clone
