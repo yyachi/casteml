@@ -74,7 +74,7 @@ EOF
 	end
 
 	def read_template(path)
-		raise OptionParser::InvalidArgument.new('specify TEMPLATE_PATH') unless File.exists?(path)
+		raise "Colud not find #{path}. Specify TEMPLATE_PATH" unless File.exists?(path)
 		File.read(path)
 	end
 

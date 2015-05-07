@@ -63,14 +63,13 @@ module Casteml::Commands
 				subject { cmd.invoke_with_build_args args, build_args }
 				let(:path){ 'tmp/20130528105235-594267-R.pml'}
 				let(:plotfile){ File.basename(path,".*") + '.R'}
-				let(:category){ 'isotope-dev'} 
 				let(:args){ [path, '-c', category]}
+				let(:category){ 'isotope-dev'} 
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
 					allow(Casteml).to receive(:exec_command)
 					allow(Casteml).to receive(:convert_file)
-					#allow(cmd).to receive(:read_template).and_return("Hello")
 				end
 
 				it "call convert" do
@@ -78,15 +77,39 @@ module Casteml::Commands
 					subject
 				end
 
-				it "select template for category" do
-					expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot-#{category}.R.erb"))
-					subject
+
+				context "isotope-dev" do
+					it "select template for category" do
+						expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot-#{category}.R.erb"))
+						expect(Casteml).not_to receive(:exec_command)
+						subject
+					end
+
 				end
 
-				it "execute command with template" do
-					expect(Casteml).to receive(:exec_command).with("R --vanilla --slave < #{plotfile}")
-					subject
+				context "oxygen" do
+					let(:category){ 'oxygen' }
+					it "select template for category" do
+						expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot-#{category}.R.erb"))
+						subject
+					end
+
+					it "execute command with template" do
+						expect(Casteml).to receive(:exec_command).with("R --vanilla --slave < #{plotfile}")
+						subject
+					end
 				end
+
+				context "brabra" do
+					let(:category){ 'brabra' }
+					it "select template for category" do
+						expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot-#{category}.R.erb"))
+						expect(Casteml).not_to receive(:exec_command)
+						subject
+					end
+				end
+
+
 			end
 		end
 	end

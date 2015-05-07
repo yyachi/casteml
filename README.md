@@ -1,6 +1,6 @@
 # Casteml
 
-TODO: Write a gem description
+A comprehensive utility for CASTEML
 
 ## Installation
 
@@ -17,13 +17,8 @@ Or install it yourself as:
     $ gem install casteml
 
 ## Usage
+	casteml [options] [command [options]]
 
-TODO: Write usage instructions here
+## Commands
+    download, join, split, upload, convert, spots, plot, help
 
-## Contributing
-
-1. Fork it ( http://github.com/<my-github-username>/casteml/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request

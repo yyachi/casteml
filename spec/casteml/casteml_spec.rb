@@ -6,7 +6,7 @@ module Casteml
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20110203165130-611-312.pml' }
 			let(:opts){ {:with_category => category, :output_format => :dataframe } }
-			let(:category){ "isotope-dev" }
+			let(:category){ "oxygen" }
 			before do
 				setup_empty_dir('tmp')
 				setup_file(path)
