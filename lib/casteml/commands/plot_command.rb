@@ -15,7 +15,7 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 		#MeasurementCategory.find_all
 		category_names = Casteml::MeasurementCategory.find_all.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
-						"Specify measurment category (#{category_names.join(', ')}) (default: #{@params[:category]})") do |v, options|
+						"From pmlfile, extract only datasets of (#{category_names.join(', ')}) (default: #{@params[:category]})") do |v, options|
 			options[:category] = v
 		end
 
@@ -37,13 +37,24 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 
 	def description
 	<<-EOF
-    Create a spider diagram from a pmlfile.  Specify pmlfile as
-    argument.  Multiple stones can be plotted at the same time.
-    Download pmlfiles for stones, and merge them into a single
-    multiple pmlfile by command `casteml join' in advance.
+    Create spider diagram from pmlfile.  Specify pmlfile as argument.
+    Multiple stones can be plotted at the same time.  Download
+    pmlfiles for stones, and merge them into single multi-pmlfile by
+    command `casteml join' in advance.
 
-    To modify the plot, revise corresponding R file then run vanilla
-    R.
+    This program extracts certain datasets from pmlfile, and plots
+    them using template R-script.  With option `--category', datasets
+    of CATEGORY, which is defined on Medusa, are passed and template
+    R-script `plot-CATEGORY.R.erb' will be used.  Without option,
+    CATEGORY of `trace' is selected.
+
+    To add a new `CATEGORY1', create set of elements `CATEGORY1' in
+    Medusa and template R-script `plot-CATEGORY1.R.erb' in certain
+    place.  As of May 8 (2015), the R-script should be in
+    orochi-devel/casteml/template/.
+
+    To modify the plot, revise newly generated R-script then run
+    vanilla R.
 
 Example:
     $ casteml download -R 20130528105235-594267 > cbkstones.pml
@@ -56,6 +67,14 @@ Example:
     $ vi cbkstones.R
     ...
     $ R --vanilla --slave < cbkstones.R
+
+    $ casteml download -R 20130528105235-594267 > datasets.pml
+    $ casteml plot datasets.pml --category oxygen
+    $ ls
+    datasets.pml
+    datasets.dataframe
+    datasets.R
+    datasets.pdf
 
 See Also:
     casteml download
