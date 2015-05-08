@@ -5,7 +5,7 @@ require 'erb'
 class Casteml::Commands::PlotCommand < Casteml::Command
 	attr_accessor :params	
 	def initialize
-		super 'plot', 'Generate a spider diagram from a pmlfile using R'
+		super 'plot', 'Create diagram for certein category from pmlfile using R'
 
 	    @params = {
 	    	:category => 'trace',
@@ -19,7 +19,8 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 			options[:category] = v
 		end
 
-        add_option("-t", "--template-file TEMPLATE_PATH", "Specify template file path (default: #{default_template(@params[:category])})") do |v|
+        # add_option("-t", "--template-file TEMPLATE_PATH", "Specify template file path (default: #{default_template(@params[:category])})") do |v|
+        add_option("-t", "--template-file template.R.erb", "Specify template R-script for local development") do |v|
           options[:template_file] = v
         end 
 
@@ -32,15 +33,15 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 		"#{program_name} pmlfile"
 	end
 	def arguments
-		"    multi-pmlfile (or csv, isorg)"
+		"    pmlfile (or csv, isorg)"
 	end
 
 	def description
 	<<-EOF
-    Create spider diagram from pmlfile.  Specify pmlfile as argument.
-    Multiple stones can be plotted at the same time.  Download
-    pmlfiles for stones, and merge them into single multi-pmlfile by
-    command `casteml join' in advance.
+    Create diagram for certein category from pmlfile using R.  Specify
+    pmlfile as argument.  Multiple stones can be plotted at the same
+    time.  Download pmlfiles for stones, and merge them into single
+    multi-pmlfile by command `casteml join' in advance.
 
     This program extracts certain datasets from pmlfile, and plots
     them using template R-script.  With option `--category', datasets
