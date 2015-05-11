@@ -6,7 +6,7 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 		super 'download', '    Download pmlfile from Medusa'
 
 		add_option('-f', '--format OUTFORMAT',
-						'Output format (pml, csv, tsv, org, isorg, tex, pdf)') do |v, options|
+						'Output format (pml, csv, tsv, org, isorg, tex, pdf, dataframe)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
 
