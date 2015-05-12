@@ -44,11 +44,11 @@ module Casteml::Commands
 				end
 			end
 
-			context "without options" do
+			context "without options", :current => true do
 				subject { cmd.invoke_with_build_args args, build_args }
 
 				let(:path){ 'tmp/20130528105235-594267-R.pml'}
-				let(:plotfile){ File.basename(path,".*") + '.R'}
+				let(:plotfile){ File.basename(path,".*") + '_trace.R'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ [path]}
 				before(:each) do
@@ -63,7 +63,17 @@ module Casteml::Commands
 				end
 
 				it "select template for trace" do
-					expect(cmd).to receive(:default_template).with('trace').and_return(File.join(Casteml::TEMPLATE_DIR, "plot-trace.R.erb"))
+					expect(cmd).to receive(:default_template).with('trace').and_return(File.join(Casteml::TEMPLATE_DIR, "plot/trace.R.erb"))
+					subject
+				end
+
+				it "select dataframe name with category" do
+					expect(cmd).to receive(:output_dataframe).with(File.join(File.dirname(path), File.basename(path, '.*') + "_trace.dataframe"), /element/)
+					subject
+				end
+
+				it "generate plotfile" do
+					expect(cmd).to receive(:output_plotfile).with(File.join(File.dirname(path), File.basename(path, '.*') + "_trace.R"), Regexp.new("input = \\\"#{File.basename(path, '.*') + '_trace.dataframe'}\\\"\noutput = \\\"#{File.basename(path, '.*') + '_trace.pdf'}\\\"\n"))
 					subject
 				end
 			end
@@ -71,14 +81,14 @@ module Casteml::Commands
 			context "with -c" do
 				subject { cmd.invoke_with_build_args args, build_args }
 				let(:path){ 'tmp/20130528105235-594267-R.pml'}
-				let(:plotfile){ File.basename(path,".*") + '.R'}
+				let(:plotfile){ File.join( File.dirname(path), File.basename(path,".*") + "_#{category}.R" )}
 				let(:args){ [path, '-c', category]}
 				let(:category){ 'isotope-dev'} 
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
 					allow(Casteml).to receive(:exec_command)
-					allow(Casteml).to receive(:convert_file)
+					#allow(Casteml).to receive(:convert_file)
 				end
 
 				it "call convert" do
@@ -103,10 +113,30 @@ module Casteml::Commands
 						subject
 					end
 
-					it "execute command with template" do
-						expect(Casteml).to receive(:exec_command).with("R --vanilla --slave < #{plotfile}")
+					it "select dataframe name with category" do
+						expect(cmd).to receive(:output_dataframe).with(File.join(File.dirname(path), File.basename(path, '.*') + "_#{category}.dataframe"), /element/)
 						subject
 					end
+
+					it "generate plotfile" do
+						expect(cmd).to receive(:output_plotfile).with(File.join(File.dirname(path), File.basename(path, '.*') + "_#{category}.R"), Regexp.new("input = \\\"#{File.basename(path, '.*') + "_#{category}.dataframe"}\\\"\r\noutput = \\\"#{File.basename(path, '.*') + "_#{category}.pdf"}\\\"\r\n"))
+						subject
+					end
+
+					it "generate plotfile include input and output path" do
+						subject
+						expect(File.exists?(plotfile)).to be_truthy
+						plot = File.open(plotfile).read
+						expect(plot).to match(Regexp.new("input = \\\"#{File.basename(path, '.*') + "_#{category}.dataframe"}\\\""))
+						expect(plot).to match(Regexp.new("output = \\\"#{File.basename(path, '.*') + "_#{category}.pdf"}\\\""))						
+					end
+
+					it "execute command with template" do
+						expect(Casteml).to receive(:exec_command).with("R --vanilla --slave < #{File.basename(plotfile)}")
+						subject
+					end
+
+
 				end
 
 				context "brabra" do

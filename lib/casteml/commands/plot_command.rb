@@ -62,20 +62,20 @@ Example:
     $ casteml plot cbkstones.pml
     $ ls
     cbkstones.pml
-    cbkstones.dataframe
-    cbkstones.R
-    cbkstones.pdf
-    $ vi cbkstones.R
+    cbkstones_trace.dataframe
+    cbkstones_trace.R
+    cbkstones_trace.pdf
+    $ vi cbkstones_trace.R
     ...
-    $ R --vanilla --slave < cbkstones.R
+    $ R --vanilla --slave < cbkstones_trace.R
 
     $ casteml download -R 20130528105235-594267 > datasets.pml
     $ casteml plot datasets.pml --category oxygen
     $ ls
     datasets.pml
-    datasets.dataframe
-    datasets.R
-    datasets.pdf
+    datasets_oxygen.dataframe
+    datasets_oxygen.R
+    datasets_oxygen.pdf
 
 See Also:
     casteml download
@@ -93,6 +93,18 @@ EOF
     	File.join(Casteml::TEMPLATE_DIR, "plot", "#{category}.R.erb")
 	end
 
+    def output_dataframe(dataframe_path, dataframe)
+        File.open(dataframe_path,'w') do |output|
+            output.puts dataframe
+        end
+    end
+
+    def output_plotfile(path, content)
+        File.open(path,"w") do |plot|
+            plot.puts content
+        end
+    end
+
 	def read_template(path)
 		raise "Colud not find #{path}. Specify TEMPLATE_PATH" unless File.exists?(path)
 		File.read(path)
@@ -107,22 +119,24 @@ EOF
 		raise OptionParser::InvalidArgument.new('specify FILE') if args.empty?
     	path = args.shift
 		dir = File.dirname(path)
-		base = File.basename(path,".*")
-		dataframe_path = File.join(dir,base + '.dataframe')
-		plotfile_path = File.join(dir,base + '.R')
-		output_path = File.join(dir,base + '.pdf')
+		base = File.basename(path,".*") + "_#{params[:category]}"
+		dataframe_path = File.join(dir,base + ".dataframe")
+		plotfile_path = File.join(dir,base + ".R")
+		output_path = File.join(dir,base + ".pdf")
     	dataframe = Casteml.convert_file(path, {:output_format => :dataframe, :with_category => params[:category]})
-		File.open(dataframe_path,'w') do |output|
-			output.puts dataframe
-	    end
+        output_dataframe(dataframe_path, dataframe)
+		# File.open(dataframe_path,'w') do |output|
+		# 	output.puts dataframe
+	 #    end
         #template = File.read(params[:template_file])
         template = read_template(params[:template_file])
         regexp = nil
         regexp = params[:regexp] if params[:regexp]
         acq = "5f"
-	    File.open(plotfile_path,"w") do |plot|
-        	plot.puts ERB.new(template,nil,'-',"@output").result(binding)
-        end
+        output_plotfile(plotfile_path, ERB.new(template,nil,'-',"@output").result(binding))
+	    # File.open(plotfile_path,"w") do |plot|
+     #    	plot.puts ERB.new(template,nil,'-',"@output").result(binding)
+     #    end
         Dir.chdir(dir){
         	Casteml.exec_command("R --vanilla --slave < #{File.basename(plotfile_path)}")
         }
