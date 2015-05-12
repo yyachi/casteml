@@ -16,6 +16,15 @@ module Casteml::Commands
 			}
 		end
 
+		describe "#default_template", :current => true do
+			subject { cmd.default_template(category) }
+			let(:cmd){ cmd_class.new }
+			let(:category){ 'trance' }
+			it {
+				expect(subject).to eql(File.join(Casteml::TEMPLATE_DIR, "plot/#{category}.R.erb"))
+			}
+		end
+
 		describe "#invoke_with_build_args" do
 			let(:cmd){ cmd_class.new }
 			let(:build_args){ [] }
@@ -80,7 +89,7 @@ module Casteml::Commands
 
 				context "isotope-dev" do
 					it "select template for category" do
-						expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot-#{category}.R.erb"))
+						expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot/#{category}.R.erb"))
 						expect(Casteml).not_to receive(:exec_command)
 						subject
 					end
@@ -90,7 +99,7 @@ module Casteml::Commands
 				context "oxygen" do
 					let(:category){ 'oxygen' }
 					it "select template for category" do
-						expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot-#{category}.R.erb"))
+						expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot/#{category}.R.erb"))
 						subject
 					end
 
@@ -103,7 +112,7 @@ module Casteml::Commands
 				context "brabra" do
 					let(:category){ 'brabra' }
 					it "select template for category" do
-						expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot-#{category}.R.erb"))
+						expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot/#{category}.R.erb"))
 						expect(Casteml).not_to receive(:exec_command)
 						subject
 					end

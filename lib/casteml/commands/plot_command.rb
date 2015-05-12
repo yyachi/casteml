@@ -90,7 +90,7 @@ EOF
 	end
 
 	def default_template(category)
-    	File.join(Casteml::TEMPLATE_DIR, "plot-#{category}.R.erb")
+    	File.join(Casteml::TEMPLATE_DIR, "plot", "#{category}.R.erb")
 	end
 
 	def read_template(path)
