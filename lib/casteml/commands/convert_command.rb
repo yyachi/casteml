@@ -3,9 +3,9 @@ require 'casteml/command'
 require 'casteml/measurement_category'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', '    Convert a {pml, csv, tsv, org, isorg, tex, pdf, dataframe} file to different format.'
+		super 'convert', '    Convert {pml, csv, tsv, org, isorg, tex, pdf, dataframe}-file to different format.'
 
-		add_option('-f', '--format OUTPUTFORMAT',
+		add_option('-f', '--format OUTFORMAT',
 						'Specify output format (pml, csv, tsv, org, isorg, tex, pdf, dataframe)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
@@ -27,7 +27,7 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 	end
 
 	def usage
-		"#{program_name} FILE"
+		"#{program_name} infile"
 	end
 	def arguments
 		"    file to be converted (ex. session-all.csv)"
@@ -35,7 +35,7 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 
 	def description
 		<<-EOF
-    Convert {pml, csv, tsv, org, isorg, tex, pdf, dataframe} file to different format.
+    Convert {pml, csv, tsv, org, isorg, tex, pdf, dataframe}-file to different format.
 
 Example:
     $ casteml convert MY_RAT_REEONLY@150106.csv > MY_RAT_REEONLY@150106.pml
