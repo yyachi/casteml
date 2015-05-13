@@ -15,7 +15,7 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 		#MeasurementCategory.find_all
 		category_names = Casteml::MeasurementCategory.find_all.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
-						"From pmlfile, extract only datasets of (#{category_names.join(', ')}) (default: #{@params[:category]})") do |v, options|
+						"Select template CATEGORY.R.erb and extract datasets defined in CATEGORY (#{category_names.join(', ')}) (default: #{@params[:category]})") do |v, options|
 			options[:category] = v
 		end
 
@@ -44,15 +44,15 @@ class Casteml::Commands::PlotCommand < Casteml::Command
     multi-pmlfile by command `casteml join' in advance.
 
     This program extracts certain datasets from pmlfile, and plots
-    them using template R-script.  With option `--category', datasets
-    of CATEGORY, which is defined on Medusa, are passed and template
-    R-script `plot-CATEGORY.R.erb' will be used.  Without option,
-    CATEGORY of `trace' is selected.
+    them using template.  With option `--category CATEGORY1', datasets
+    defined in CATEGORY1 on Medusa, are passed and template
+    `CATEGORY1.R.erb' will be chosen.  Without option, category
+    `trace' is selected.
 
     To add a new `CATEGORY1', create set of elements `CATEGORY1' in
-    Medusa and template R-script `plot-CATEGORY1.R.erb' in certain
-    place.  As of May 8 (2015), the R-script should be in
-    orochi-devel/casteml/template/.
+    Medusa and place template `CATEGORY1.R.erb' in certain place.  As
+    of May 13 (2015), the R-script should be in
+    ~/orochi-devel/casteml/template/plot/.
 
     To modify the plot, revise newly generated R-script then run
     vanilla R.
@@ -81,6 +81,7 @@ See Also:
     casteml download
     casteml join
     http://dream.misasa.okayama-u.ac.jp
+    http://dream.misasa.okayama-u.ac.jp/documentation/CastemlPlot/report.pdf
 
 Implementation:
     Copyright (c) 2015 ISEI, Okayama University
