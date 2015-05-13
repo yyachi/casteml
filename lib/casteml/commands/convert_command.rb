@@ -3,21 +3,21 @@ require 'casteml/command'
 require 'casteml/measurement_category'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', '    Convert {pml, csv, tsv, org, isorg, tex, pdf, dataframe}-file to different format.'
+		super 'convert', '    Convert from/to pml, csv, tsv, org, isorg, tex, pdf, and dataframe'
 
 		add_option('-f', '--format OUTFORMAT',
-						'Specify output format (pml, csv, tsv, org, isorg, tex, pdf, dataframe)') do |v, options|
+						'Output format (pml, csv, tsv, org, isorg, tex, pdf, dataframe)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
 
 		add_option('-n', '--number-format NUMBERFORMAT',
-						'Specify number format (%.4g)') do |v, options|
+						'Number format (%.4g)') do |v, options|
 			options[:number_format] = v
 		end
 		#MeasurementCategory.find_all
 		category_names = Casteml::MeasurementCategory.find_all.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
-						"Specify measurment category (#{category_names.join(', ')})") do |v, options|
+						"Measurment category (#{category_names.join(', ')})") do |v, options|
 			options[:with_category] = v
 		end
 
@@ -27,24 +27,26 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 	end
 
 	def usage
-		"#{program_name} infile"
+		"#{program_name} file0"
 	end
 	def arguments
-		"    file to be converted (ex. session-all.csv)"
+		"    srcfile (ex. session-all.csv)"
 	end
 
 	def description
 		<<-EOF
-    Convert {pml, csv, tsv, org, isorg, tex, pdf, dataframe}-file to different format.
+    Convert from/to pml, csv, tsv, org, isorg, tex, pdf, and
+    dataframe.  The converted datasets are wrote out to standard
+    output.  Use redirect to save as file.
 
 Example:
-    $ casteml convert MY_RAT_REEONLY@150106.csv > MY_RAT_REEONLY@150106.pml
+    $ casteml convert my_rat_ree@150106.csv > my_rat_ree@150106.pml
     $ ls
-    MY_RAT_REEONLY@150106.pml
-    $ casteml split MY_RAT_REEONLY@150106.pml
+    my_rat_ree@150106.pml
+    $ casteml split my_rat_ree@150106.pml
 
-    $ casteml convert -f tex -n %.5g  MY_RAT_REEONLY@150106.pml > MY_RAT_REEONLY@150106.tex
-    $ pdflatex MY_RAT_REEONLY@150106.tex
+    $ casteml convert -f tex -n %.5g  my_rat_ree@150106.pml > my_rat_ree@150106.tex
+    $ pdflatex my_rat_ree@150106.tex
 
 See Also:
     casteml join
