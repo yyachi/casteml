@@ -3,7 +3,7 @@ require 'casteml/command'
 require 'casteml/measurement_category'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', '    Convert from/to pml, csv, tsv, org, isorg, tex, pdf, and dataframe'
+		super 'convert', 'Convert from/to pml, csv, tsv, org, isorg, tex, pdf, and dataframe'
 
 		add_option('-f', '--format OUTFORMAT',
 						'Output format (pml, csv, tsv, org, isorg, tex, pdf, dataframe)') do |v, options|
@@ -30,7 +30,7 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		"#{program_name} file0"
 	end
 	def arguments
-		"    srcfile (ex. session-all.csv)"
+		"    file0                Input file with extention (pml, csv, tsv, org, isorg)"
 	end
 
 	def description
