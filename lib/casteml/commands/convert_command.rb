@@ -10,14 +10,14 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 			options[:output_format] = v.to_sym
 		end
 
-		add_option('-n', '--number-format NUMBERFORMAT',
+		add_option('-n', '--number-format FORMAT',
 						'Number format (%.4g)') do |v, options|
 			options[:number_format] = v
 		end
 		#MeasurementCategory.find_all
 		category_names = Casteml::MeasurementCategory.find_all.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
-						"Measurment category (#{category_names.join(', ')})") do |v, options|
+						"Only pass measurement category of(#{category_names.join(', ')})") do |v, options|
 			options[:with_category] = v
 		end
 
