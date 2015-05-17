@@ -3,10 +3,10 @@ require 'casteml/command'
 require 'casteml/measurement_category'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', 'Convert (pml csvx tsvx isorg) to (pml csvx csv dataframe tsvx tsv isorg org tex pdf)'
+		super 'convert', 'Convert (pml csvx tsvx isorg) to (pml csvx tsvx isorg csv tsv org dataframe tex pdf)'
 
 		add_option('-f', '--format OUTFORMAT',
-						'Output format (pml, csvx, csv, dataframe, tsvx, tsv, org, isorg, tex, pdf)') do |v, options|
+						'Output format (pml csvx tsvx isorg csv tsv org dataframe tex pdf)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
 
@@ -27,16 +27,16 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 	end
 
 	def usage
-		"#{program_name} file0"
+		"#{program_name} infile"
 	end
 	def arguments
-		"file0 with extension (.pml .csvx .tsvx .isorg)"
+		"infile(.pml .csvx .tsvx .isorg)"
 	end
 
 	def description
 		<<-EOF
-    Convert (pml csvx               tsvx     isorg)
-         to (pml csvx csv dataframe tsvx tsv isorg org tex pdf).
+    Convert (pml csvx tsvx isorg)
+         to (pml csvx tsvx isorg csv tsv org dataframe tex pdf).
     The converted datasets are wrote out to standard output.  Use
     redirect to save as file.
 
