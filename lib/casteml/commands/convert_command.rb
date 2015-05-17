@@ -3,10 +3,10 @@ require 'casteml/command'
 require 'casteml/measurement_category'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', 'Convert from/to pml, csv, tsv, org, isorg, tex, pdf, and dataframe'
+		super 'convert', 'Convert (pml csvx tsvx isorg) to (pml csvx csv dataframe tsvx tsv isorg org tex pdf)'
 
 		add_option('-f', '--format OUTFORMAT',
-						'Output format (pml, csv, tsv, org, isorg, tex, pdf, dataframe)') do |v, options|
+						'Output format (pml, csvx, csv, dataframe, tsvx, tsv, org, isorg, tex, pdf)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
 
@@ -30,14 +30,26 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		"#{program_name} file0"
 	end
 	def arguments
-		"    file0                Input file with extention (pml, csv, tsv, org, isorg)"
+		"file0 with extension (.pml .csvx .tsvx .isorg)"
 	end
 
 	def description
 		<<-EOF
-    Convert from/to pml, csv, tsv, org, isorg, tex, pdf, and
-    dataframe.  The converted datasets are wrote out to standard
-    output.  Use redirect to save as file.
+    Convert (pml csvx               tsvx     isorg)
+         to (pml csvx csv dataframe tsvx tsv isorg org tex pdf).
+    The converted datasets are wrote out to standard output.  Use
+    redirect to save as file.
+
+Format:
+    csvx:      Comma Separated Values (CSV) supported as input.
+               Each stone will be on each row.
+    tsvx:      Tab Separated Values (TSV) supported as input.
+               Same as csvx but delimiter.
+    isorg:     ORG format supported as input.  Same as csvx but
+               delimiter.
+    dataframe: Comma Separated Values (CSV) convenient for R but
+               unsupported as input.  Similar to csvx but colum and row are
+               flipped.  Each stone will be on each column.
 
 Example:
     $ casteml convert my_rat_ree@150106.csv > my_rat_ree@150106.pml
@@ -45,7 +57,7 @@ Example:
     my_rat_ree@150106.pml
     $ casteml split my_rat_ree@150106.pml
 
-    $ casteml convert -f tex -n %.5g  my_rat_ree@150106.pml > my_rat_ree@150106.tex
+    $ casteml convert -f tex -n %.5g my_rat_ree@150106.pml > my_rat_ree@150106.tex
     $ pdflatex my_rat_ree@150106.tex
 
 See Also:
