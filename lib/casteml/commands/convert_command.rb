@@ -17,7 +17,7 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		#MeasurementCategory.find_all
 		category_names = Casteml::MeasurementCategory.find_all.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
-						"Only pass measurement category of(#{category_names.join(', ')})") do |v, options|
+						"Only pass measurement category of (#{category_names.join(', ')})") do |v, options|
 			options[:with_category] = v
 		end
 
@@ -47,9 +47,10 @@ Format:
                Same as csvx but delimiter.
     isorg:     ORG format supported as input.  Same as csvx but
                delimiter.
-    dataframe: Comma Separated Values (CSV) convenient for R but
-               unsupported as input.  Similar to csvx but colum and row are
-               flipped.  Each stone will be on each column.
+    dataframe: Comma Separated Values (CSV) dedicated for R input,
+               not for casteml input.  Similar to csvx but colum and
+               row are flipped, and with single line header starts
+               with `element'.  Each stone will be on each column.
 
 Example:
     $ casteml convert my_rat_ree@150106.csv > my_rat_ree@150106.pml
