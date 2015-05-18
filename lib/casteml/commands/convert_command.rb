@@ -15,7 +15,7 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 			options[:number_format] = v
 		end
 		#MeasurementCategory.find_all
-		category_names = Casteml::MeasurementCategory.find_all.map{|category| "'" + category.name + "'"}
+		category_names = Casteml::MeasurementCategory.record_pool.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
 						"Only pass measurement category of (#{category_names.join(', ')})") do |v, options|
 			options[:with_category] = v
