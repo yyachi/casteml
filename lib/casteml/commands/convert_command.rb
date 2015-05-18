@@ -30,7 +30,7 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		"#{program_name} infile"
 	end
 	def arguments
-		"infile(.pml .csv .tsv .isorg)"
+		"infile                                Input file with extension (.pml .csv .tsv .isorg)"
 	end
 
 	def description
@@ -49,7 +49,7 @@ Format:
                delimiter.
     dataframe: Comma Separated Values (CSV) dedicated for R input,
                not for casteml input.  Similar to csv but colum and
-               row are flipped, and with single line header starts
+               row are flipped.  The first line is header and starts
                with `element'.  Each stone will be on each row.
 
 Example:
