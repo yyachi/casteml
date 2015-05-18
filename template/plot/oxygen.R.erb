@@ -1,12 +1,11 @@
 #!/usr/bin/env Rscript
 ### I/O SETUP
-## input  = "mydata_oxygen.dataframe"
-## output = "mydata_oxygen.pdf"
 input  = "<%= File.basename(dataframe_path,'*') -%>"
-output = "<%= File.basename(output_path,'*') -%>"
+## input  = "mydata_oxygen.dataframe"
+### DATA HANDLING
+output = sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",input),"pdf")
 pdf(output)
 tbl0   <- read.csv(input,header=T,stringsAsFactors=F)
-### DATA HANDLING
 tbl1   <- subset(tbl0, subset = (element == "d18O" | element == "d17O"))
 tbl2   <- tbl1[, colSums(is.na(tbl1)) != nrow(tbl1)] # exclude clumn include NA
 tll3   <- subset(tbl2, select = c(-element))

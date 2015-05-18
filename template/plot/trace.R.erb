@@ -1,12 +1,11 @@
 #!/usr/bin/env Rscript
 ### I/O SETUP
-## input  = "mydata_trace.dataframe"
-## output = "mydata_trace.pdf"
 input  = "<%= File.basename(dataframe_path,'*') -%>"
-output = "<%= File.basename(output_path,'*') -%>"
-pdf(output)
-tbl0   <- read.csv(input,header=T,stringsAsFactors=F)
+## input  = "mydata_trace.dataframe"
 ### DATA HANDLING
+output = sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",input),"pdf")
+pdf(output)
+tbl0 <- read.csv(input,header=T,stringsAsFactors=F)
 ###
 ### constant definition made on January 14, 2015
 ### refer by index <- c(do.call("cbind",Z[c("Li","Rb")]))
