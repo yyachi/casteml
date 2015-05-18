@@ -1,8 +1,13 @@
-input = "<%= File.basename(dataframe_path,'*') -%>"
+#!/usr/bin/env Rscript
+### I/O SETUP
+## input  = "mydata_trace.dataframe"
+## output = "mydata_trace.pdf"
+input  = "<%= File.basename(dataframe_path,'*') -%>"
 output = "<%= File.basename(output_path,'*') -%>"
 pdf(output)
-tbl0 <- read.csv(input,header=T,stringsAsFactors=F)
-
+tbl0   <- read.csv(input,header=T,stringsAsFactors=F)
+### DATA HANDLING
+###
 ### constant definition made on January 14, 2015
 ### refer by index <- c(do.call("cbind",Z[c("Li","Rb")]))
 ###       or index <- unlist(Z[c("Li","Rb")],use.names=FALSE)
@@ -70,5 +75,5 @@ matplot(ylim=ylim2,log="y",xaxt="n",yaxt="n",xlab="",ylab="[Z] over CI",
 abline(h=c(1),col="gray",lty=2)
 axis(1,at=xxx_trc,labels=tbl$element,cex.axis=0.9,las=2)
 axis(2,axTicks(2),axTicks(2))
-#
+###
 dev.off()
