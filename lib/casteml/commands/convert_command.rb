@@ -3,7 +3,7 @@ require 'casteml/command'
 require 'casteml/measurement_category'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', 'Convert (pml csvx tsvx isorg) to (pml csvx tsvx isorg csv tsv org dataframe tex pdf)'
+		super 'convert', 'Convert (pml csv tsv isorg) to (pml isorg csv tsv org dataframe tex pdf)'
 
 		add_option('-f', '--format OUTFORMAT',
 						'Output format (pml csvx tsvx isorg csv tsv org dataframe tex pdf)') do |v, options|
@@ -30,27 +30,27 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		"#{program_name} infile"
 	end
 	def arguments
-		"infile(.pml .csvx .tsvx .isorg)"
+		"infile(.pml .csv .tsv .isorg)"
 	end
 
 	def description
 		<<-EOF
-    Convert (pml csvx tsvx isorg)
-         to (pml csvx tsvx isorg csv tsv org dataframe tex pdf).
+    Convert (pml csv tsv isorg)
+         to (pml csv tsv isorg org dataframe tex pdf).
     The converted datasets are wrote out to standard output.  Use
     redirect to save as file.
 
 Format:
-    csvx:      Comma Separated Values (CSV) supported as input.
-               Each stone will be on each row.
-    tsvx:      Tab Separated Values (TSV) supported as input.
-               Same as csvx but delimiter.
+    csv:       Comma Separated Values (CSV) supported as input.
+               Each stone will be on each column.
+    tsv:       Tab Separated Values (TSV) supported as input.
+               Same as csv but delimiter.
     isorg:     ORG format supported as input.  Same as csvx but
                delimiter.
     dataframe: Comma Separated Values (CSV) dedicated for R input,
-               not for casteml input.  Similar to csvx but colum and
+               not for casteml input.  Similar to csv but colum and
                row are flipped, and with single line header starts
-               with `element'.  Each stone will be on each column.
+               with `element'.  Each stone will be on each row.
 
 Example:
     $ casteml convert my_rat_ree@150106.csv > my_rat_ree@150106.pml
@@ -64,6 +64,7 @@ Example:
 See Also:
     casteml join
     casteml split
+    casteml/spec/casteml/formats/
     http://dream.misasa.okayama-u.ac.jp
 
 Implementation:
