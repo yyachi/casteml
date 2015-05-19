@@ -32,7 +32,7 @@ module Casteml::Commands
 				let(:args){ [] }
 				it "shows error message" do
 					expect(cmd).to receive(:alert_error).with("invalid argument: specify FILE. See 'casteml plot --help'.")
-					cmd.invoke_with_build_args args, build_args
+					expect { cmd.invoke_with_build_args args, build_args }.to raise_error
 				end
 			end
 
@@ -91,7 +91,7 @@ module Casteml::Commands
 				let(:path){ 'tmp/20130528105235-594267-R.pml'}
 				let(:plotfile){ File.join( File.dirname(path), File.basename(path,".*") + "_#{category}.R" )}
 				let(:args){ [path, '-c', category]}
-				let(:category){ 'isotope-dev'} 
+				let(:category){ 'trace'} 
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
@@ -109,7 +109,7 @@ module Casteml::Commands
 					it "select template for category" do
 						expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot/#{category}.R.erb"))
 						expect(Casteml).not_to receive(:exec_command)
-						subject
+						expect{ subject }.to raise_error
 					end
 
 				end
@@ -159,7 +159,7 @@ module Casteml::Commands
 					it "select template for category" do
 						expect(cmd).to receive(:default_template).with(category).and_return(File.join(Casteml::TEMPLATE_DIR, "plot/#{category}.R.erb"))
 						expect(Casteml).not_to receive(:exec_command)
-						subject
+						expect{ subject }.to raise_error
 					end
 				end
 

@@ -17,13 +17,15 @@ module Casteml::Commands
 		end
 
 		describe "#invoke_with_build_args" do
+			subject { cmd.invoke_with_build_args args, build_args }
 			let(:cmd){ cmd_class.new }
 			let(:build_args){ [] }
 			context "without args" do
 				let(:args){ [] }
 				it "shows error message" do
 					expect(cmd).to receive(:alert_error).with("invalid argument: specify FILE. See 'casteml convert --help'.")
-					cmd.invoke_with_build_args args, build_args
+					#cmd.invoke_with_build_args args, build_args
+					expect { subject }.to raise_error
 				end
 			end
 
@@ -199,7 +201,7 @@ module Casteml::Commands
 				end
 			end
 
-			context "with format dataframe", :current => true do
+			context "with format dataframe" do
 				let(:path){ 'tmp/20130704180915-127898.pml'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'dataframe', '-c', 'trace', path]}
@@ -219,8 +221,8 @@ module Casteml::Commands
 					cmd.invoke_with_build_args args, build_args
 				end
 
-				it "calls Casteml::Formats::CsvFormat.encode with array and options" do
-					expect(Casteml::Formats::CsvFormat).to receive(:to_string).with(instance, :omit_null => true, :without_error => true, :without_spot => true, :with_unit => "ug/g", :with_nicknames => Casteml::MeasurementCategory.find_by_name("trace").nicknames)
+				it "calls Casteml::Formats::CsvFormat.encode with array and options", :current => true do
+					expect(Casteml::Formats::CsvFormat).to receive(:to_string).with(instance, :omit_null => true, :without_error => true, :without_spot => true, :with_unit => "ug/g", :with_nicknames => Casteml::MeasurementCategory.find_by_name("trace").nicknames).and_return("element")
 					cmd.invoke_with_build_args args, build_args
 				end
 

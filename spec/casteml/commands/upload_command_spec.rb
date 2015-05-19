@@ -22,7 +22,7 @@ module Casteml::Commands
 				let(:args){ [] }
 				it "shows error message" do
 					expect(cmd).to receive(:alert_error).with("invalid argument: specify PMLFILE. See 'casteml upload --help'.")
-					cmd.invoke_with_build_args args, build_args
+					expect { cmd.invoke_with_build_args args, build_args }.to raise_error
 				end
 			end
 

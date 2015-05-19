@@ -23,7 +23,7 @@ module Casteml::Commands
 				let(:args){ [] }
 				it "shows error message" do
 					expect(cmd).to receive(:alert_error).with("invalid argument: specify PMLFILE. See 'casteml spots --help'.")
-					cmd.invoke_with_build_args args, build_args
+					expect { cmd.invoke_with_build_args args, build_args }.to raise_error
 				end
 			end
 
@@ -78,7 +78,7 @@ module Casteml::Commands
 						let(:args){ [pmlfile, abundance, isotope, "--scale-ab-rel-to-image-width", "5"] }
 						it "raise error" do
 							expect(cmd).to receive(:alert_error).with("invalid argument: --scale-ab-rel-to-image-width incorrect number of arguments for scale-ab-rel-to-image-width. See 'casteml spots --help'.")
-							subject
+							expect {subject}.to raise_error
 						end
 					end
 
@@ -93,7 +93,7 @@ module Casteml::Commands
 						let(:args){ [pmlfile, abundance, isotope, "--scale-iso-range-min-max", "-5"] }
 						it "not raise error" do
 							expect(cmd).to receive(:alert_error).with("invalid argument: --scale-iso-range-min-max incorrect number of arguments for scale-iso-range-min-max. See 'casteml spots --help'.")
-							subject
+							expect{ subject }.to raise_error
 						end
 					end
 
