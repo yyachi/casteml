@@ -1,0 +1,39 @@
+#!/usr/bin/env Rscript
+### I/O SETUP
+## input  = "mydata_lead.dataframe"
+input  = "<%= File.basename(dataframe_path,'*') -%>"
+### DATA HANDLING
+output = sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",input),"pdf")
+pdf(output)
+tbl0   <- read.csv(input,header=T,stringsAsFactors=F)
+tbl1   <- subset(tbl0, subset = (element == "Pb206zPb204" | element == "Pb207zPb204"))
+tbl2   <- subset(tbl0, subset = (element == "Pb206zPb204" | element == "Pb208zPb204"))
+tll1   <- subset(tbl1, select = c(-element))
+tll2   <- subset(tbl2, select = c(-element))
+nstone <- length(tll1)
+legend <- names(tll1)
+col    <- rainbow(nstone)
+pch    <- c(16)
+cex    <- c(1)
+xlim   <- range(tll1[1,]) # range in Pb206zPb204
+ylim1  <- range(tll1[2,]) # range in Pb207zPb204
+ylim2  <- range(tll2[2,]) # range in Pb208zPb204
+### PLOT
+## Pb206zPb204_vs_Pb207zPb204
+plot(0, 0, type="n", xlim=xlim, ylim=ylim1, xlab=expression({}^206*"Pb/"*{}^204*"Pb"), ylab=expression({}^207*"Pb/"*{}^204*"Pb"))
+for(i in 1:nstone){
+    points(tll1[1,i], tll1[2,i], col=col[i], pch=pch, cex=cex)
+}
+legend("topleft", legend, pch=pch, col=col)
+## Add Northern Hemisphere Reference Line (Hart, 1984)
+curve(0.1084*x + 13.491, from=min(tll1[1,]), to=max(tll1[1,]), type="l",lty=1,add=TRUE)
+## Pb206zPb204_vs_Pb208zPb204
+plot(0, 0, type="n", xlim=xlim, ylim=ylim2, xlab=expression({}^206*"Pb/"*{}^204*"Pb"), ylab=expression({}^208*"Pb/"*{}^204*"Pb"))
+for(i in 1:nstone){
+    points(tll2[1,i], tll2[2,i], col=col[i], pch=pch, cex=cex)
+}
+legend("topleft", legend, pch=pch, col=col)
+## Add Northern Hemisphere Reference Line (Hart, 1984)
+curve(1.209*x + 15.627, from=min(tll2[1,]), to=max(tll2[1,]), type="l",lty=1,add=TRUE)
+###
+dev.off()
