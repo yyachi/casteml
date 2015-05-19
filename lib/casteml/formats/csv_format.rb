@@ -262,6 +262,7 @@ module Casteml::Formats
 
 		def self.decode_string(string, opts = {})
 			raise "empty csv!" if string.empty?
+			string = string.gsub(/\r+\n/, "\r\n")
 			if org_mode?(string)
 				string = org2csv(string)
 			elsif tab_separated?(string)

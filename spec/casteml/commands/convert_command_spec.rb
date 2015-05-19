@@ -50,6 +50,7 @@ module Casteml::Commands
 				end
 			end
 
+
 			context "with pml" do
 				let(:path){ 'tmp/mytable.pml'}
 				let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
