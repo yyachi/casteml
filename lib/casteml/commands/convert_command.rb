@@ -15,10 +15,15 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 			options[:number_format] = v
 		end
 		#MeasurementCategory.find_all
-		category_names = Casteml::MeasurementCategory.find_all.map{|category| "'" + category.name + "'"}
+		category_names = Casteml::MeasurementCategory.record_pool.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
 						"Only pass measurement category of (#{category_names.join(', ')})") do |v, options|
 			options[:with_category] = v
+		end
+
+		add_option('-t', '--transpose',
+						'Transpose row and column') do |v, options|
+			options[:transpose] = v
 		end
 
 		# add_option('-d', '--debug', 'Show debug information') do |v|
@@ -74,6 +79,10 @@ Implementation:
 EOF
 	end
 
+	def output(string)
+		puts string
+	end
+
 	def execute
 		original_options = options.clone
 		options.delete(:build_args)
@@ -82,7 +91,8 @@ EOF
     	path = args.shift
 
     	string = Casteml.convert_file(path, options)
-    	puts string
+    	output(string)
+    	#puts string
     	#xml = Casteml::Format::XmlFormat.from_array(data)
 	end
 end

@@ -17,13 +17,15 @@ module Casteml::Commands
 		end
 
 		describe "#invoke_with_build_args" do
+			subject { cmd.invoke_with_build_args args, build_args }
 			let(:cmd){ cmd_class.new }
 			let(:build_args){ [] }
 			context "without args" do
 				let(:args){ [] }
 				it "shows error message" do
 					expect(cmd).to receive(:alert_error).with("invalid argument: specify FILE. See 'casteml convert --help'.")
-					cmd.invoke_with_build_args args, build_args
+					#cmd.invoke_with_build_args args, build_args
+					expect { subject }.to raise_error
 				end
 			end
 
@@ -46,9 +48,12 @@ module Casteml::Commands
 
 				it "calls Casteml.convert_file with path" do
 					expect(Casteml).to receive(:convert_file).with(path, {}).and_return('pml')					
-					cmd.invoke_with_build_args args, build_args
+					expect(cmd).to receive(:output)
+					subject
+					#cmd.invoke_with_build_args args, build_args
 				end
 			end
+
 
 			context "with pml" do
 				let(:path){ 'tmp/mytable.pml'}
@@ -57,7 +62,9 @@ module Casteml::Commands
 
 				it "calls Casteml.convert_file with path" do
 					expect(Casteml).to receive(:convert_file).with(path, {}).and_return('csv')	
-					cmd.invoke_with_build_args args, build_args
+					expect(cmd).to receive(:output)
+					subject
+					#cmd.invoke_with_build_args args, build_args
 				end
 			end
 
@@ -71,6 +78,7 @@ module Casteml::Commands
 					setup_empty_dir('tmp')
 					setup_file(path)
 					allow(Casteml).to receive(:decode_file).with(path).and_return(data)
+					allow(cmd).to receive(:output)
 				end
 
 				it "calls Casteml.decode_file with path" do
@@ -101,6 +109,8 @@ module Casteml::Commands
 					setup_empty_dir('tmp')
 					setup_file(path)
 					allow(Casteml).to receive(:decode_file).with(path).and_return(data)
+					allow(cmd).to receive(:output)
+
 				end
 
 				it "calls Casteml.decode_file with path" do
@@ -121,19 +131,33 @@ module Casteml::Commands
 
 			end
 
-			context "with format csv" do
+			context "with format csv", :current => true do
 				let(:path){ 'tmp/mytable.tsv'}
-				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'csv', path]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
 				end
 
-				it "calls Casteml.decode_file with path" do
-					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
-					cmd.invoke_with_build_args args, build_args
+				it "output normal csv" do
+					expect(cmd).to receive(:output).with(Regexp.new("instrument,analyst,session"))
+					subject
 				end
+				context "with -t" do
+					let(:args){ ['-t', '-f', 'csv', path]}
+					it "call Casteml.convert_file with transpose option" do
+						expect(Casteml).to receive(:decode_file).with(path).and_return(data)
+						expect(Casteml).to receive(:encode).with(data, :output_format => :csv, :transpose => true).and_return('csv')
+						expect(cmd).to receive(:output).with('csv')
+						subject
+					end
+					it "output transposed csv" do
+						expect(cmd).to receive(:output).with(Regexp.new("instrument,MAT 262"))
+						subject
+					end
+				end
+
 			end
 
 			context "with format tsv" do
@@ -145,26 +169,44 @@ module Casteml::Commands
 					setup_file(path)
 				end
 
-				it "calls Casteml.decode_file with path" do
-					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
-					cmd.invoke_with_build_args args, build_args
+				it "output normal tsv" do
+					expect(cmd).to receive(:output).with(Regexp.new("instrument\tanalyst\tsession"))
+					subject
 				end
+
+				context "with -t" do
+					let(:args){ ['-t', '-f', 'tsv', path]}
+					it "output transposed tsv" do
+						expect(cmd).to receive(:output).with(Regexp.new("instrument\tMAT 262"))
+						subject
+					end
+				end
+
 			end
 
-			context "with format org" do
-				let(:path){ 'tmp/mytable1.pml'}
+
+			context "with format org", :current => true do
+				let(:path){ 'tmp/mytable.tsv'}
 				#let(:path){ '~/orochi-devel/gems/casteml/spec/fixtures/files/mydata@1.pml'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'org', path, '-d']}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
-				#	puts path
 				end
 
-				it "calls Casteml.decode_file with path" do
-					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
-					cmd.invoke_with_build_args args, build_args
+				it "output normal org" do
+					expect(cmd).to receive(:output).with(Regexp.new('instrument\|analyst\|session\|'))					
+					subject
+				end
+
+
+				context "with -t" do
+					let(:args){ ['-t', '-f', 'org', path]}
+					it "output transposed org" do
+						expect(cmd).to receive(:output).with(Regexp.new('instrument\|MAT 262'))
+						subject
+					end
 				end
 			end
 
@@ -179,33 +221,62 @@ module Casteml::Commands
 
 				it "calls Casteml.decode_file with path" do
 					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
-					cmd.invoke_with_build_args args, build_args
+					#cmd.invoke_with_build_args args, build_args
+					expect(cmd).to receive(:output).with(Regexp.new("|session|"))
+					subject
 				end
+			end
+
+			context "with format tex", :current => true do
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:args){ ['-f', 'tex', path]}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+
+				it "output normal tex" do
+					expect(cmd).to receive(:output).with(Regexp.new('session & \\\\ion\[176\]{Hf}'))
+					subject
+				end
+
+				context "with -t" do
+					let(:args){ ['-t', '-f', 'tex', path]}
+					it "output transposed tex" do
+						expect(cmd).to receive(:output).with(Regexp.new('session \& I1841'))
+						subject
+					end
+				end
+
 			end
 
 			context "with format pdf" do
 				let(:path){ 'tmp/mytable.tsv'}
-				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'pdf', path]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
 				end
 
-				it "calls Casteml.decode_file with path" do
+				it "output PDF" do
 					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
-					cmd.invoke_with_build_args args, build_args
+					#cmd.invoke_with_build_args args, build_args
+					expect(cmd).to receive(:output)
+					subject
 				end
 			end
 
-			context "with format dataframe", :current => true do
+			context "with format dataframe" do
 				let(:path){ 'tmp/20130704180915-127898.pml'}
-				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				#let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:data_array){ double(:data) }				
 				let(:args){ ['-f', 'dataframe', '-c', 'trace', path]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
-					allow(Casteml).to receive(:decode_file).with(path).and_return(instance)
+					allow(cmd).to receive(:output)
+					#allow(Casteml).to receive(:decode_file).with(path).and_return(instance)
 				end
 
 				it "calls Casteml.convert_file with path and options" do
@@ -214,12 +285,14 @@ module Casteml::Commands
 				end
 
 				it "calls Casteml.encode with array and options" do
-					expect(Casteml).to receive(:encode).with(instance, :output_format => :dataframe, :with_unit => "ug/g", :with_nicknames => Casteml::MeasurementCategory.find_by_name("trace").nicknames)
+					expect(Casteml).to receive(:decode_file).with(path).and_return(data_array)
+					expect(Casteml).to receive(:encode).with(data_array ,:output_format => :dataframe, :with_unit => "ug/g", :with_nicknames => Casteml::MeasurementCategory.find_by_name("trace").nicknames)
 					cmd.invoke_with_build_args args, build_args
 				end
 
-				it "calls Casteml::Formats::CsvFormat.encode with array and options" do
-					expect(Casteml::Formats::CsvFormat).to receive(:to_string).with(instance, :omit_null => true, :without_error => true, :without_spot => true, :with_unit => "ug/g", :with_nicknames => Casteml::MeasurementCategory.find_by_name("trace").nicknames)
+				it "calls Casteml::Formats::CsvFormat.encode with array and options", :current => true do
+#					expect(Casteml::Formats::CsvFormat).to receive(:to_string).with(instance, :omit_null => true, :without_error => true, :without_spot => true, :with_unit => "ug/g", :with_nicknames => Casteml::MeasurementCategory.find_by_name("trace").nicknames).and_return("element")
+					expect(cmd).to receive(:output).with(Regexp.new("\nEr"))
 					cmd.invoke_with_build_args args, build_args
 				end
 
@@ -236,7 +309,9 @@ module Casteml::Commands
 
 				it "calls Casteml.decode_file with path" do
 					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
-					cmd.invoke_with_build_args args, build_args
+					#cmd.invoke_with_build_args args, build_args
+					expect(cmd).to receive(:output).with(Regexp.new("global_id,"))
+					subject
 				end
 			end
 

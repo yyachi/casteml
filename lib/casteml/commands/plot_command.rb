@@ -13,7 +13,7 @@ class Casteml::Commands::PlotCommand < Casteml::Command
       	}
 
 		#MeasurementCategory.find_all
-		category_names = Casteml::MeasurementCategory.find_all.map{|category| "'" + category.name + "'"}
+		category_names = Casteml::MeasurementCategory.record_pool.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
 						"Select template CATEGORY.R.erb and extract datasets defined in CATEGORY (#{category_names.join(', ')}) (default: #{@params[:category]})") do |v, options|
 			options[:category] = v

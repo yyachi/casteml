@@ -136,18 +136,6 @@ module Casteml::Formats
 			formatter.write(doc.root, xml)
 		end
 
-		def self.join_files(paths, opts = {})
-			docs = []
-			paths.each do |path|
-				docs << REXML::Document.new(File.open(path))
-			end
-			doc = join_docs(docs)
-			fp = Tempfile.open(["joined-", ".pml"])
-			path = fp.path
-			write(doc, fp)
-			fp.close(false)
-			path
-	  	end
 
 		def self.split_file(pml_path, opts = {})
 			dirname = File.dirname(pml_path)
@@ -177,6 +165,29 @@ module Casteml::Formats
 			files
 		end
 
+
+		def self.join_files(paths, opts = {})
+			docs = []
+			paths.each do |path|
+				docs << REXML::Document.new(File.open(path))
+			end
+			doc = join_docs(docs)
+			fp = Tempfile.open(["joined-", ".pml"])
+			path = fp.path
+			write(doc, fp)
+			fp.close(false)
+			path
+	  	end
+
+		def self.join_strings(strings, opts = {})
+			docs = []
+			strings.each do |string|
+				docs << REXML::Document.new(string)
+			end
+			doc = join_docs(docs ,opts)
+			doc.to_s
+			#doc
+		end
 
 	  	def self.join_docs(docs, opts = {})
 	  		els = []

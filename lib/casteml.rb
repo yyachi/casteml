@@ -44,6 +44,9 @@ module Casteml
   def self.convert_file(path, options = {})
     #opts[:type] = opts.delete(:format)
     opts = {}
+    if options[:transpose]
+      opts[:transpose] = options[:transpose]
+    end
     opts[:output_format] = options[:output_format]
     unless opts[:output_format]
       opts[:output_format] = Casteml.is_pml?(path) ? :csv : :pml
@@ -52,6 +55,8 @@ module Casteml
     if opts[:output_format] == :tex
       opts[:number_format] = options[:number_format] || "%.4g"
     end
+
+
 
     category_name = options.delete(:with_category)
     if category_name

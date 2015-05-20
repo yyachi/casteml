@@ -130,7 +130,7 @@ module Casteml::Formats
 			}
 		end
 
-		describe ".decode_string", :current => true do
+		describe ".decode_string" do
 			subject{ XmlFormat.decode_string(xml) }
 			let(:xml){ <<-EOF
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -368,17 +368,6 @@ module Casteml::Formats
 
 		end
 
-		describe ".join_docs" do
-			let(:doc1){ REXML::Document.new '<?xml version="1.0" encoding="UTF-8" ?><acquisition><abundance></abundance></acquisition>' }
-			let(:doc2){ REXML::Document.new '<?xml version="1.0" encoding="UTF-8" ?><acquisitions><acquisition><abundance></abundance></acquisition><acquisition><abundance></abundance></acquisition></acquisitions>' }
-			let(:docs){ [doc1, doc2] }
-			before do
-				@doc = XmlFormat.join_docs(docs)
-			end
-			it { expect(@doc).to be_an_instance_of(REXML::Document) }
-			it { expect(@doc.root.name).to be_eql('acquisitions') }
-			it { expect(@doc.get_elements('acquisitions/acquisition').size).to be_eql(3) }
-		end
 
 		describe ".split_doc" do
 			let(:doc){ REXML::Document.new '<?xml version="1.0" encoding="UTF-8" ?><acquisitions><acquisition><abundance></abundance></acquisition><acquisition><abundance></abundance></acquisition></acquisitions>' }
@@ -524,6 +513,26 @@ module Casteml::Formats
 				path = XmlFormat.join_files(paths)
 				expect(path).to be_eql(outpath)
 			}
+		end
+
+		describe ".join_strings", :current => true do
+			subject { XmlFormat.join_strings(strings) }
+			let(:string1){ '<?xml version="1.0" encoding="UTF-8" ?><acquisition>1</acquisition>' }
+			let(:string2){ '<?xml version="1.0" encoding="UTF-8" ?><acquisitions><acquisition>2</acquisition><acquisition>3</acquisition></acquisitions>' }
+			let(:strings){ [string1, string2] }
+			it { expect(subject).to match(/acquisitions/) }
+		end
+
+		describe ".join_docs" do
+			let(:doc1){ REXML::Document.new '<?xml version="1.0" encoding="UTF-8" ?><acquisition><abundance></abundance></acquisition>' }
+			let(:doc2){ REXML::Document.new '<?xml version="1.0" encoding="UTF-8" ?><acquisitions><acquisition><abundance></abundance></acquisition><acquisition><abundance></abundance></acquisition></acquisitions>' }
+			let(:docs){ [doc1, doc2] }
+			before do
+				@doc = XmlFormat.join_docs(docs)
+			end
+			it { expect(@doc).to be_an_instance_of(REXML::Document) }
+			it { expect(@doc.root.name).to be_eql('acquisitions') }
+			it { expect(@doc.get_elements('acquisitions/acquisition').size).to be_eql(3) }
 		end
 
 		describe ".split_and_join" do

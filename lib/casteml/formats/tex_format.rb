@@ -129,8 +129,22 @@ module Casteml::Formats
 			string
 		end
 
+		def self.transpose_array_of_arrays(a)
+			num_col = a.size
+			num_row = a[0].size
+			tr = []
+			num_row.times do |idx|
+				tr << a.map{|c| c[idx]}
+			end
+			tr
+		end
+
 		def self.to_string(data, opts = {})
-			array_of_arrays = data.to_array_of_arrays(opts)
+			array_of_arrays = transpose_array_of_arrays(data.to_array_of_arrays(opts))
+			if opts[:transpose]
+				array_of_arrays = transpose_array_of_arrays(array_of_arrays)
+			end
+
 			num_column = array_of_arrays.map(&:size).max
 			num_row = array_of_arrays.size
 			header = array_of_arrays.shift

@@ -73,6 +73,10 @@ Implementation:
 EOS
 	end
 
+    def output(string)
+        puts string        
+    end
+
 	def execute
 		original_options = options.clone
 		options.delete(:build_args)
@@ -81,17 +85,24 @@ EOS
 		#id = args.shift
 		options_download = {}
         paths = []
+        jpath = nil
+        joined = nil
+        strings = []
+        castemls = []
         while(id = args.shift) do 
 		  options_download[:recursive] = options[:recursive] if options[:recursive]
-    	  paths << Casteml.download(id, options_download)
+          casteml = Casteml.get(id, options_download)
+          castemls << casteml
+          # castemls = [casteml]
+          # castemls.unshift joined if joined
+          # joined = Casteml::Formats::XmlFormat.join_strings(castemls)
         end
-        path = Casteml::Formats::XmlFormat.join_files(paths)
+        string = Casteml::Formats::XmlFormat.join_strings(castemls)
 
-        string = File.read(path)
     	if options[:output_format]
 	    	string = Casteml.encode(Casteml::Formats::XmlFormat.decode_string(string), options)
     	end
-    	say string
+        output(string)
 	end
 
 end

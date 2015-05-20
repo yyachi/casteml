@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'casteml/formats/csv_format'
 module Casteml::Formats
 	describe CsvFormat do
-		describe ".to_string", :current => true do
+		describe ".to_string" do
 			subject { CsvFormat.to_string(data, opts) }
 			let(:org_string){ <<-EOF
 ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error,Li_error
@@ -12,13 +12,17 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 			}
 			let(:opts){ {} }
 			let(:data){ CsvFormat.decode_string(org_string) }
-				before do
-					puts subject
-				end
 			
 			it { expect(subject).to be_an_instance_of(String) }
 			it { expect(subject).to match(/ID,session/)}
 
+
+			context "with transpose", :current => true do
+				let(:opts){ {:transpose => true} }
+				it {
+					expect(subject).to match(Regexp.new("session,test-1"))
+				}
+			end
 
 			context "with unit" do
 				let(:data){
@@ -28,9 +32,6 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.15345'},{:nickname => 'Li', :data => '1.145', :unit => 'ug/g'}]},
 					]
 				}
-				before do
-					puts subject
-				end
 				it {
 					expect(subject).to be_an_instance_of(String)
 				}
@@ -270,6 +271,44 @@ Al2O3,cg/g,,,3.4,5.4,,
 
 		describe ".decode_string" do
 			subject { CsvFormat.decode_string(string) }
+
+			context "with tempfile.tsv" do
+				let(:path){ 'tmp/invalid_line_feed.tsv'}
+				let(:string){ File.read(path) }
+				#let(:string){ "session,name\r\n1,hello\r\n2,world\r\n" }
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+				it {
+					expect(subject[0]).to include("session" => "Allende-13")					
+				}
+			end
+
+			context 'with \n' do
+				let(:string){ "session,name\n1,hello\n2,world\n" }
+				it {
+					expect(subject[0]).to include("session" => "1")					
+					expect(subject[1]).to include("session" => "2")					
+				}
+			end
+
+			context 'with \r\n' do
+				let(:string){ "session,name\r\n1,hello\r\n2,world\r\n" }
+				it {
+					expect(subject[0]).to include("session" => "1")					
+					expect(subject[1]).to include("session" => "2")					
+				}
+			end
+
+			context 'with \r\r\n' do
+				let(:string){ "session,name\r\r\n1,hello\r\r\n2,world\r\r\n" }
+				it {
+					expect(subject[0]).to include("session" => "1")					
+					expect(subject[1]).to include("session" => "2")					
+				}
+			end
+
 			context "with empty string" do
 				let(:string){ "" }
 				it {
