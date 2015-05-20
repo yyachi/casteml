@@ -18,9 +18,9 @@ class Casteml::Commands::UploadCommand < Casteml::Command
     Upload pmlfile to Medusa.  Users are encoraged to call this
     program through `orochi-upload'.
 
-    You may want to correlate pmlfile to certain stone.  The stone
-    should be specified in pmlfile.  Thus #{program_name} does not
-    take stone-ID as option.
+    You may want to correlate pmlfile to certain stone.  To do so
+    stone-ID should be specified in pmlfile and #{program_name} does
+    not take stone-ID as an option.
 
     CASTEML stores spot location as relative coordinate of an image.
     Origin of a coordinate is center of an image.  A spot coordinate
