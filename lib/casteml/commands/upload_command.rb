@@ -14,15 +14,20 @@ class Casteml::Commands::UploadCommand < Casteml::Command
 
 	def description
 	<<-EOF
+
     Upload pmlfile to Medusa.  Users are encoraged to call this
     program through `orochi-upload'.
+
+    You may want to correlate pmlfile to certain stone.  The stone
+    should be specified in pmlfile.  Thus #{program_name} does not
+    take stone-ID as option.
 
     CASTEML stores spot location as relative coordinate of an image.
     Origin of a coordinate is center of an image.  A spot coordinate
     is normalized by the longest side.  As a consequence, the longest
-    side ranges from $-50$ to $50$.
+    side ranges from -50 to 50.
      
-    An utility #{program_name} tries to upload data-sets, image file
+    An utility #{program_name} tries to upload datasets, image file
     my-spot-region.jpg, and coordinate.  If there is Affine matrix
     file my-spot-region.affine (xy-on-image to vs space), it also
     uploads the Affine matrix at the same time.
@@ -33,6 +38,7 @@ Example:
 
 See Also:
     casteml join
+    casteml mv
     orochi-upload
     http://dream.misasa.okayama-u.ac.jp
 
