@@ -131,21 +131,33 @@ module Casteml::Commands
 
 			end
 
-			context "with format csv" do
+			context "with format csv", :current => true do
 				let(:path){ 'tmp/mytable.tsv'}
-				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'csv', path]}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
 				end
 
-				it "calls Casteml.decode_file with path" do
-					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
-					#cmd.invoke_with_build_args args, build_args
-					expect(cmd).to receive(:output).with(Regexp.new("session,"))
+				it "output normal csv" do
+					expect(cmd).to receive(:output).with(Regexp.new("instrument,analyst,session"))
 					subject
 				end
+				context "with -t" do
+					let(:args){ ['-t', '-f', 'csv', path]}
+					it "call Casteml.convert_file with transpose option" do
+						expect(Casteml).to receive(:decode_file).with(path).and_return(data)
+						expect(Casteml).to receive(:encode).with(data, :output_format => :csv, :transpose => true).and_return('csv')
+						expect(cmd).to receive(:output).with('csv')
+						subject
+					end
+					it "output transposed csv" do
+						expect(cmd).to receive(:output).with(Regexp.new("instrument,MAT 262"))
+						subject
+					end
+				end
+
 			end
 
 			context "with format tsv" do
@@ -157,30 +169,44 @@ module Casteml::Commands
 					setup_file(path)
 				end
 
-				it "calls Casteml.decode_file with path" do
-					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
-					#cmd.invoke_with_build_args args, build_args
-					expect(cmd).to receive(:output).with(Regexp.new("session\t"))
+				it "output normal tsv" do
+					expect(cmd).to receive(:output).with(Regexp.new("instrument\tanalyst\tsession"))
 					subject
 				end
+
+				context "with -t" do
+					let(:args){ ['-t', '-f', 'tsv', path]}
+					it "output transposed tsv" do
+						expect(cmd).to receive(:output).with(Regexp.new("instrument\tMAT 262"))
+						subject
+					end
+				end
+
 			end
 
-			context "with format org" do
-				let(:path){ 'tmp/mytable1.pml'}
+
+			context "with format org", :current => true do
+				let(:path){ 'tmp/mytable.tsv'}
 				#let(:path){ '~/orochi-devel/gems/casteml/spec/fixtures/files/mydata@1.pml'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'org', path, '-d']}
 				before(:each) do
 					setup_empty_dir('tmp')
 					setup_file(path)
-				#	puts path
 				end
 
-				it "calls Casteml.decode_file with path" do
-					#expect(Casteml).to receive(:convert_file).with(path, :format => :tex).and_return(instance)
-					#cmd.invoke_with_build_args args, build_args
-					expect(cmd).to receive(:output).with(Regexp.new("|session|"))					
+				it "output normal org" do
+					expect(cmd).to receive(:output).with(Regexp.new('instrument\|analyst\|session\|'))					
 					subject
+				end
+
+
+				context "with -t" do
+					let(:args){ ['-t', '-f', 'org', path]}
+					it "output transposed org" do
+						expect(cmd).to receive(:output).with(Regexp.new('instrument\|MAT 262'))
+						subject
+					end
 				end
 			end
 
@@ -201,6 +227,30 @@ module Casteml::Commands
 				end
 			end
 
+			context "with format tex", :current => true do
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:args){ ['-f', 'tex', path]}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+
+				it "output normal tex" do
+					expect(cmd).to receive(:output).with(Regexp.new('session & \\\\ion\[176\]{Hf}'))
+					subject
+				end
+
+				context "with -t" do
+					let(:args){ ['-t', '-f', 'tex', path]}
+					it "output transposed tex" do
+						expect(cmd).to receive(:output).with(Regexp.new('session \& I1841'))
+						subject
+					end
+				end
+
+			end
+
 			context "with format pdf" do
 				let(:path){ 'tmp/mytable.tsv'}
 				let(:args){ ['-f', 'pdf', path]}
@@ -217,7 +267,7 @@ module Casteml::Commands
 				end
 			end
 
-			context "with format dataframe", :current => true do
+			context "with format dataframe" do
 				let(:path){ 'tmp/20130704180915-127898.pml'}
 				#let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:data_array){ double(:data) }				

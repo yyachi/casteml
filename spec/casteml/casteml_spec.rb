@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'casteml'
 module Casteml
 	describe ".convert_file" do
-		context "with category and output dataframe", :current => true do
+		context "with category and output dataframe" do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20110203165130-611-312.pml' }
 			let(:opts){ {:with_category => category, :output_format => :dataframe } }
@@ -34,7 +34,6 @@ module Casteml
 			before do
 				setup_empty_dir('tmp')
 				setup_file(path)
-				puts subject
 				File.open(output_path, "w") do |out|
 					out.puts subject
 				end
@@ -57,9 +56,6 @@ module Casteml
 		context "with to_int_ok10cb@1.pml" do
 			subject { Casteml.convert_file(path) }
 			let(:path) { 'spec/fixtures/files/to_int_ok10cb@1.pml'}
-			before do
-				puts subject
-			end
 			it {
 				expect(File.exist?(path)).to be_truthy
 				expect(subject).to be_an_instance_of(String)
@@ -69,23 +65,19 @@ module Casteml
 		context "with cbk1.pml" do
 			subject { Casteml.convert_file(path) }
 			let(:path) { 'spec/fixtures/files/cbk1.pml'}
-			before do
-				puts subject
-			end
 			it {
 				expect(File.exist?(path)).to be_truthy
 				expect(subject).to be_an_instance_of(String)
 			}
 		end
 
-		context "with real file to output_format dataframe", :current => true do
+		context "with real file to output_format dataframe" do
 			subject { Casteml.convert_file(path, :output_format => output_format, :with_category => 'trace')}
 			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
 			let(:output_format){ :dataframe }
 			before do
 				setup_empty_dir('tmp')
 				setup_file(path)
-				puts subject
 				File.open(output_path, "w") do |out|
 					out.puts subject
 				end
@@ -187,7 +179,9 @@ module Casteml
 
 	end
 
-	describe ".encode" do
+	describe ".encode", :current => true do
+		subject { Casteml.encode(data, opts) }
+		let(:opts){ {} }
 		let(:data){ [{:session => 'session-1',:sample_name => 'stone-1'},{:session => 'session-2',:sample_name => 'stone-2'}] }
 		context "without opts" do
 			it {
@@ -196,11 +190,21 @@ module Casteml
 			}
 		end
 
+		context "with -t" do
+			let(:opts){ {:output_format => format, :transpose => false }}
+			let(:format){ :csv }
+			it {
+				expect(Formats::CsvFormat).to receive(:to_string).with(data, opts)
+				subject
+			}
+		end
+
 		context "with output_format = :csv" do
-			let(:opts){ {:output_format => :csv}}
+			let(:opts){ {:output_format => format }}
+			let(:format){ :csv }
 			it {
 				expect(Formats::CsvFormat).to receive(:to_string).with(data, {})
-				Casteml.encode(data, opts)
+				subject
 			}
 		end
 

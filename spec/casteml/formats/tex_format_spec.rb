@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'casteml/formats/tex_format'
 require 'alchemist'
 module Casteml::Formats
-	WithCompile = true
+	WithCompile = false
 	describe TexFormat do
 		describe ".document" do
 			subject {
@@ -11,9 +11,6 @@ module Casteml::Formats
 					doc.puts '\\abundance{Si}'
 				end
 			}
-			before do
-				puts subject
-			end
 			let(:path){ 'tmp/deleteme-document.tex'}
 			it { expect(subject).to be_an_instance_of(String) }
 			it "should be able to compile", :if => WithCompile do
@@ -83,9 +80,6 @@ module Casteml::Formats
 		describe ".array_of_arrays2table" do
 			subject { TexFormat.array_of_arrays2table(data) }
 			let(:data){ [%w(1 2 3), %w(a b c), %w(d e f)]}
-			before do
-				puts subject
-			end
 			it { expect(subject).to be_an_instance_of(String)}
 		end
 
@@ -93,17 +87,17 @@ module Casteml::Formats
 			subject { TexFormat.abundance(nickname) }
 			let(:path) { 'tmp/deleteme.tex' }			
 			let(:nickname){ 'Al2.5O3.2'}
-			before(:each) do
-				setup_empty_dir('tmp')
-				#setup_file(path)
-				tex = TexFormat.document do |doc|
-					doc.puts subject
-				end
-				File.open(path, "w") do |f|
-					f.puts tex
-				end
-				system("cd #{File.dirname(path)} && pdflatex #{File.basename(path)}")
-			end
+			# before(:each) do
+			# 	setup_empty_dir('tmp')
+			# 	#setup_file(path)
+			# 	tex = TexFormat.document do |doc|
+			# 		doc.puts subject
+			# 	end
+			# 	File.open(path, "w") do |f|
+			# 		f.puts tex
+			# 	end
+			# 	system("cd #{File.dirname(path)} && pdflatex #{File.basename(path)}")
+			# end
 			it { expect(subject).to be_an_instance_of(String) }
 		end
 
@@ -135,19 +129,26 @@ module Casteml::Formats
 				before do
 					Casteml::MeasurementItem.record_pool = Casteml::MeasurementItem.load_from_dump("spec/fixtures/files/measurement_items.marshal")
 				end
-			context "with compile" do
-				it "should be able to compile", :if => WithCompile do
-					expect{ texcompile(TexFormat.document{|doc| doc.puts subject } , path) }.not_to raise_error
+				it {
+					#expect(subject).to match(Regexp.new('session \& \\\\abundance{SiO_2}'))
+					expect(subject).to match(Regexp.new('session \& \\\\abundance{SiO_2}'))
+				}
+				context "with -t" do
+					let(:opts){ {:transpose => true } }
+					it {
+						expect(subject).to match(Regexp.new('session & 000'))
+					}
 				end
+				context "with compile" do
+					it "should be able to compile", :if => WithCompile do
+						expect{ texcompile(TexFormat.document{|doc| doc.puts subject } , path) }.not_to raise_error
+					end
 
-			end
+				end
 
 
 			context "with number_format" do
 				let(:opts){ {:number_format => '%.3f'} }
-				before do
-					puts subject
-				end
 				it {
 					expect(subject).to be_an_instance_of(String)
 				}
@@ -155,9 +156,6 @@ module Casteml::Formats
 			end
 			context "without number_format" do
 				let(:opts){ {} }
-				before do
-					puts subject
-				end
 				it {
 					expect(subject).to be_an_instance_of(String)
 				}

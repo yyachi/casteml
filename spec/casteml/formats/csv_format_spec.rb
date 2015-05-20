@@ -12,13 +12,17 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 			}
 			let(:opts){ {} }
 			let(:data){ CsvFormat.decode_string(org_string) }
-				before do
-					puts subject
-				end
 			
 			it { expect(subject).to be_an_instance_of(String) }
 			it { expect(subject).to match(/ID,session/)}
 
+
+			context "with transpose", :current => true do
+				let(:opts){ {:transpose => true} }
+				it {
+					expect(subject).to match(Regexp.new("session,test-1"))
+				}
+			end
 
 			context "with unit" do
 				let(:data){
@@ -28,9 +32,6 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.15345'},{:nickname => 'Li', :data => '1.145', :unit => 'ug/g'}]},
 					]
 				}
-				before do
-					puts subject
-				end
 				it {
 					expect(subject).to be_an_instance_of(String)
 				}

@@ -197,6 +197,9 @@ module Casteml::Formats
 					csv << row
 				end
 			end
+			if opts[:transpose]
+				string = transpose(string, csv_opts)
+			end
 			string
 		end
 
@@ -242,7 +245,7 @@ module Casteml::Formats
 		end
 
 		def self.transpose(string, opts = {})
-			csv = CSV.new(string)
+			csv = CSV.new(string, opts)
 			array_of_arrays = csv.to_a
 			max_items = array_of_arrays.map{|array| array.size }.max
 			unless array_of_arrays.all?{|array| array.size == max_items }
@@ -252,7 +255,7 @@ module Casteml::Formats
 					end
 				end
 			end
-			csv_string = CSV.generate do |csv|
+			csv_string = CSV.generate("", opts) do |csv|
 				array_of_arrays.transpose.each do |array|
 					csv << array
 				end

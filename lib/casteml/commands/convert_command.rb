@@ -21,6 +21,11 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 			options[:with_category] = v
 		end
 
+		add_option('-t', '--transpose',
+						'Transpose row and column') do |v, options|
+			options[:transpose] = v
+		end
+
 		# add_option('-d', '--debug', 'Show debug information') do |v|
 		# 	options[:debug] = v
 		# end
