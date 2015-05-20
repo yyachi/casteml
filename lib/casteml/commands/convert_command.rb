@@ -74,6 +74,10 @@ Implementation:
 EOF
 	end
 
+	def output(string)
+		puts string
+	end
+
 	def execute
 		original_options = options.clone
 		options.delete(:build_args)
@@ -82,7 +86,8 @@ EOF
     	path = args.shift
 
     	string = Casteml.convert_file(path, options)
-    	puts string
+    	output(string)
+    	#puts string
     	#xml = Casteml::Format::XmlFormat.from_array(data)
 	end
 end
