@@ -3,10 +3,10 @@ require 'casteml/command'
 require 'casteml/measurement_category'
 class Casteml::Commands::ConvertCommand < Casteml::Command
 	def initialize
-		super 'convert', 'Convert (pml csv tsv isorg) to (pml isorg csv tsv org dataframe tex pdf)'
+		super 'convert', 'Convert (pml csv tsv isorg) to (pml csv tsv org isorg dataframe tex pdf)'
 
 		add_option('-f', '--format OUTFORMAT',
-						'Output format (pml csvx tsvx isorg csv tsv org dataframe tex pdf)') do |v, options|
+						'Output format (pml csv tsv org isorg dataframe tex pdf)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
 
@@ -22,7 +22,7 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		end
 
 		add_option('-t', '--transpose',
-						'Transpose row and column') do |v, options|
+						'Transpose row and column on output format (csv tsv org isorg tex)') do |v, options|
 			options[:transpose] = v
 		end
 
