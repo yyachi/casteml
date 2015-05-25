@@ -1,0 +1,27 @@
+## #!/usr/bin/env Rscript
+### I/O SETUP
+## input  = "cbkstones.dataframe"
+input  = "<%= File.basename(dataframe_path,'*') -%>"
+### DATA HANDLING
+output = sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",input),"pdf")
+pdf(output)
+tbl0    <- read.csv(input,header=T,stringsAsFactors=F)
+tll1    <- tbl0[2:length(tbl0)]
+chem    <- tbl0[,1]
+nchem   <- nrow(tll1)
+tbl2    <- as.data.frame(t(tll1))
+stone   <- rownames(tbl2)
+nstone  <- nrow(tbl2)
+xxx     <- 1:nstone
+col     <- rainbow(nchem)
+cexax   <- 0.2
+for(i in 1:nchem) {
+    mean <- mean(tbl2[,i], na.rm = T)
+    if (is.nan(mean) == FALSE) {                
+        yyy       <- tbl2[,i] / mean
+        chem.mean <- sprintf("%s / %.3g",chem[i],mean)
+        plot(xxx,yyy,xaxt="n",type="o",col=col[i],xlab="",ylab="",main=chem.mean)
+        axis(1,at=xxx,cex.axis=cexax,las=2,labels=stone,cex=cexax,tck=-0.005)
+    } else {}
+}
+dev.off()
