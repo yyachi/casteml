@@ -44,11 +44,11 @@ module Casteml::Commands
 				end
 			end
 
-			context "without options" do
+			context "without options", :current => true do
 				subject { cmd.invoke_with_build_args args, build_args }
 
 				let(:path){ 'tmp/20130528105235-594267-R.pml'}
-				let(:plotfile){ File.basename(path,".*") + '_trace.R'}
+				let(:plotfile){ File.basename(path,".*") + '.R'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ [path]}
 				let(:erb){ double(:erb) }
@@ -66,13 +66,13 @@ module Casteml::Commands
 					subject
 				end
 
-				it "select template for trace" do
-					expect(cmd).to receive(:default_template).with('trace').and_return(File.join(Casteml::TEMPLATE_DIR, "plot/trace.R.erb"))
+				it "select template for default" do
+					expect(cmd).to receive(:default_template).with(nil).and_return(File.join(Casteml::TEMPLATE_DIR, "plot/default.R.erb"))
 					subject
 				end
 
-				it "select dataframe name with category" do
-					expect(cmd).to receive(:output_dataframe).with(File.join(File.dirname(path), File.basename(path, '.*') + "_trace.dataframe"), /element/)
+				it "select dataframe name without category" do
+					expect(cmd).to receive(:output_dataframe).with(File.join(File.dirname(path), File.basename(path, '.*') + ".dataframe"), /element/)
 					subject
 				end
 
@@ -80,7 +80,7 @@ module Casteml::Commands
 					expect(cmd).to receive(:read_template).and_return(template)
 					expect(erb).to receive(:result).and_return(output)
 					expect(ERB).to receive(:new).with(template, nil, "-", "@output").and_return(erb)
-					expect(cmd).to receive(:output_plotfile).with(File.join(File.dirname(path), File.basename(path, '.*') + "_trace.R"), output)
+					expect(cmd).to receive(:output_plotfile).with(File.join(File.dirname(path), File.basename(path, '.*') + ".R"), output)
 #					expect(cmd).to receive(:output_plotfile).with(File.join(File.dirname(path), File.basename(path, '.*') + "_trace.R"), Regexp.new("input = \\\"#{File.basename(path, '.*') + '_trace.dataframe'}\\\"\noutput = \\\"#{File.basename(path, '.*') + '_trace.pdf'}\\\"\n"))
 					subject
 				end

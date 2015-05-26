@@ -8,7 +8,7 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 		super 'plot', 'Create diagram for certein category from pmlfile using R'
 
 	    @params = {
-	    	:category => 'trace',
+#	    	:category => 'trace',
 #      		:template_file => File.join(Casteml::TEMPLATE_DIR, 'plot-trace.R.erb')
       	}
 
@@ -91,7 +91,11 @@ EOF
 	end
 
 	def default_template(category)
-    	File.join(Casteml::TEMPLATE_DIR, "plot", "#{category}.R.erb")
+        if category
+    	   File.join(Casteml::TEMPLATE_DIR, "plot", "#{category}.R.erb")
+        else
+           File.join(Casteml::TEMPLATE_DIR, "plot", "default.R.erb")
+        end
 	end
 
     def output_dataframe(dataframe_path, dataframe)
@@ -120,7 +124,10 @@ EOF
 		raise OptionParser::InvalidArgument.new('specify FILE') if args.empty?
     	path = args.shift
 		dir = File.dirname(path)
-		base = File.basename(path,".*") + "_#{params[:category]}"
+		base = File.basename(path,".*")
+        if params[:category]
+            base += "_#{params[:category]}"
+        end
 		dataframe_path = File.join(dir,base + ".dataframe")
 		plotfile_path = File.join(dir,base + ".R")
 		output_path = File.join(dir,base + ".pdf")
