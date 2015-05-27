@@ -33,7 +33,7 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 		"#{program_name} pmlfile"
 	end
 	def arguments
-		"    pmlfile (or csv, isorg)"
+		"    pmlfile (or csvfile, isorgfile)"
 	end
 
 	def description
@@ -41,7 +41,8 @@ class Casteml::Commands::PlotCommand < Casteml::Command
     Create diagram for certein category from pmlfile using R.  Specify
     pmlfile as argument.  Multiple stones can be plotted at the same
     time.  Download pmlfiles for stones, and merge them into single
-    multi-pmlfile by command `casteml join' in advance.
+    multi-pmlfile by command `casteml join' in advance.  The pmlfile
+    can be csvfile or isorgfile.
 
     This program extracts certain datasets from pmlfile, and plots
     them using template.  With option `--category CATEGORY1', datasets
