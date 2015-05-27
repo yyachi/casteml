@@ -15,7 +15,7 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 		#MeasurementCategory.find_all
 		category_names = Casteml::MeasurementCategory.record_pool.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
-						"Select template CATEGORY.R.erb and extract datasets defined in CATEGORY (#{category_names.join(', ')}) (default: none)") do |v, options|
+						"Select template CATEGORY.R.erb and extract datasets defined in CATEGORY (#{category_names.join(', ')})") do |v, options|
 			options[:category] = v
 		end
 
@@ -63,12 +63,12 @@ Example:
     $ casteml plot cbkstones.pml
     $ ls
     cbkstones.pml
-    cbkstones_trace.dataframe
-    cbkstones_trace.R
-    cbkstones_trace.pdf
-    $ vi cbkstones_trace.R
+    cbkstones.dataframe
+    cbkstones.R
+    cbkstones.pdf
+    $ vi cbkstones.R
     ...
-    $ R --vanilla --slave < cbkstones_trace.R
+    $ R --vanilla --slave < cbkstones.R
 
     $ casteml download -R 20130528105235-594267 > datasets.pml
     $ casteml plot datasets.pml --category oxygen
