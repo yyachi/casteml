@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'casteml'
 module Casteml
 	describe ".convert_file" do
-		context "with average and output csv", :current => true do
+		context "with average and output csv" do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20130528105345-976071-in.csv'}
 			let(:opts){ {:output_format => :csv, :with_average => true } }
@@ -10,6 +10,25 @@ module Casteml
 				setup_empty_dir('tmp')
 				setup_file(path)
 			end
+			it {
+				expect(subject).to match(/CBK/)				
+			}
+			it {
+				expect(subject).to match(/average/)
+			}
+		end
+
+		context "with smash and output csv" do
+			subject { Casteml.convert_file(path, opts)}
+			let(:path){ 'tmp/20130528105345-976071-in.csv'}
+			let(:opts){ {:output_format => :csv, :smash => true } }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				expect(subject).not_to match(/CBK/)
+			}
 			it {
 				expect(subject).to match(/average/)
 			}
@@ -257,7 +276,7 @@ module Casteml
 			let(:format){ :csv }
 			it {
 				expect(Casteml).to receive(:average).with(data).and_return({:session => 'average'})
-				expect(Formats::CsvFormat).to receive(:to_string).with({:session => 'average'}, opts)
+				expect(Formats::CsvFormat).to receive(:to_string).with([{:session => 'average'}], opts)
 				subject
 			}
 		end

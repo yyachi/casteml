@@ -146,7 +146,7 @@ module Casteml
     end
 
     if opts[:smash]
-      data = self.average(data)
+      data = [self.average(data)]
     end
     type = opts.delete(:output_format) || :pml
     case type
