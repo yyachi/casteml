@@ -2,7 +2,18 @@ require 'spec_helper'
 require 'casteml'
 module Casteml
 	describe ".convert_file" do
-
+		context "with average and output csv", :current => true do
+			subject { Casteml.convert_file(path, opts)}
+			let(:path){ 'tmp/20130528105345-976071-in.csv'}
+			let(:opts){ {:output_format => :csv, :with_average => true } }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				expect(subject).to match(/average/)
+			}
+		end
 
 		context "with category and output dataframe" do
 			subject { Casteml.convert_file(path, opts)}
@@ -196,7 +207,7 @@ module Casteml
 			expect(subject[:abundances][0]).to include(:nickname => "SiO2")
 			expect(subject[:abundances][1]).to include(:nickname => "Li")
 		}
-		context "with real data", :current => true do
+		context "with real data" do
 			let(:path){ 'tmp/20130528105345-976071-in.csv'}
 			let(:data){ Casteml.decode_file(path)}
 			before do

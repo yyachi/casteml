@@ -129,7 +129,7 @@ module Casteml
         end
       end
       average[:data] = values.mean
-      average[:unit] = Casteml::Formats::TexFormat.number_to_unit(values.mean)
+#      average[:unit] = Casteml::Formats::TexFormat.number_to_unit(values.mean)
       average[:error] = values.standard_deviation
       average[:info] = values.size
       hash_avg[:abundances] ||= []
