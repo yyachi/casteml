@@ -2,6 +2,8 @@ require 'spec_helper'
 require 'casteml'
 module Casteml
 	describe ".convert_file" do
+
+
 		context "with category and output dataframe" do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20110203165130-611-312.pml' }
@@ -179,7 +181,37 @@ module Casteml
 
 	end
 
-	describe ".encode", :current => true do
+	describe ".average" do
+		subject { Casteml.average(data, opts) }
+		let(:opts) { {} }
+		let(:data){
+			[
+				{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '12.345', :unit => 'cg/g'},{:nickname => 'Li', :data => '1.345', :unit => 'ug/g'}]},
+				{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '14.345', :unit => 'cg/g'},{:nickname => 'Li', :data => '0.00000001245', :unit => 'cg/g'}]},						
+				{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.15345'},{:nickname => 'Li', :data => '1.145', :unit => 'ug/g'}]},
+			]
+		}
+		it {
+			expect(subject).to include(:session => "average")
+			expect(subject[:abundances][0]).to include(:nickname => "SiO2")
+			expect(subject[:abundances][1]).to include(:nickname => "Li")
+		}
+		context "with real data", :current => true do
+			let(:path){ 'tmp/20130528105345-976071-in.csv'}
+			let(:data){ Casteml.decode_file(path)}
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				expect(subject).to include(:session => "average")
+				expect(subject[:abundances][0]).to include(:nickname => "SiO2")
+				expect(subject[:abundances][1]).to include(:nickname => "Li")
+			}
+		end
+	end
+
+	describe ".encode" do
 		subject { Casteml.encode(data, opts) }
 		let(:opts){ {} }
 		let(:data){ [{:session => 'session-1',:sample_name => 'stone-1'},{:session => 'session-2',:sample_name => 'stone-2'}] }
@@ -195,6 +227,26 @@ module Casteml
 			let(:format){ :csv }
 			it {
 				expect(Formats::CsvFormat).to receive(:to_string).with(data, opts)
+				subject
+			}
+		end
+
+		context "with average" do
+			let(:opts){ {:output_format => format, :with_average => true }}			
+			let(:format){ :csv }
+			it {
+				expect(Casteml).to receive(:average).with(data).and_return({:session => 'average'})
+				expect(Formats::CsvFormat).to receive(:to_string).with(data, opts)
+				subject
+			}
+		end
+
+		context "with smash" do
+			let(:opts){ {:output_format => format, :smash => true }}			
+			let(:format){ :csv }
+			it {
+				expect(Casteml).to receive(:average).with(data).and_return({:session => 'average'})
+				expect(Formats::CsvFormat).to receive(:to_string).with({:session => 'average'}, opts)
 				subject
 			}
 		end

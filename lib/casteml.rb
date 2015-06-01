@@ -8,6 +8,23 @@ require 'tempfile'
 #require 'casteml/formats/csv_format'
 #require 'casteml/formats/tex_format'
 autoload(:MedusaRestClient, 'medusa_rest_client.rb')
+
+module Enumerable
+  def mean
+    self.sum/self.length.to_f
+  end
+
+  def sample_variance
+    m = self.mean
+    sum = self.inject(0){|accum, i| accum +(i-m)**2 }
+    sum/(self.length - 1).to_f
+  end
+
+  def standard_deviation
+    return Math.sqrt(self.sample_variance)
+  end
+end
+
 module Casteml
   autoload(:Acquisition, 'casteml/acquisition.rb')
   module Casteml::Formats
@@ -44,6 +61,13 @@ module Casteml
   def self.convert_file(path, options = {})
     #opts[:type] = opts.delete(:format)
     opts = {}
+    if options[:with_average]
+      opts[:with_average] = options[:with_average]
+    end
+    if options[:smash]
+      opts[:smash] = options[:smash]
+    end
+
     if options[:transpose]
       opts[:transpose] = options[:transpose]
     end
@@ -71,8 +95,59 @@ module Casteml
     string = encode(decode_file(path), opts)
   end
 
+  def self.average(data, opts = {})
+    hash_avg = Hash.new
+    hash_avg[:session] = sprintf("average", data.size)
+    # fmt = opts[:number_format] || '%.4g'
+    # units_for_display = {:centi => 'c', :mili => 'm', :micro => 'u', :nano => 'n', :pico => 'p'}
+    # fmt_opts = {:format => "$%n%u$", :units => units_for_display }
+    acqs = []
+    data.each do |hash|
+      acqs << Casteml::Acquisition.new(hash)
+    end
+    nicknames = []
+    acqs.each do |acq|
+      nicknames.concat(acq.abundances.map(&:nickname))
+      nicknames.uniq!
+    end
+
+    array_of_arrays = []
+
+    #array_of_arrays << ["session"].concat(acqs.map{|acq| Casteml::Formats::TexFormat.escape(acq.session) })
+
+    nicknames.each do |nickname|
+      average = Hash.new
+      average[:nickname] = nickname
+      values = []
+      acqs.each do |acq|
+        ab = acq.abundance_of(nickname)
+        value = ab.data_in_parts if ab && ab.data 
+        #error = ab.error_in_parts if ab && ab.error 
+        #text = value ? '$' + sprintf(fmt, value) + '$' : '---'
+        if value
+          values << value      
+        end
+      end
+      average[:data] = values.mean
+      average[:unit] = Casteml::Formats::TexFormat.number_to_unit(values.mean)
+      average[:error] = values.standard_deviation
+      average[:info] = values.size
+      hash_avg[:abundances] ||= []
+      hash_avg[:abundances] << average
+    end
+    hash_avg
+  end
+
 
   def self.encode(data, opts = {})
+    if opts[:with_average]
+      avg = self.average(data)
+      data << avg
+    end
+
+    if opts[:smash]
+      data = self.average(data)
+    end
     type = opts.delete(:output_format) || :pml
     case type
     when :pml, :xml

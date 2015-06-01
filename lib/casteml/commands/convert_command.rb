@@ -26,6 +26,16 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 			options[:transpose] = v
 		end
 
+		add_option('-a', '--average',
+						'Output with average') do |v, options|
+			options[:with_average] = v
+		end
+
+		add_option('-s', '--smash',
+						'Only output average') do |v, options|
+			options[:smash] = v
+		end
+
 		# add_option('-d', '--debug', 'Show debug information') do |v|
 		# 	options[:debug] = v
 		# end

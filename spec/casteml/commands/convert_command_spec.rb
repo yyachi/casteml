@@ -37,6 +37,40 @@ module Casteml::Commands
 				end
 			end
 
+			context "with --with-average", :current => true do
+				subject{ cmd.invoke_with_build_args args, build_args }
+				let(:path){ 'tmp/mytable.tsv'}
+				#let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:data){ double('data').as_null_object }
+				let(:args){ [path, '--average']}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+				it {
+					expect(Casteml).to receive(:decode_file).with(path).and_return(data)				
+					expect(Casteml).to receive(:encode).with(data, {:output_format => :pml, :with_average => true})
+					subject
+				}
+			end
+
+			context "with --smash", :current => true do
+				subject{ cmd.invoke_with_build_args args, build_args }
+				let(:path){ 'tmp/mytable.tsv'}
+				#let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+				let(:data){ double('data').as_null_object }
+				let(:args){ [path, '--smash']}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+				it {
+					expect(Casteml).to receive(:decode_file).with(path).and_return(data)				
+					expect(Casteml).to receive(:encode).with(data, {:output_format => :pml, :smash => true})
+					subject
+				}
+			end
+
 			context "with tsv" do
 				let(:path){ 'tmp/mytable.tsv'}
 				let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
@@ -131,7 +165,7 @@ module Casteml::Commands
 
 			end
 
-			context "with format csv", :current => true do
+			context "with format csv" do
 				let(:path){ 'tmp/mytable.tsv'}
 				let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'csv', path]}
@@ -185,7 +219,7 @@ module Casteml::Commands
 			end
 
 
-			context "with format org", :current => true do
+			context "with format org" do
 				let(:path){ 'tmp/mytable.tsv'}
 				#let(:path){ '~/orochi-devel/gems/casteml/spec/fixtures/files/mydata@1.pml'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
@@ -227,7 +261,7 @@ module Casteml::Commands
 				end
 			end
 
-			context "with format tex", :current => true do
+			context "with format tex" do
 				let(:path){ 'tmp/mytable.tsv'}
 				let(:instance){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
 				let(:args){ ['-f', 'tex', path]}
@@ -290,7 +324,7 @@ module Casteml::Commands
 					cmd.invoke_with_build_args args, build_args
 				end
 
-				it "calls Casteml::Formats::CsvFormat.encode with array and options", :current => true do
+				it "calls Casteml::Formats::CsvFormat.encode with array and options" do
 #					expect(Casteml::Formats::CsvFormat).to receive(:to_string).with(instance, :omit_null => true, :without_error => true, :without_spot => true, :with_unit => "ug/g", :with_nicknames => Casteml::MeasurementCategory.find_by_name("trace").nicknames).and_return("element")
 					expect(cmd).to receive(:output).with(Regexp.new("\nEr"))
 					cmd.invoke_with_build_args args, build_args
