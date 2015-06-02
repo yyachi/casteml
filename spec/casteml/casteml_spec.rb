@@ -34,6 +34,22 @@ module Casteml
 			}
 		end
 
+        context "with smash and output csv", :current => true do
+			subject { Casteml.convert_file(path, opts)}
+			let(:path){ 'tmp/20100310092554376.stokeshi.pml'}
+			let(:opts){ {:output_format => :csv, :smash => true } }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				expect(subject).not_to match(/CBK/)
+			}
+			it {
+				expect(subject).to match(/average/)
+			}
+		end
+
 		context "with category and output dataframe" do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20110203165130-611-312.pml' }
@@ -239,7 +255,25 @@ module Casteml
 				expect(subject[:abundances][1]).to include(:nickname => "Li")
 			}
 		end
-	end
+
+        context "with single data", :current => true do
+			let(:path){ 'tmp/20130528105345-976071-in.csv'}
+            let(:data){
+			[
+				{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '12.345', :unit => 'cg/g'},{:nickname => 'Li', :data => '1.345', :unit => 'ug/g'}]},
+				{:session => 1, :abundances => [{:nickname => 'Li', :data => '0.00000001245', :unit => 'cg/g'}]},						
+			]
+		    }
+
+			it {
+				expect(subject).to include(:session => "average")
+				expect(subject[:abundances][0]).to include(:nickname => "SiO2")
+				expect(subject[:abundances][1]).to include(:nickname => "Li")
+			}
+		end
+
+
+    end
 
 	describe ".encode" do
 		subject { Casteml.encode(data, opts) }
