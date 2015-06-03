@@ -2,6 +2,23 @@ require 'spec_helper'
 require 'casteml/formats/csv_format'
 module Casteml::Formats
 	describe CsvFormat do
+		describe ".unit_from_numbers", :current => true do
+			subject{ CsvFormat.unit_from_numbers(numbers) }
+			context "greater than 1.0" do
+			let(:numbers){ [12.0, 25.0] }
+				it {
+					expect(subject).to be_eql('g/g')
+				}
+			end
+
+			context "between 0.9 to 0.01" do
+			let(:numbers){ [0.9, 0.01] }
+				it {
+					expect(subject).to be_eql('cg/g')
+				}
+			end
+
+		end
 		describe ".to_string" do
 			subject { CsvFormat.to_string(data, opts) }
 			let(:org_string){ <<-EOF
@@ -17,7 +34,7 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 			it { expect(subject).to match(/ID,session/)}
 
 
-			context "with transpose", :current => true do
+			context "with transpose" do
 				let(:opts){ {:transpose => true} }
 				it {
 					expect(subject).to match(Regexp.new("session,test-1"))
@@ -33,6 +50,20 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 					]
 				}
 				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+
+			context "without unit", :current => true do
+				let(:data){
+					[
+						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.12345'},{:nickname => 'Pb206zPb204', :data => '1.345'}]},
+						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.14345'},{:nickname => 'Pb206zPb204', :data => '23.45'}]},						
+						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.15345'},{:nickname => 'Pb206zPb204', :data => '1.145'}]},
+					]
+				}
+				it {
+					puts subject
 					expect(subject).to be_an_instance_of(String)
 				}
 			end

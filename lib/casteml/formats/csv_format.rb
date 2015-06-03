@@ -61,7 +61,7 @@ module Casteml::Formats
 		extend Casteml::NumberHelper
 
 		def self.default_units
-			{:centi => 'cg/g', :micro => 'ug/g', :nano => 'ng/g', :pico => 'pg/g'}			
+			{:unit => 'g/g', :centi => 'cg/g', :micro => 'ug/g', :nano => 'ng/g', :pico => 'pg/g'}			
 		end
 
 		def self.unit_from_numbers(numbers)
