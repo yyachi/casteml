@@ -16,6 +16,7 @@
   :"g/g": 1.0
   :centi_gram_per_gram: 1.0e-2
   :"cg/g": 1.0e-2
+  :"%": 1.0e-2
   :micro_gram_per_gram: 1.0e-6
   :"ug/g": 1.0e-6
   :nano_gram_per_gram: 1.0e-9

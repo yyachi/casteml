@@ -61,7 +61,7 @@ module Casteml::Formats
 		extend Casteml::NumberHelper
 
 		def self.default_units
-			{:unit => 'g/g', :centi => 'cg/g', :micro => 'ug/g', :nano => 'ng/g', :pico => 'pg/g'}			
+			{:unit => 'parts', :centi => '%', :mili => 'permil', :micro => 'ppm', :nano => 'ppb'}			
 		end
 
 		def self.unit_from_numbers(numbers)
@@ -133,9 +133,9 @@ module Casteml::Formats
 			nicknames.each_with_index do |nickname, idx|
 				unit = array_of_units[idx]
 				if without_error
-					nicknames_with_unit << (unit ? "#{nickname} (#{unit})" : nickname)
+					nicknames_with_unit << ( ( unit && unit != 'parts' ) ? "#{nickname} (#{unit})" : nickname)
 				else
-					nicknames_with_unit << [(unit ? "#{nickname} (#{unit})" : nickname), "#{nickname}_error"]
+					nicknames_with_unit << [( ( unit && unit != 'parts') ? "#{nickname} (#{unit})" : nickname), "#{nickname}_error"]
 				end
 			end
 

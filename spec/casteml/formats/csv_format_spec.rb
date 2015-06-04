@@ -7,14 +7,35 @@ module Casteml::Formats
 			context "greater than 1.0" do
 			let(:numbers){ [12.0, 25.0] }
 				it {
-					expect(subject).to be_eql('g/g')
+					expect(subject).to be_eql('parts')
 				}
 			end
 
 			context "between 0.9 to 0.01" do
 			let(:numbers){ [0.9, 0.01] }
 				it {
-					expect(subject).to be_eql('cg/g')
+					expect(subject).to be_eql('%')
+				}
+			end
+
+			context "between 0.001" do
+			let(:numbers){ [0.001] }
+				it {
+					expect(subject).to be_eql('permil')
+				}
+			end
+
+			context "0.000001" do
+			let(:numbers){ [0.000001] }
+				it {
+					expect(subject).to be_eql('ppm')
+				}
+			end
+
+			context "between 0.9e-8 to 0.1e-9" do
+			let(:numbers){ [0.001, 0.000000004] }
+				it {
+					expect(subject).to be_eql('ppb')
 				}
 			end
 
@@ -41,7 +62,8 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 				}
 			end
 
-			context "with unit" do
+			context "with unit", :current => true do
+				let(:opts){ {:with_unit => 'ppm'}}
 				let(:data){
 					[
 						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '12.345', :unit => 'cg/g'},{:nickname => 'Li', :data => '1.345', :unit => 'ug/g'}]},
@@ -50,14 +72,31 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 					]
 				}
 				it {
+					puts subject
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+
+			context "with unit false", :current => true do
+				let(:opts){ {:with_unit => false} }
+				let(:data){
+					[
+						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '12.345', :unit => '%'},{:nickname => 'Pb206zPb204', :data => '1.345'}]},
+						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.14345'},{:nickname => 'Pb206zPb204', :data => '23.45'}]},						
+						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.15345'},{:nickname => 'Pb206zPb204', :data => '1.145'}]},
+					]
+				}
+				it {
+					puts subject
 					expect(subject).to be_an_instance_of(String)
 				}
 			end
 
 			context "without unit", :current => true do
+				let(:opts){ {:with_unit => 'parts'} }
 				let(:data){
 					[
-						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.12345'},{:nickname => 'Pb206zPb204', :data => '1.345'}]},
+						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '12.345', :unit => '%'},{:nickname => 'Pb206zPb204', :data => '1.345'}]},
 						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.14345'},{:nickname => 'Pb206zPb204', :data => '23.45'}]},						
 						{:session => 1, :abundances => [{:nickname => 'SiO2', :data => '0.15345'},{:nickname => 'Pb206zPb204', :data => '1.145'}]},
 					]

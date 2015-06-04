@@ -72,6 +72,16 @@ module Casteml
       opts[:transpose] = options[:transpose]
     end
     opts[:output_format] = options[:output_format]
+
+    if options.has_key?(:with_unit)
+      if options[:with_unit]
+        opts[:with_unit] = options[:with_unit]
+      else
+        opts[:with_unit] = 'parts'
+      end
+    end
+
+
     unless opts[:output_format]
       opts[:output_format] = Casteml.is_pml?(path) ? :csv : :pml
     end
@@ -79,7 +89,6 @@ module Casteml
     if opts[:output_format] == :tex
       opts[:number_format] = options[:number_format] || "%.4g"
     end
-
 
 
     category_name = options.delete(:with_category)

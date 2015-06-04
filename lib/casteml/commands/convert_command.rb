@@ -36,6 +36,10 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 			options[:smash] = v
 		end
 
+		add_option('--[no-]unit [UNIT]',
+						'Specify unit on output format (csv tsv org isorg)') do |v, options|
+			options[:with_unit] = v
+		end
 		# add_option('-d', '--debug', 'Show debug information') do |v|
 		# 	options[:debug] = v
 		# end
@@ -75,6 +79,12 @@ Example:
 
     $ casteml convert -f tex -n %.5g my_rat_ree@150106.pml > my_rat_ree@150106.tex
     $ pdflatex my_rat_ree@150106.tex
+
+    $ casteml convert -f csv --unit '%' my_rat_ree@150106.pml > my_rat_ree@150106.csv
+    $ casteml convert -f csv --unit 'cg/g' my_rat_ree@150106.pml > my_rat_ree@150106.csv
+
+    $ casteml convert -f csv --no-unit my_rat_ree@150106.pml > my_rat_ree@150106.csv
+
 
 See Also:
     casteml join

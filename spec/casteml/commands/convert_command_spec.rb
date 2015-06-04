@@ -37,7 +37,57 @@ module Casteml::Commands
 				end
 			end
 
-			context "with --with-average", :current => true do
+			context "without --unit" do
+				subject{ cmd.invoke_with_build_args args, build_args }
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:data){ double('data').as_null_object }
+				let(:args){ [path, '-f', 'csv']}
+				it {
+					expect(Casteml).to receive(:convert_file).with(path, {:output_format => :csv})				
+					subject
+				}
+			end
+
+			context "with --no-unit", :current => true do
+				subject{ cmd.invoke_with_build_args args, build_args }
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:data){ double('data').as_null_object }
+				let(:args){ [path, '-f', 'csv', '--no-unit']}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+				it {
+					expect(Casteml).to receive(:convert_file).with(path, {:output_format => :csv, :with_unit => false})				
+					subject
+				}
+				it {
+					expect(cmd).to receive(:output).with(/Hf176zHf177,Hf176zHf177/)
+					subject
+				}
+			end
+
+			context "with unit '%'", :current => true do
+				subject{ cmd.invoke_with_build_args args, build_args }
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:data){ double('data').as_null_object }
+				let(:args){ [path, '-f', 'csv', '--unit', '%']}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+				it {
+					expect(Casteml).to receive(:convert_file).with(path, {:output_format => :csv, :with_unit => '%'})				
+					subject
+				}
+				it {
+					expect(cmd).to receive(:output).with(/Hf176zHf177 \(%\),Hf176zHf177/)
+					subject
+				}
+
+			end
+
+			context "with --with-average" do
 				subject{ cmd.invoke_with_build_args args, build_args }
 				let(:path){ 'tmp/mytable.tsv'}
 				#let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
@@ -54,7 +104,7 @@ module Casteml::Commands
 				}
 			end
 
-			context "with --smash", :current => true do
+			context "with --smash" do
 				subject{ cmd.invoke_with_build_args args, build_args }
 				let(:path){ 'tmp/mytable.tsv'}
 				#let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }

@@ -2,6 +2,31 @@ require 'spec_helper'
 require 'casteml'
 module Casteml
 	describe ".convert_file" do
+
+		describe "with with_unit", :current => true do
+			subject { Casteml.convert_file(path, opts)}
+			let(:path){ 'tmp/20130528105345-976071-in.csv'}
+			let(:opts){ {:output_format => :csv, :with_unit => unit } }
+			let(:data){ double('data').as_null_object }
+			before do
+				allow(Casteml).to receive(:decode_file).with(path).and_return(data)
+			end
+			context "specify %" do
+				let(:unit){ '%' }
+				it {
+					expect(Casteml).to receive(:encode).with(data, {:output_format => :csv, :with_unit => '%'})
+					subject
+				}
+			end
+			context "specify false" do
+				let(:unit){ false }
+				it {
+					expect(Casteml).to receive(:encode).with(data, {:output_format => :csv, :with_unit => 'parts'})
+					subject
+				}
+			end
+
+		end
 		context "with average and output csv" do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20130528105345-976071-in.csv'}
@@ -34,7 +59,7 @@ module Casteml
 			}
 		end
 
-        context "with smash and output csv", :current => true do
+        context "with smash and output csv" do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20100310092554376.stokeshi.pml'}
 			let(:opts){ {:output_format => :csv, :smash => true } }
@@ -256,7 +281,7 @@ module Casteml
 			}
 		end
 
-        context "with single data", :current => true do
+        context "with single data" do
 			let(:path){ 'tmp/20130528105345-976071-in.csv'}
             let(:data){
 			[
