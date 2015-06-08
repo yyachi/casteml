@@ -4,7 +4,7 @@ require 'casteml/number_helper'
 class Array
 	def to_array_of_arrays(opts = {})
 		fmt = opts[:number_format] || '%.4g'
-        units_for_display = {:centi => 'c', :mili => 'm', :micro => 'u', :nano => 'n', :pico => 'p'}
+        units_for_display = {:centi => 'c', :mili => 'm', :micro => 'u', :nano => 'n'}
         fmt_opts = {:format => "$%n%u$", :units => units_for_display }
 		acqs = []
 		each do |hash|

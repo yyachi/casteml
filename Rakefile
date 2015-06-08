@@ -23,4 +23,12 @@ namespace :remote_dump do
 	  end
   end
 
+  namespace :unit do
+    desc 'show local unit'
+    task :show do |task, args|
+      Casteml::Unit.record_pool.each do |unit|
+        puts "name: #{unit.name} text: #{unit.text}"
+      end
+    end
+  end
 end
