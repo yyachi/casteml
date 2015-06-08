@@ -28,6 +28,7 @@ module Casteml::Formats
 		end
 
 		describe ".to_hash" do
+				subject { XmlFormat.to_hash(doc) }
 				let(:doc){ REXML::Document.new xml }
 				let(:xml){ <<-EOF
 <?xml version="1.0" encoding="UTF-8" ?>
@@ -46,13 +47,35 @@ module Casteml::Formats
 
 				it {
 					expect(XmlFormat).to receive(:elem_to_hash)
-					XmlFormat.to_hash(doc)
+					subject
 				}			
 		end
 
-		describe ".elem_to_hash" do
+		describe ".elem_to_hash", :current => true do
 			subject{ XmlFormat.elem_to_hash(doc.root) }
 			let(:doc){ REXML::Document.new xml }
+
+			context "with blank tag" do
+				let(:xml){ <<-EOF
+<?xml version="1.0" encoding="UTF-8" ?>
+<acquisition>
+	<global_id>
+	</global_id>
+	<uid></uid>
+	<sample_uid>
+
+
+	</sample_uid>
+
+</acquisition>
+					EOF
+				}
+				it {
+					expect(subject[:acquisition]).to include(:global_id => nil)
+					expect(subject[:acquisition]).to include(:uid => nil)
+					expect(subject[:acquisition]).to include(:sample_uid => nil)
+				}
+			end
 
 			context "with multiple acquisitions" do
 			let(:xml){ <<-EOF
@@ -409,7 +432,7 @@ module Casteml::Formats
 			}
 		end
 
-		describe ".split_file with real", :current => true do
+		describe ".split_file with real" do
 			subject { XmlFormat.split_file(pml_path) }
 			let(:pml_path) { 'tmp/mytable1.pml' }
 			let(:data) { XmlFormat.decode_file(pml_path) }
@@ -424,7 +447,7 @@ module Casteml::Formats
 
 		end
 
-		describe ".split_file", :current => true do
+		describe ".split_file" do
 			subject { XmlFormat.split_file(path) }			
 			let(:doc){ REXML::Document.new xml}
 			let(:path){ 'tmp/deleteme.pml' }
@@ -515,7 +538,7 @@ module Casteml::Formats
 			}
 		end
 
-		describe ".join_strings", :current => true do
+		describe ".join_strings" do
 			subject { XmlFormat.join_strings(strings) }
 			let(:string1){ '<?xml version="1.0" encoding="UTF-8" ?><acquisition>1</acquisition>' }
 			let(:string2){ '<?xml version="1.0" encoding="UTF-8" ?><acquisitions><acquisition>2</acquisition><acquisition>3</acquisition></acquisitions>' }
