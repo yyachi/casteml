@@ -75,6 +75,7 @@ module Casteml::Formats
 			else
 				text = elem.text ? elem.text.strip : nil
 				text = nil if text && text.empty?
+				text
 			end
 			{ elem.name.to_sym => value }
 		end

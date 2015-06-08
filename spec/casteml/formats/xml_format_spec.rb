@@ -66,7 +66,7 @@ module Casteml::Formats
 
 
 	</sample_uid>
-
+	<session>deleteme</session>
 </acquisition>
 					EOF
 				}
@@ -74,6 +74,7 @@ module Casteml::Formats
 					expect(subject[:acquisition]).to include(:global_id => nil)
 					expect(subject[:acquisition]).to include(:uid => nil)
 					expect(subject[:acquisition]).to include(:sample_uid => nil)
+					expect(subject[:acquisition]).to include(:session => 'deleteme')
 				}
 			end
 
