@@ -8,7 +8,7 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 	attr_accessor :params
 	include Casteml::TexHelper
 	def initialize
-		super 'spots', 'Store pml spots info in tex file'
+		super 'spots', 'Export spots info in pmlfile to texfile'
 
 	    @params = {
 	    	:image_width => 0.49, 
@@ -16,11 +16,11 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 	    	:scale_iso_range_min_max => [-20,20],
       		:template_file => File.join(Casteml::TEMPLATE_DIR, 'spots.tex.erb')
       	}
-        add_option("-o", "--output path", "Specify output filename (default: casteml-file.tex)") do |v|
+        add_option("-o", "--output path", "Specify output filename (default: inputfile.tex)") do |v|
           options[:output_file] = v
         end 
 
-        add_option("-p", "--picture path", "Specify picture file (default: casteml-file)") do |v|
+        add_option("-p", "--picture path", "Specify picture file (default: inputfile)") do |v|
           options[:picture_file] = v
         end 
         add_option("-w", "--image-width NUM", "Specify image width (default: #{@params[:image_width]})") do |v|
@@ -48,18 +48,18 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 	end
 
 	def usage
-		 "#{program_name} inputfile [abundance isotope]"
+		 "#{program_name} pmlfile [abundance isotope]"
 	end
 
 	def description
 	<<-EOS
-    Store pml spots info in tex file.  To describe your spots, create
-    a pml file with spots info by using Matlab-script spots.m as of
-    April 3 (2014).  Creation of tex file of spots with number or
+    Export spots info in pmlfile to texfile.  To describe your spots,
+    create a pmlfile with spots info by using Matlab-script spots.m as
+    of June 10 (2015).  Creation of texfile of spots with number or
     isocircle is shown below EXAMPLE.
 
 Example:
-    matlab> spots   # => input spots on an image file
+    matlab>> spots   # => input spots on an imagefile
     $ ls
     tt_bcg12@4032.pml
     $ casteml spots tt_bcg12@4032.pml
@@ -70,7 +70,7 @@ Example:
     $ casteml convert tt_bcg12@4032.pml -f csv > tt_bcg12@4032.csv
     $ ls
     tt_bcg12@4032.pml  tt_bcg12@4032.csv
-    # => edit the csv file to add two columns with label Li and d7Li in Excel
+    # => edit the csvfile to add two columns with label Li and d7Li in Excel
     $ casteml convert tt_bcg12@4032.csv -f pml > tt_bcg12@4032.pml
     $ ls
     tt_bcg12@4032.pml  tt_bcg12@4032.csv
