@@ -1,12 +1,11 @@
 #!/usr/bin/env Rscript
 ### I/O SETUP
+### +BEGIN_SRC R :results graphics :var tbl0=tbl0 :file (sesami-pdf ".pdf")
 input  = "<%= File.basename(dataframe_path,'*') -%>"
-## input  = "mydata_trace.dataframe"
-### DATA HANDLING
-output = sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",input),"pdf")
-pdf(output)
-tbl0 <- read.csv(input,header=T,stringsAsFactors=F)
-###
+tbl0    <- read.csv(infile,header=T,stringsAsFactors=F)
+outfile <- sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf")
+pdf(outfile)
+
 ### constant definition made on January 14, 2015
 ### refer by index <- c(do.call("cbind",Z[c("Li","Rb")]))
 ###       or index <- unlist(Z[c("Li","Rb")],use.names=FALSE)
