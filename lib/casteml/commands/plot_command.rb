@@ -71,6 +71,14 @@ Example:
     $ R --vanilla --slave < cbkstones.R
 
     $ casteml download -R 20130528105235-594267 > datasets.pml
+    $ casteml plot datasets.pml --category trace
+    $ ls
+    datasets.pml
+    datasets_trace.dataframe
+    datasets_trace.R
+    datasets_trace.pdf
+
+    $ casteml download -R 20130528105235-594267 > datasets.pml
     $ casteml plot datasets.pml --category oxygen
     $ ls
     datasets.pml
