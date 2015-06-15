@@ -70,21 +70,21 @@ Example:
     ...
     $ R --vanilla --slave < cbkstones.R
 
-    $ casteml download -R 20130528105235-594267 > datasets.pml
-    $ casteml plot datasets.pml --category trace
+    $ casteml download -R 20130528105235-594267 > cbkstones.pml
+    $ casteml plot cbkstones.pml --category trace
     $ ls
-    datasets.pml
-    datasets_trace.dataframe
-    datasets_trace.R
-    datasets_trace.pdf
+    cbkstones.pml
+    cbkstones_trace.dataframe
+    cbkstones_trace.R
+    cbkstones_trace.pdf
 
-    $ casteml download -R 20130528105235-594267 > datasets.pml
-    $ casteml plot datasets.pml --category oxygen
+    $ casteml download -R 20130528105235-594267 > cbkstones.pml
+    $ casteml plot cbkstones.pml --category oxygen
     $ ls
-    datasets.pml
-    datasets_oxygen.dataframe
-    datasets_oxygen.R
-    datasets_oxygen.pdf
+    cbkstones.pml
+    cbkstones_oxygen.dataframe
+    cbkstones_oxygen.R
+    cbkstones_oxygen.pdf
 
 See Also:
     casteml download
