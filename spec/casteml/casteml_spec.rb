@@ -3,7 +3,7 @@ require 'casteml'
 module Casteml
 	describe ".convert_file" do
 
-		describe "with with_unit", :current => true do
+		describe "with with_unit" do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20130528105345-976071-in.csv'}
 			let(:opts){ {:output_format => :csv, :with_unit => unit } }
@@ -100,6 +100,19 @@ module Casteml
 			}
 		end
 
+		context "with isorgfile" do
+			subject { Casteml.convert_file(path) }
+			let(:path){'tmp/template.isorg'}
+			#let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				subject
+			}
+		end
+
 		context "with real org" do
 			subject { Casteml.convert_file(path, :output_format => output_format)}
 			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
@@ -141,6 +154,20 @@ module Casteml
 			it {
 				expect(File.exist?(path)).to be_truthy
 				expect(subject).to be_an_instance_of(String)
+			}
+		end
+
+		context "with reald file to output_format isorg", :current => true do
+			subject { Casteml.convert_file(path, :output_format => output_format)}
+			let(:path){'tmp/20130528105235-594267-R.pml'}
+			let(:output_format){ :isorg }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+
+			it {
+				expect(subject).to match(/^#\+TBLNAME/)
 			}
 		end
 

@@ -221,12 +221,14 @@ module Casteml::Formats
 		end
 
 		def self.org2csv(string)
+			string.gsub!(/^#\+TBLNAME:.*\n/,"")
 			string.gsub!(/^\+TBLNAME:.*\n/,"")
-			string.gsub!(/^\|\-.*\n/,"")
-			string.gsub!(/^\|/,"")
-			string.gsub!(/\|$/,"")
+			string.gsub!(/^\|\-.*\|\n/,"")
+			string.gsub!(/^\|\s*/,"")
+			string.gsub!(/\s*\|$/,"")
 			string.gsub!(/\|\Z/,"")
-			string.gsub!(/\|/,",")
+			#string.gsub!(/\|/,",")
+			string = string.split(/\n/).map{ |line| line.gsub(/\s*\|\s*/, ",") }.join("\n")
 			string
 		end
 
@@ -272,7 +274,6 @@ module Casteml::Formats
 				string = tsv2csv(string)
 			end
 			string = transpose(string) if column_wise?(string)
-
 			sio = StringIO.new(string,"r")
 			strip_filter = Proc.new do |v|
 				begin

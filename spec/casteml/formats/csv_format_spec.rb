@@ -246,8 +246,21 @@ ID,session,sample_name,SiO2 (cg/g)
 			end
 		end
 
-		describe ".org2csv" do
+		describe ".org2csv", :current => true do
 			subject { CsvFormat.org2csv(string) }
+
+			context "with template" do
+				let(:string){ <<-EOF
+#+TBLNAME: castemls					
+|ID|session|technique|
+|-
+|111|test-1|EPMA|
+|222|test-2|XRF|
+						EOF
+				}
+				it { expect(subject).not_to match(/TBLNAME/) }
+			end
+
 			context "with normal table" do
 				let(:string){ <<-EOF
 +TBLNAME: castemls					
@@ -258,6 +271,7 @@ ID,session,sample_name,SiO2 (cg/g)
 						EOF
 				}
 				it { expect(subject).to be_truthy }
+				it { expect(subject).not_to match(/TBLNAME/) }
 			end
 
 			context "with tab table" do
@@ -272,8 +286,20 @@ ID,session,sample_name,SiO2 (cg/g)
 				it { expect(subject).to be_truthy }
 			end
 		end
-		describe ".org_mode?" do
+		describe ".org_mode?", :current => true do
 			subject { CsvFormat.org_mode?(string) }
+			context "with template" do
+				let(:string){ <<-EOF
+#+TBLNAME: castemls					
+|ID|session|technique|
+|-
+|111|test-1|EPMA|
+|222|test-2|XRF|
+						EOF
+				}
+				it { expect(subject).to be_truthy }
+			end
+
 			context "with normal table" do
 				let(:string){ <<-EOF
 +TBLNAME: castemls					

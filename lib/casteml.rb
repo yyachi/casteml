@@ -189,7 +189,7 @@ module Casteml
       string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "|")).gsub(/^/,"|").gsub(/\n/,"|\n")
       lines = string.split("\n")
       lines.insert(1,"|-")
-      lines.unshift "+TBLNAME: casteml"
+      lines.unshift "#+TBLNAME: casteml"
       string = lines.join("\n")
     when :tex
       string = Formats::TexFormat.to_string(data, opts)
