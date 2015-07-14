@@ -22,8 +22,8 @@ Or install it yourself as:
 
 Commands are summarized as:
 
-| command         | description                                  | note                      |
-|------------------+-----------------------------------------------+----------------------------|
+| command          | description                                   | note                       |
+|------------------|-----------------------------------------------|----------------------------|
 | casteml convert  | convert between CSV, TSV, ORG, ISORG, PML     |                            |
 | casteml spots    | create \LaTeX spot from PML                   | isocircle option available |
 | casteml join     | create a multi-pmlfile from single pmlfiles   |                            |
