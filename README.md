@@ -6,9 +6,9 @@ Provide a comprehensive utility for CASTEML
 
 Add this line to your application's Gemfile:
 
-    ```ruby
-    gem 'casteml'
-    ```
+```ruby
+gem 'casteml'
+```
 
 And then execute:
 
@@ -22,7 +22,7 @@ Or install it yourself as:
 
 Commands are summarized as:
 
-| command          | description                                   | note                       |
+| command      | description                                   | note                   |
 |------------------+-----------------------------------------------+----------------------------|
 | casteml convert  | convert between CSV, TSV, ORG, ISORG, PML     |                            |
 | casteml spots    | create \LaTeX spot from PML                   | isocircle option available |
