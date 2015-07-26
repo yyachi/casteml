@@ -2,6 +2,11 @@
 
 Provide a comprehensive utility for CASTEML
 
+## Dependency
+
+### [medusa_rest_client](http://devel.misasa.okayama-u.ac.jp/gitlab/gems/medusa_rest_client/tree/master "follow instruction")
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
