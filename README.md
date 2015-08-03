@@ -43,7 +43,7 @@ Commands are summarized as:
 See online document with option `--help`.
 
 ## Show the help message
-    $ cd ~/godigo-devel/gems/casteml
+    $ cd ~/devel-godigo/gems/casteml
     $ bundle exec rspec spec/casteml/commands/convert_command_spec.rb --tag show_help:true
 
 ## Contributing
