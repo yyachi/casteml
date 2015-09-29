@@ -1,13 +1,12 @@
-# Casteml
+# casteml
 
 Provide a comprehensive utility for CASTEML
 
-## Dependency
+# Dependency
 
-### [medusa_rest_client](http://devel.misasa.okayama-u.ac.jp/gitlab/gems/medusa_rest_client/tree/master "follow instruction")
+## [medusa_rest_client](http://devel.misasa.okayama-u.ac.jp/gitlab/gems/medusa_rest_client/tree/master "follow instruction")
 
-
-## Installation
+# Installation
 
 Add this line to your application's Gemfile:
 
@@ -24,7 +23,7 @@ Or install it yourself as:
     $ gem source -a http://dream.misasa.okayama-u.ac.jp/rubygems
     $ gem install casteml
 
-## Commands
+# Commands
 
 Commands are summarized as:
 
@@ -38,15 +37,15 @@ Commands are summarized as:
 | casteml download | download pmlfile from Medusa                  |                            |
 | casteml plot     | make a plot using pmlfile                     |                            |
 
-## Usage
+# Usage
 
 See online document with option `--help`.
 
-## Show the help message
+# Show the help message
     $ cd ~/devel-godigo/gems/casteml
     $ bundle exec rspec spec/casteml/commands/convert_command_spec.rb --tag show_help:true
 
-## Contributing
+# Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/casteml/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
