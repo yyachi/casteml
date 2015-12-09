@@ -531,7 +531,7 @@ module Casteml
 					allow(Stone).to receive(:find_by_global_id).with(sample_uid).and_return(stone_obj)
 				end
 				it {
-					expect(subject).to include(:stone_id => stone_id)
+					expect(subject).to include(:specimen_id => stone_id)
 				}			
 			end
 
@@ -545,7 +545,7 @@ module Casteml
 					allow(Stone).to receive(:find_or_create_by_name).with(sample_name).and_return(stone_obj)
 				end
 				it {
-					expect(subject).to include(:stone_id => stone_id)
+					expect(subject).to include(:specimen_id => stone_id)
 				}			
 			end
 

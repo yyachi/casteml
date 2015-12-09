@@ -3,7 +3,7 @@ require 'casteml/remote_interaction'
 module Casteml
   class Stone
     extend Casteml::RemoteInteraction
-    set_remote_class MedusaRestClient::Stone
+    set_remote_class MedusaRestClient::Specimen
 
     def self.setup
   		@record_pool = []

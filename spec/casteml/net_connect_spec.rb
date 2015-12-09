@@ -53,7 +53,9 @@ module Casteml
 						it { expect{ subject }.not_to raise_error }
 						it { 
 							subject
+							#expect( acquisition.remote_obj).to be_nil
 							expect( acquisition.remote_obj.stone).not_to be_nil
+							#expect( acquisition.remote_obj.specimen).not_to be_nil
 						}
 						after do
 							acquisition.remote_obj.destroy

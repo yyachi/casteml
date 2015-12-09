@@ -10,7 +10,7 @@ module Casteml
 	class Acquisition
 		extend Casteml::RemoteInteraction
 		set_remote_class MedusaRestClient::Analysis
-		attr_remote :name, :description, :operator, :stone_id, :device_id, :technique_id
+		attr_remote :name, :description, :operator, :specimen_id, :device_id, :technique_id
 
 		attr_accessor :uid, :session, :instrument, :analyst, :analysed_at, :sample_uid, :sample_name, :bibliography_uid, :description
 		attr_accessor :technique
@@ -69,6 +69,10 @@ module Casteml
 
 
 		def stone_id
+			specimen_id
+		end
+
+		def specimen_id
 			if sample_uid
 				obj = Stone.find_by_global_id(sample_uid)
 				return obj.id if obj
