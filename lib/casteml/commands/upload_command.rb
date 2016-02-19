@@ -19,18 +19,18 @@ class Casteml::Commands::UploadCommand < Casteml::Command
     program through `orochi-upload'.
 
     You may want to correlate pmlfile to certain stone.  To do so
-    stone-ID should be specified in pmlfile since #{program_name} does
+    stone-ID should be specified in pmlfile since `#{program_name}' does
     not take stone-ID as an option.
 
     CASTEML stores spot location as relative coordinate of an image.
     Origin of a coordinate is center of an image.  A spot coordinate
     is normalized by the longest side.  As a consequence, the longest
     side ranges from -50 to 50.
-     
-    This utility #{program_name} tries to upload datasets, imagefile
-    `my-spot-region.jpg`, and coordinate.  If there is Affine matrix
-    file my-spot-region.affine (xy-on-image to vs space), it also
-    uploads the Affine matrix at the same time.
+
+    This utility `#{program_name}' uploads datasets, imagefile
+    `my-spots-picture.jpg', and coordinates.  If there is Affine
+    matrix file `my-spots-picture.affine' (xy-on-image to vs space),
+    it also uploads it.
 
 Example:
     $ casteml join JB1.pml stone2.pml JB3.pml > session.pml
