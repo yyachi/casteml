@@ -14,7 +14,6 @@ class Casteml::Commands::UploadCommand < Casteml::Command
 
 	def description
 	<<-EOF
-
     Upload pmlfile to Medusa.  Users are encoraged to call this
     program through `orochi-upload'.
 
