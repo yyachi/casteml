@@ -34,6 +34,8 @@ class Casteml::Commands::UploadCommand < Casteml::Command
 Example:
     $ casteml join JB1.pml stone2.pml JB3.pml > session.pml
     $ casteml upload session.pml
+
+    matlab>> spots
     ...
     $ ls
     my-spots-picture.jpg  my-spots-picture.pml
