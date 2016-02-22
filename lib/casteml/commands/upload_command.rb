@@ -21,25 +21,32 @@ class Casteml::Commands::UploadCommand < Casteml::Command
     stone-ID should be specified in pmlfile since `#{program_name}' does
     not take stone-ID as an option.
 
-    CASTEML stores spot location as relative coordinate of an image.
-    Origin of a coordinate is center of an image.  A spot coordinate
-    is normalized by the longest side.  As a consequence, the longest
-    side ranges from -50 to 50.
+    CASTEML can store spot locations as relative coordinate of an
+    image.  Origin of a coordinate is center of an image.  A spot
+    coordinate is normalized by the longest side.  As a consequence,
+    the longest side ranges from -50 to 50.
 
-    This utility `#{program_name}' uploads datasets, imagefile
-    `my-spots-picture.jpg', and coordinates.  If there is Affine
-    matrix file `my-spots-picture.affine' (xy-on-image to vs space),
-    it also uploads it.
+    This utility `#{program_name}' uploads datasets, coordinates, and
+    imagefile `my-spots-picture.jpg'.  If there is Affine matrix file
+    `my-spots-picture.affine' (xy-on-image to vs space), it also
+    uploads it.  Use `spots.m' to create CASTEML with spots.
 
 Example:
     $ casteml join JB1.pml stone2.pml JB3.pml > session.pml
     $ casteml upload session.pml
+
+    matlab>> spots
+    ...
+    $ ls
+    my-spots-picture.jpg  my-spots-picture.pml
+    $ casteml upload my-spots-picture.pml
 
 See Also:
     casteml join
     casteml mv
     orochi-upload
     http://dream.misasa.okayama-u.ac.jp
+    spots.m
 
 Implementation:
     Copyright (c) 2015-2016, ISEI, Okayama University
