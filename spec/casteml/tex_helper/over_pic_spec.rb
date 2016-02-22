@@ -13,9 +13,9 @@ module Casteml
 				it { expect(subject).to be_eql("\\tiny{#{content}}")}
 			end
 			describe "#put_isoclock" do
-				subject{ overpic.put_isoclock(x_image, y_image, isotope) }
-				let(:x_image){ 10.2 }
-				let(:y_image){ 22.3 }
+				subject{ overpic.put_isoclock(x_overpic, y_overpic, isotope) }
+				let(:x_overpic){ 10.2 }
+				let(:y_overpic){ 22.3 }
 				let(:isotope){ -2.3 }
 				before(:each) do
 					puts subject

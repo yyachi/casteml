@@ -7,10 +7,13 @@ module Casteml
 		let(:image_path){ 'tmp/example.jpg'}
 		let(:x_image){ '12.3' }
 		let(:y_image){ '23.4' }
+		let(:x_overpic){ '62.3' }
+		let(:y_overpic){ '73.4' }
+
 		describe ".initialize" do
 			subject{ Spot.new(attrib) }
 			context "with attrib" do
-				let(:attrib){ {:image_uid => image_uid, :image_path => image_path, :x_image => x_image, :y_image => y_image } }			
+				let(:attrib){ {:image_uid => image_uid, :image_path => image_path, :x_image => x_image, :y_image => y_image, :x_overpic => x_overpic, :y_overpic => y_overpic } }			
 				it { expect(subject).to be_an_instance_of(Spot) }
 				it { expect(subject.image_uid).to be_eql(image_uid) }
 				it { expect(subject.image_path).to be_eql(image_path) }				
@@ -137,8 +140,6 @@ module Casteml
 				end
 				it { expect(subject).to be_eql(ref_image.id) }
 			end
-
-
 		end
 
 		describe "#ref_image" do
@@ -209,7 +210,7 @@ module Casteml
 			let(:attachment_file_id){ 1000 }
 			let(:target_uid){ '010-0001'}
 			context "with valid attributes" do
-				let(:attrib){ {:image_uid => image_uid, :x_image => x_image, :y_image => y_image} }
+				let(:attrib){ {:image_uid => image_uid, :x_image => x_image, :y_image => y_image, :x_overpic => x_overpic, :y_overpic => y_overpic} }
 				let(:ref_image){ double('ref_image', :length => length, :width => width, :height => height)}
 				let(:length){ width }
 				let(:width){ 4000 }
@@ -232,6 +233,13 @@ module Casteml
 				it {
 					expect(subject).to include(:spot_y)
 				}
+				it {
+					expect(subject).not_to include(:x_overpic)
+				}
+				it {
+					expect(subject).not_to include(:y_overpic)
+				}
+
 				it {
 					expect(subject).to include(:name => nil)
 				}

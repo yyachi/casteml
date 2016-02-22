@@ -4,7 +4,7 @@ module Casteml
 	class Spot
 		extend Casteml::RemoteInteraction
 		set_remote_class MedusaRestClient::Spot
-		attr_accessor :target_uid, :image_uid, :name, :description, :image_path, :name, :x_image, :y_image, :radius_in_percent, :stroke_color, :stroke_width, :fill_color, :opacity, :with_cross
+		attr_accessor :target_uid, :image_uid, :name, :description, :image_path, :name, :x_image, :y_image, :x_overpic, :y_overpic, :radius_in_percent, :stroke_color, :stroke_width, :fill_color, :opacity, :with_cross
 		attr_remote :name, :description, :spot_x, :spot_y, :target_uid#, :radius_in_percent, :stroke_color, :stroke_width, :fill_color, :opacity, :with_cross
 		alias_attribute :attachment_file_global_id, :image_uid
 		#alias_attribute :spot_y, :y_image
