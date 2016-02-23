@@ -53,15 +53,15 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 
 	def description
 	<<-EOS
-    Process pmlfile created by Matlab-script spots.m and export spots
-    and isocircles info to texfile.  Note this program takes ISORG file,
-    which is a member of CASTEML family.
+    Process pmlfile created by Matlab-script spots.m and generate
+    texfile with spots and isocircles.  Note this program takes ISORG
+    file, which is a member of CASTEML family.
 
 Example:
-    ### demonstration for spot insertion ###
+    ### demonstration for spot ###
     $ ls
     tt_bcg12@4032.jpg 
-    matlab>> spots   # => input spots on an imagefile
+    matlab>> spots   % => input spots on an imagefile
     $ ls
     tt_bcg12@4032.jpg  tt_bcg12@4032.tex  tt_bcg12@4032.pml~
     $ rm tt_bcg12@4032.tex; mv tt_bcg12@4032.pml~ tt_bcg12@4032.pml
@@ -72,14 +72,14 @@ Example:
     $ ls
     tt_bcg12@4032.jpg  tt_bcg12@4032.pml  tt_bcg12@4032.tex
 
-    ### demonstration for isocircle insertion ###
+    ### demonstration for isocircle ###
     $ ls
     tt_bcg12@4032.jpg 
-    matlab>> spots   # => input spots on an imagefile
+    matlab>> spots   % => input spots on an imagefile
     $ ls
     tt_bcg12@4032.jpg  tt_bcg12@4032.tex  tt_bcg12@4032.pml~
     $ rm tt_bcg12@4032.tex tt_bcg12@4032.pml~
-    $ vi tt_bcg12@4032.isorg # => create ISORG file to include two columns with label Li and d7Li
+    $ vi tt_bcg12@4032.isorg # => add columns with label `Li' and `d7Li'
     ...
     $ ls
     tt_bcg12@4032.jpg  tt_bcg12@4032.isorg
@@ -89,11 +89,12 @@ Example:
 
 See Also:
     spots.m
+    casteml convert
     http://dream.misasa.okayama-u.ac.jp
 
 Implementation:
     Orochi, version 9
-    Copyright (C) 2015 Okayama University
+    Copyright (C) 2015-2016 Okayama University
     License GPLv3+: GNU GPL version 3 or later
 
 EOS
