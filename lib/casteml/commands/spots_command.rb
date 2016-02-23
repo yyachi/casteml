@@ -53,20 +53,25 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 
 	def description
 	<<-EOS
-    Export spots info in pmlfile to texfile.  To describe your spots,
-    create a pmlfile with spots info by using Matlab-script spots.m as
-    of June 10 (2015).  Creation of texfile of spots with number or
+    Process pmlfile created by Matlab-script spots.m and export spots
+    info to texfile.  Creation of texfile of spots with number or
     isocircle is shown below EXAMPLE.
 
 Example:
+    ### for spot insertion ###
     matlab>> spots   # => input spots on an imagefile
     $ ls
-    tt_bcg12@4032.pml
-    $ casteml spots tt_bcg12@4032.pml
+    tt_bcg12@4032.jpg  tt_bcg12@4032.isorg  tt_bcg12@4032.tex  tt_bcg12@4032.pml~
+    $ rm tt_bcg12@4032.isorg  tt_bcg12@4032.tex; mv tt_bcg12@4032.pml~ tt_bcg12@4032.pml
     $ ls
-    tt_bcg12@4032.pml tt_bcg12@4032.tex
+    tt_bcg12@4032.jpg  tt_bcg12@4032.pml
+    $ casteml spots tt_bcg12@4032.pml
+    ./tt_bcg12@4032.tex writing...
+    $ ls
+    tt_bcg12@4032.jpg  tt_bcg12@4032.pml  tt_bcg12@4032.tex
 
     ### for isocircle insertion ###
+    matlab>> spots   # => input spots on an imagefile
     $ casteml convert tt_bcg12@4032.pml -f csv > tt_bcg12@4032.csv
     $ ls
     tt_bcg12@4032.pml  tt_bcg12@4032.csv
