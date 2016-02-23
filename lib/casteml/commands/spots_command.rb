@@ -54,15 +54,17 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 	def description
 	<<-EOS
     Process pmlfile created by Matlab-script spots.m and export spots
-    info to texfile.  Creation of texfile of spots with number or
-    isocircle is shown below EXAMPLE.
+    and isocircles info to texfile.  Note this program takes ISORG file,
+    which is a member of CASTEML family.
 
 Example:
-    ### for spot insertion ###
+    ### demonstration for spot insertion ###
+    $ ls
+    tt_bcg12@4032.jpg 
     matlab>> spots   # => input spots on an imagefile
     $ ls
-    tt_bcg12@4032.jpg  tt_bcg12@4032.isorg  tt_bcg12@4032.tex  tt_bcg12@4032.pml~
-    $ rm tt_bcg12@4032.isorg  tt_bcg12@4032.tex; mv tt_bcg12@4032.pml~ tt_bcg12@4032.pml
+    tt_bcg12@4032.jpg  tt_bcg12@4032.tex  tt_bcg12@4032.pml~
+    $ rm tt_bcg12@4032.tex; mv tt_bcg12@4032.pml~ tt_bcg12@4032.pml
     $ ls
     tt_bcg12@4032.jpg  tt_bcg12@4032.pml
     $ casteml spots tt_bcg12@4032.pml
@@ -70,18 +72,20 @@ Example:
     $ ls
     tt_bcg12@4032.jpg  tt_bcg12@4032.pml  tt_bcg12@4032.tex
 
-    ### for isocircle insertion ###
+    ### demonstration for isocircle insertion ###
+    $ ls
+    tt_bcg12@4032.jpg 
     matlab>> spots   # => input spots on an imagefile
-    $ casteml convert tt_bcg12@4032.pml -f csv > tt_bcg12@4032.csv
     $ ls
-    tt_bcg12@4032.pml  tt_bcg12@4032.csv
-    # => edit the csvfile to add two columns with label Li and d7Li in Excel
-    $ casteml convert tt_bcg12@4032.csv -f pml > tt_bcg12@4032.pml
+    tt_bcg12@4032.jpg  tt_bcg12@4032.tex  tt_bcg12@4032.pml~
+    $ rm tt_bcg12@4032.tex tt_bcg12@4032.pml~
+    $ vi tt_bcg12@4032.isorg # => create ISORG file to include two columns with label Li and d7Li
+    ...
     $ ls
-    tt_bcg12@4032.pml  tt_bcg12@4032.csv
-    $ casteml spots tt_bcg12@4032.pml Li d7Li -a 2.1,10 -i -30,+30
+    tt_bcg12@4032.jpg  tt_bcg12@4032.isorg
+    $ casteml spots tt_bcg12@4032.isorg Li d7Li -a 2.1,10 -i -30,+30
     $ ls
-    tt_bcg12@4032.pml  tt_bcg12@4032.csv  tt_bcg12@4032.tex
+    tt_bcg12@4032.jpg  tt_bcg12@4032.isorg  tt_bcg12@4032.tex
 
 See Also:
     spots.m
