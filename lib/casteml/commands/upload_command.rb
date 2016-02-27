@@ -17,17 +17,19 @@ class Casteml::Commands::UploadCommand < Casteml::Command
     Upload pmlfile to Medusa.  Users are encoraged to call this
     program through `orochi-upload'.
 
-    This program `#{program_name}' creates sessions (that combines
-    analyses).  You want to correlate each session to a stone.  To do
-    so stone-ID should be specified in pmlfile since `#{program_name}'
-    does not take stone-ID as an option.
+    This program `#{program_name}' creates sessions (also referred as
+    analyses) that unite chemical datasets.  You want to correlate
+    each session to a stone.  To do so stone-ID should be specified in
+    pmlfile since `#{program_name}' does not take stone-ID as an
+    option.
 
-    This program `#{program_name}' stores location of an session
-    (referred also as spot) as relative coordinate of an imagefile.
-    Origin of a coordinate is center of an image.  A spot coordinate
-    is normalized by the longest side.  As a consequence, the longest
-    side ranges from -50 to 50.  Use a Matlab script spot.m to create
-    pmlfile with spots, and follow instrution provided by spots.m.
+    This program `#{program_name}' stores location (also referred as
+    spot) of an session (also referred as analysis) as relative
+    coordinate of an imagefile.  Origin of a coordinate is center of
+    an image.  A spot coordinate is normalized by the longest side.
+    As a consequence, the longest side ranges from -50 to 50.  Use a
+    Matlab script spot.m to create pmlfile with spots, and follow
+    instrution provided by spots.m.
 
     This program `#{program_name}' uploads datasets, coordinates, and
     imagefile `my-spots-picture.jpg'.  If there is Affine matrix file
