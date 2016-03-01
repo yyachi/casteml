@@ -166,12 +166,17 @@ module Casteml
     when :tsv
       string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "\t"))
     when :dataframe
-      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => true, :without_spot => true, :omit_null => true))
+      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => true, :omit_null => true))
       string = Formats::CsvFormat.transpose(string)
-      #puts string
       string.gsub!(/\s\(.*\)/,"")
       string.sub!(/session/,"element")
       string.sub!(/name/,"element")
+      string.sub!(/description.*\n/,"")      
+      string.gsub!(/spot\_global\_id.*\n/,"")
+      #string.sub!(/spot\_attachment\_file\_global\_id.*\n/,"")
+      string.gsub!(/spot\_x\_overpic.*\n/,"")      
+      string.gsub!(/spot\_y\_overpic.*\n/,"")      
+      string.gsub!(/sample\_global\_id.*\n/,"")
       string.gsub!(/global\_id.*\n/,"")
       string.gsub!(/device.*\n/,"")
       string.gsub!(/instrument.*\n/,"")

@@ -157,7 +157,7 @@ module Casteml
 			}
 		end
 
-		context "with reald file to output_format isorg", :current => true do
+		context "with reald file to output_format isorg" do
 			subject { Casteml.convert_file(path, :output_format => output_format)}
 			let(:path){'tmp/20130528105235-594267-R.pml'}
 			let(:output_format){ :isorg }
@@ -171,7 +171,7 @@ module Casteml
 			}
 		end
 
-		context "with real file to output_format dataframe" do
+		context "with real file to output_format dataframe", :current => true do
 			subject { Casteml.convert_file(path, :output_format => output_format, :with_category => 'trace')}
 			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
 			let(:output_format){ :dataframe }
@@ -184,6 +184,13 @@ module Casteml
 			end
 			context "data-from-casteml.csv" do
 				let(:path){'tmp/20130528105235-594267-R.pml'}
+				it {
+					expect(subject).to be_an_instance_of(String)
+				}
+			end
+
+			context "image.pml" do
+				let(:path){'tmp/image.pml'}
 				it {
 					expect(subject).to be_an_instance_of(String)
 				}
