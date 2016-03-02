@@ -33,9 +33,12 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 	def description
     <<-EOS
     Download pmlfile from Medusa.  Specify ID as argument.  This
-    accepts both stone-ID and analysis-ID.  For stone-ID, recursive
-    download is available.  The default output is toward to the
-    standard output.  Redirect to certain file.
+    accepts both stone-ID, session-ID (also referred as analysis-ID),
+    bib-ID, table-ID, and image-ID and return pmlfiles linked to
+    corresponding record.  For image-ID, pmlfiles linked via spot
+    record will be downloaded.  For stone-ID, recursive download is
+    available.  default output is toward to the standard output.
+    Redirect to certain file.
 
     This command accept more than one ID.  Note that you can also
     obtain a multi-pmlfile for a whole family.  If you need a
@@ -58,6 +61,9 @@ Example:
     $ casteml join a.pml b.pml > c.pml
     ...
     $ casteml plot c.pml
+    ...
+    $ casteml download 20160226174711-288407 > mosaic_ok11mc.pml
+    $ casteml convert mosaic_ok11mc.pml -f org > mosaic_ok11mc.isorg
 
 See Also:
     casteml convert
@@ -67,7 +73,7 @@ See Also:
 
 Implementation:
     Orochi, version 9
-    Copyright (C) 2015 Okayama University
+    Copyright (C) 2015-2016 Okayama University
     License GPLv3+: GNU GPL version 3 or later
 
 EOS
