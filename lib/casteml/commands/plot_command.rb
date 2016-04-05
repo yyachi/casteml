@@ -47,8 +47,8 @@ class Casteml::Commands::PlotCommand < Casteml::Command
     This program extracts certain datasets from pmlfile, and plots
     them using template.  With option `--category CATEGORY1', datasets
     defined in CATEGORY1 on Medusa, are passed and template
-    `CATEGORY1.R.erb' will be chosen.  Without option, category
-    `trace' is selected.
+    `CATEGORY1.R.erb' will be chosen.  Without option, a category
+    `default' is selected.
 
     To add a new `CATEGORY1', create set of elements `CATEGORY1' in
     Medusa and place template `CATEGORY1.R.erb' in certain place.  As
