@@ -29,7 +29,7 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
         add_option("-t", "--template-file path", "Specify template file path (default: #{@params[:template_file]})") do |v|
           options[:template_file] = v
         end 
-        add_option("-a", "--scale-ab-rel-to-image-width NUM,NUM", Array, "Specify scale abundance relative to image width (default: #{@params[:scale_ab_rel_to_image_width].join(',')})") do |v|
+        add_option("-a", "--scale-ab-rel-to-image-width NUM,NUM", Array, "Specify abundance and width of circle relative to image in percent (default: #{@params[:scale_ab_rel_to_image_width].join(',')})") do |v|
           if v.length != 2
 			raise OptionParser::InvalidArgument.new("incorrect number of arguments for scale-ab-rel-to-image-width")
           end
