@@ -11,24 +11,24 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 		super 'spots', 'Export spots info in pmlfile to texfile'
 
 	    @params = {
-	    	:image_width => 0.49, 
-	    	:scale_ab_rel_to_image_width => [10,10], 
+	    	:image_width => 0.49,
+	    	:scale_ab_rel_to_image_width => [10,10],
 	    	:scale_iso_range_min_max => [-20,20],
       		:template_file => File.join(Casteml::TEMPLATE_DIR, 'spots.tex.erb')
       	}
         add_option("-o", "--output path", "Specify output filename (default: inputfile.tex)") do |v|
           options[:output_file] = v
-        end 
+        end
 
         add_option("-p", "--picture path", "Specify picture file (default: inputfile)") do |v|
           options[:picture_file] = v
-        end 
+        end
         add_option("-w", "--image-width NUM", "Specify image width (default: #{@params[:image_width]})") do |v|
           options[:image_width] = v
-        end 
+        end
         add_option("-t", "--template-file path", "Specify template file path (default: #{@params[:template_file]})") do |v|
           options[:template_file] = v
-        end 
+        end
         add_option("-a", "--scale-ab-rel-to-image-width NUM,NUM", Array, "Specify abundance and width of circle relative to image in percent (default: #{@params[:scale_ab_rel_to_image_width].join(',')})") do |v|
           if v.length != 2
 			raise OptionParser::InvalidArgument.new("incorrect number of arguments for scale-ab-rel-to-image-width")
@@ -44,7 +44,6 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
           v.map!{|vv| vv.to_f}
           options[:scale_iso_range_min_max] = v
         end
-
 	end
 
 	def usage
@@ -54,13 +53,18 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 	def description
 	<<-EOS
     Process pmlfile created by Matlab-script spots.m and generate
-    texfile with spots and isocircles.  Note this program takes ISORG
-    file, which is a member of CASTEML family.
+    texfile with spots and isocircles.
+
+    Arguments ABUNDANCE and ISOTOPE mean name of columns used for
+    element and isotope abundances to draw isocircles.
+
+    Note this program takes ISORG file, which is a member of CASTEML
+    family.
 
 Example:
     ### demonstration for spot ###
     $ ls
-    tt_bcg12@4032.jpg 
+    tt_bcg12@4032.jpg
     matlab>> spots   % => input spots on an imagefile
     $ ls
     tt_bcg12@4032.jpg  tt_bcg12@4032.tex  tt_bcg12@4032.pml~
@@ -74,7 +78,7 @@ Example:
 
     ### demonstration for isocircle ###
     $ ls
-    tt_bcg12@4032.jpg 
+    tt_bcg12@4032.jpg
     matlab>> spots   % => input spots on an imagefile
     $ ls
     tt_bcg12@4032.jpg  tt_bcg12@4032.tex  tt_bcg12@4032.pml~
@@ -119,23 +123,23 @@ EOS
 			flag_ab = false
 			flag_iso = true
 			casteml_file = argv.shift
-			iso_item = argv.shift  
+			iso_item = argv.shift
 			commandline += " #{casteml_file} #{iso_item}"
 			commandline += " --picture #{params[:picture_file]}" if params[:picture_file]
 			commandline += " --output #{params[:output_file]}" if params[:output_file]
 			commandline += " --scale-ab-rel-to-image-width #{params[:scale_ab_rel_to_image_width].join(',')}"
-			commandline += " --scale-iso-range-min-max #{params[:scale_iso_range_min_max].join(',')}"  
+			commandline += " --scale-iso-range-min-max #{params[:scale_iso_range_min_max].join(',')}"
 		when 3
 			flag_ab = true
 			flag_iso = true
 			casteml_file = argv.shift
 			ab_item = argv.shift
-			iso_item = argv.shift  
+			iso_item = argv.shift
 			commandline += " #{casteml_file} #{ab_item} #{iso_item}"
 			commandline += " --picture #{params[:picture_file]}" if params[:picture_file]
 			commandline += " --output #{params[:output_file]}" if params[:output_file]
 			commandline += " --scale-ab-rel-to-image-width #{params[:scale_ab_rel_to_image_width].join(',')}"
-			commandline += " --scale-iso-range-min-max #{params[:scale_iso_range_min_max].join(',')}"  
+			commandline += " --scale-iso-range-min-max #{params[:scale_iso_range_min_max].join(',')}"
 		else
 			raise OptionParser::InvalidArgument.new('specify PMLFILE')
 		end
@@ -143,7 +147,7 @@ EOS
 		commandline += " --image-width #{params[:image_width]}"
 		path = File.dirname(casteml_file)
 		base = File.basename(casteml_file,".*")
-		picture = base      
+		picture = base
 		fileout = File.join(path,base + '.tex')
 
 		if params[:picture_file]
@@ -158,12 +162,12 @@ EOS
         template = File.read(params[:template_file])
  #       Casteml::ItemMeasured.config_file = params[:file_config]
         acquisitions = []
- 
+
         #if is_pml?(casteml_file)
         acquisitions << Casteml.decode_file(casteml_file).map{|attrib| Casteml::Acquisition.new(attrib)}
 #       # elsif is_csv_file?(casteml_file)
         #else
-        #  acquisitions << Casteml::Acquisition.from_template(File.open(casteml_file))        
+        #  acquisitions << Casteml::Acquisition.from_template(File.open(casteml_file))
         #end
         acquisitions = acquisitions.flatten
         return unless acquisitions.size > 0
