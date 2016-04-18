@@ -40,6 +40,24 @@ class Casteml::Command
 		""
 	end
 
+    def example
+      ""
+    end
+
+    def see_also
+      <<-EOS
+    http://dream.misasa.okayama-u.ac.jp
+EOS
+    end
+    
+    def implementation
+      <<-EOS
+    Orochi, version 9
+    Copyright (C) 2015 Okayama University
+    License GPLv3+: GNU GPL version 3 or later
+EOS
+    end
+    
 	def description
 		nil
 	end
@@ -111,10 +129,11 @@ class Casteml::Command
 
 	def add_parser_summary # :nodoc:
 		return unless @summary
+
 		@parser.separator nil
 		@parser.separator " Summary:"
 		wrap(@summary, 80 - 4).split("\n").each do |line|
-			@parser.separator " #{line.strip}"
+			@parser.separator " #{line.rstrip}"
 		end
 	end
 
@@ -141,6 +160,7 @@ class Casteml::Command
 
 	def create_option_parser
 		@parser = OptionParser.new
+#		add_parser_summary
 		add_parser_options
 
 		@parser.separator nil
@@ -149,8 +169,10 @@ class Casteml::Command
 		add_parser_run_info "Arguments", arguments
 		add_parser_summary
 		add_parser_description
+        add_parser_run_info "Example", example
+		add_parser_run_info "See Also", see_also
 		add_parser_run_info "Defaults", defaults_str
-
+        add_parser_run_info "Implementation", implementation
 	end
 
 	def configure_options(header, option_list)
