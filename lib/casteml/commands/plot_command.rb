@@ -3,9 +3,19 @@ require 'casteml/command'
 require 'casteml/measurement_category'
 require 'erb'
 class Casteml::Commands::PlotCommand < Casteml::Command
-	attr_accessor :params	
+	attr_accessor :params
+
+	def usage
+		"#{program_name} PMLFILE"
+	end
+	def arguments
+	<<-EOS
+    PMLFILE    A member of CASTEML file that can be either pmlfile, csvfile, or isorgfile
+EOS
+	end
+
 	def initialize
-		super 'plot', 'Create diagram for certein category from pmlfile using R'
+		super 'plot', '    Create diagram for certein category from pmlfile using R' # Summary:
 
 	    @params = {
 #	    	:category => 'trace',
@@ -22,18 +32,11 @@ class Casteml::Commands::PlotCommand < Casteml::Command
         # add_option("-t", "--template-file TEMPLATE_PATH", "Specify template file path (default: #{default_template(@params[:category])})") do |v|
         add_option("-t", "--template-file template.R.erb", "Specify template R-script for local development") do |v|
           options[:template_file] = v
-        end 
+        end
 
 		# add_option('-d', '--debug', 'Show debug information') do |v|
 		# 	options[:debug] = v
 		# end
-	end
-
-	def usage
-		"#{program_name} pmlfile"
-	end
-	def arguments
-		"    pmlfile (or csvfile, isorgfile)"
 	end
 
 	def description
@@ -57,8 +60,11 @@ class Casteml::Commands::PlotCommand < Casteml::Command
 
     To modify the plot, revise newly generated R-script then run
     vanilla R.
+EOF
+	end
 
-Example:
+	def example
+	<<-EOS
     $ casteml download -R 20130528105235-594267 > cbkstones.pml
     $ casteml plot cbkstones.pml
     $ ls
@@ -85,18 +91,16 @@ Example:
     cbkstones_oxygen.dataframe
     cbkstones_oxygen.R
     cbkstones_oxygen.pdf
+EOS
+	end
 
-See Also:
+	def see_also
+	<<-EOS
     casteml download
     casteml join
     http://dream.misasa.okayama-u.ac.jp
     http://dream.misasa.okayama-u.ac.jp/documentation/CastemlPlot/report.pdf
-
-Implementation:
-    Copyright (c) 2015 ISEI, Okayama University
-    Licensed under the same terms as Ruby
-
-EOF
+EOS
 	end
 
 	def default_template(category)

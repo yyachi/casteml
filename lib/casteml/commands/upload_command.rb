@@ -1,15 +1,17 @@
 require 'casteml/command'
 class Casteml::Commands::UploadCommand < Casteml::Command
 	def initialize
-		super 'upload', 'Upload a pmlfile to Medusa 9'
-
+		super 'upload', '    Upload a pmlfile to Medusa 9' # Summary:
 	end
 
 	def usage
-		"#{program_name} pmlfile"
+		"#{program_name} PMLFILE"
 	end
+
 	def arguments
-		"    pmlfile to be uploaded"
+	<<-EOS
+    PMLFILE    A pmlfile to be uploaded
+EOS
 	end
 
 	def description
@@ -35,8 +37,11 @@ class Casteml::Commands::UploadCommand < Casteml::Command
     imagefile `my-spots-picture.jpg'.  If there is Affine matrix file
     `my-spots-picture.affine' (xy-on-image to vs space), it also
     uploads it.  Use `spots.m' to create CASTEML with spots.
+EOF
+	end
 
-Example:
+	def example
+	<<-EOS
     $ casteml join JB1.pml stone2.pml JB3.pml > session.pml
     $ casteml upload session.pml
 
@@ -45,19 +50,17 @@ Example:
     $ ls
     my-spots-picture.jpg  my-spots-picture.pml
     $ casteml upload my-spots-picture.pml
+EOS
+	end
 
-See Also:
+	def see_also
+	<<-EOS
     casteml join
     casteml mv
     orochi-upload
     http://dream.misasa.okayama-u.ac.jp
     spots.m
-
-Implementation:
-    Copyright (c) 2015-2016, ISEI, Okayama University
-    Licensed under the same terms as Ruby
-
-EOF
+EOS
 	end
 
 	def execute

@@ -2,8 +2,17 @@ require 'casteml'
 require 'casteml/command'
 require 'casteml/measurement_category'
 class Casteml::Commands::ConvertCommand < Casteml::Command
-	def initialize
-		super 'convert', 'Convert (pml csv tsv isorg) to (pml csv tsv org isorg dataframe tex pdf)'
+	def usage
+		"#{program_name} INFILE"
+	end
+
+	def arguments
+	<<-EOS
+    INFILE    Input file with extension (.pml .csv .tsv .isorg)
+EOS
+	end
+    def initialize
+		super 'convert', '    Convert (pml csv tsv isorg) to (pml csv tsv org isorg dataframe tex pdf)' # Summary:
 
 		add_option('-f', '--format OUTFORMAT',
 						'Output format (pml csv tsv org isorg dataframe tex pdf)') do |v, options|
@@ -45,13 +54,6 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 		# end
 	end
 
-	def usage
-		"#{program_name} infile"
-	end
-	def arguments
-		"infile                                Input file with extension (.pml .csv .tsv .isorg)"
-	end
-
 	def description
 		<<-EOF
     Convert (pml csv tsv isorg)
@@ -70,8 +72,11 @@ Format:
                not for casteml input.  Similar to csv but colum and
                row are flipped.  The first line is header and starts
                with `element'.  Each stone will be on each row.
+EOF
+	end
 
-Example:
+	def example
+	<<-EOS
     $ casteml convert my_rat_ree@150106.csv > my_rat_ree@150106.pml
     $ ls
     my_rat_ree@150106.pml
@@ -84,21 +89,21 @@ Example:
     $ casteml convert -f csv --unit 'cg/g' my_rat_ree@150106.pml > my_rat_ree@150106.csv
 
     $ casteml convert -f csv --no-unit my_rat_ree@150106.pml > my_rat_ree@150106.csv
+EOS
+	end
 
-
-See Also:
+	def see_also
+	<<-EOS
     casteml join
     casteml split
     casteml/spec/casteml/formats/
     http://dream.misasa.okayama-u.ac.jp
-
-Implementation:
-    Copyright (c) 2015 ISEI, Okayama University
-    Licensed under the same terms as Ruby
-
-EOF
+EOS
 	end
 
+
+
+    
 	def output(string)
 		puts string
 	end

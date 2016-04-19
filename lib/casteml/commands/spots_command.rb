@@ -7,8 +7,21 @@ require 'erb'
 class Casteml::Commands::SpotsCommand < Casteml::Command
 	attr_accessor :params
 	include Casteml::TexHelper
-	def initialize
-		super 'spots', 'Export spots info in pmlfile to texfile'
+
+	def usage
+		 "#{program_name} PMLFILE ABUNDANCE ISOTOPE"
+	end
+
+	def arguments
+	<<-EOS
+    PMLFILE      A member of CASTEML family that can be either pmlfile, isorgfile, or csvfile
+    ABUNDANCE    Name of column with element abundance that determine dimension of isocircle
+    ISOTOPE      Name of column with isotope abundance that detremine angle of thread
+EOS
+	end
+
+    def initialize
+		super 'spots', '    Export spots info in pmlfile to texfile' # Summary:
 
 	    @params = {
 	    	:image_width => 0.49,
@@ -16,20 +29,20 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 	    	:scale_iso_range_min_max => [-20,20],
       		:template_file => File.join(Casteml::TEMPLATE_DIR, 'spots.tex.erb')
       	}
-        add_option("-o", "--output path", "Specify output filename (default: inputfile.tex)") do |v|
+        add_option("-o", "--output path", "Output filename (default: inputfile.tex)") do |v|
           options[:output_file] = v
         end
 
-        add_option("-p", "--picture path", "Specify picture file (default: inputfile)") do |v|
+        add_option("-p", "--picture path", "Picture file (default: inputfile)") do |v|
           options[:picture_file] = v
         end
-        add_option("-w", "--image-width NUM", "Specify image width (default: #{@params[:image_width]})") do |v|
+        add_option("-w", "--image-width NUM", "Image width (default: #{@params[:image_width]})") do |v|
           options[:image_width] = v
         end
-        add_option("-t", "--template-file path", "Specify template file path (default: #{@params[:template_file]})") do |v|
+        add_option("-t", "--template-file path", "Template file path (default: #{@params[:template_file]})") do |v|
           options[:template_file] = v
         end
-        add_option("-a", "--scale-ab-rel-to-image-width NUM,NUM", Array, "Specify abundance and width of circle relative to image in percent (default: #{@params[:scale_ab_rel_to_image_width].join(',')})") do |v|
+        add_option("-a", "--scale-ab-rel-to-image-width NUM,NUM", Array, "Abundance and width of circle relative to image in percent (default: #{@params[:scale_ab_rel_to_image_width].join(',')})") do |v|
           if v.length != 2
 			raise OptionParser::InvalidArgument.new("incorrect number of arguments for scale-ab-rel-to-image-width")
           end
@@ -37,17 +50,13 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
           options[:scale_ab_rel_to_image_width] = v
         end
 
-        add_option("-i", "--scale-iso-range-min-max NUM,NUM", Array, "Specify scale isotope range (default: #{params[:scale_iso_range_min_max].join(',')})") do |v|
+        add_option("-i", "--scale-iso-range-min-max NUM,NUM", Array, "Scale isotope range (default: #{params[:scale_iso_range_min_max].join(',')})") do |v|
           if v.length != 2
             raise OptionParser::InvalidArgument.new("incorrect number of arguments for scale-iso-range-min-max")
           end
           v.map!{|vv| vv.to_f}
           options[:scale_iso_range_min_max] = v
         end
-	end
-
-	def usage
-		 "#{program_name} pmlfile [abundance isotope]"
 	end
 
 	def description
@@ -60,8 +69,11 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 
     Note this program takes ISORG file, which is a member of CASTEML
     family.
+EOS
+	end
 
-Example:
+	def example
+	<<-EOS
     ### demonstration for spot ###
     $ ls
     tt_bcg12@4032.jpg
@@ -90,17 +102,14 @@ Example:
     $ casteml spots tt_bcg12@4032.isorg Li d7Li -a 2.1,10 -i -30,+30
     $ ls
     tt_bcg12@4032.jpg  tt_bcg12@4032.isorg  tt_bcg12@4032.tex
+EOS
+	end
 
-See Also:
+	def see_also
+	<<-EOS
     spots.m
     casteml convert
     http://dream.misasa.okayama-u.ac.jp
-
-Implementation:
-    Orochi, version 9
-    Copyright (C) 2015-2016 Okayama University
-    License GPLv3+: GNU GPL version 3 or later
-
 EOS
 	end
 

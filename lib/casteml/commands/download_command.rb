@@ -2,20 +2,30 @@ require 'casteml/command'
 require 'casteml'
 require 'casteml/formats/xml_format'
 class Casteml::Commands::DownloadCommand < Casteml::Command
-	def initialize
-		super 'download', '    Download pmlfile from Medusa'
+	def usage
+		"#{program_name} [options] ID0 [ID1 ...]"
+	end
+
+	def arguments
+	<<-EOS
+    ID0   ID of a record in Medusa
+EOS
+	end
+
+    def initialize
+		super 'download', '    Download pmlfile from Medusa' # Summary:
 
 		add_option('-f', '--format OUTFORMAT',
 						'Output format (pml, csv, tsv, org, isorg, tex, pdf, dataframe)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
 
-		add_option('-r', '--recursive', 
+		add_option('-r', '--recursive',
 						'Analyses with descendants of a stone') do |v|
 			options[:recursive] = :self_and_descendants
 		end
 
-		add_option('-R', '--Recursive', 
+		add_option('-R', '--Recursive',
 						'Analyses with a whole family of a stone') do |v|
 			options[:recursive] = :families
 		end
@@ -23,11 +33,7 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 		add_option('-n', '--number-format NUMFORMAT',
 						'Number format (%.4g)') do |v, options|
 			options[:number_format] = v
-		end		
-	end
-
-	def usage
-		"#{program_name} [options] id0 [id1 ...]"
+		end
 	end
 
 	def description
@@ -47,8 +53,11 @@ class Casteml::Commands::DownloadCommand < Casteml::Command
 
     You may want to plot the multi-pmlfile by a command `casteml
     plot'.
+EOS
+	end
 
-Example:
+	def example
+	<<-EOS
     $ casteml download 20130528105235-594267
     ...
     $ casteml download -r 20130528105235-594267 > download.pml
@@ -64,23 +73,23 @@ Example:
     ...
     $ casteml download 20160226174711-288407 > mosaic_ok11mc.pml
     $ casteml convert mosaic_ok11mc.pml -f org > mosaic_ok11mc.isorg
+EOS
+	end
 
-See Also:
+	def see_also
+	<<-EOS
     casteml convert
     casteml join
     casteml plot
     http://dream.misasa.okayama-u.ac.jp
-
-Implementation:
-    Orochi, version 9
-    Copyright (C) 2015-2016 Okayama University
-    License GPLv3+: GNU GPL version 3 or later
-
 EOS
 	end
 
+
+
+
     def output(string)
-        puts string        
+        puts string
     end
 
 	def execute
@@ -95,7 +104,7 @@ EOS
         joined = nil
         strings = []
         castemls = []
-        while(id = args.shift) do 
+        while(id = args.shift) do
 		  options_download[:recursive] = options[:recursive] if options[:recursive]
           casteml = Casteml.get(id, options_download)
           castemls << casteml
