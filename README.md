@@ -41,7 +41,10 @@ Commands are summarized as:
 
 See online document with option `--help`.
 
-# Show the help message
+# Developer's guide
+
+1. Run test
+
     $ cd ~/devel-godigo/gems/casteml
     $ bundle exec rspec spec/casteml/command_manager_spec.rb
     $ bundle exec rspec spec/casteml/commands/convert_command_spec.rb --tag show_help:true
@@ -51,6 +54,15 @@ See online document with option `--help`.
     $ bundle exec rspec spec/casteml/commands/upload_command_spec.rb --tag show_help:true
     $ bundle exec rspec spec/casteml/commands/download_command_spec.rb --tag show_help:true
     $ bundle exec rspec spec/casteml/commands/plot_command_spec.rb --tag show_help:true
+
+2. Push to the Git server
+
+3. Access to Jenkins server http://devel.misasa.okayama-u.ac.jp/jenkins/job/Casteml/ and run a job.  This is scheduled and if you are not in hurry, skip further steps.
+
+4. Uninstall and install local gem module by
+
+    $ sudo gem uninstall casteml
+    $ sudo gem install casteml
 
 # Contributing
 
