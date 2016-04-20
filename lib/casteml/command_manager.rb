@@ -14,7 +14,7 @@ class Casteml::CommandManager
 						:convert,
 						:spots,
 						:plot,
-						:help,
+						# :help,
 	]
 	def self.instance
 		@command_manager ||= new
@@ -59,21 +59,33 @@ class Casteml::CommandManager
 
 	def opts
 		@opts ||= OptionParser.new do |opts|
-			opts.banner = "A comprehensive utility for CASTEML"
-			opts.define_head "Usage: casteml [options...] [command [options...]]"
+			opts.banner = "Casteml is a suite of comprehensive utilities for CASTEML.  This is
+a basic help message containing pointers to more information.
+
+"
+			opts.define_head "Usage:
+    casteml --help
+    casteml [options...]
+    casteml command [arguments...] [options...]"
 			opts.separator ""
 			opts.separator "Command:"
-            opts.separator "    #{BUILTIN_COMMANDS.join(', ')}"
+            opts.separator "    #{BUILTIN_COMMANDS.join('
+    ')}"
 			opts.separator ""
 			opts.separator "Further help:"
-			opts.separator "    casteml [command] --help"
+            opts.separator "    casteml #{BUILTIN_COMMANDS.join(' --help
+    casteml ')} --help"
+			# opts.separator "    casteml command --help"
 			opts.separator ""
 			opts.separator "Examples:"
 			opts.separator "    casteml join --help"
 			opts.separator "    casteml join session-1.pml session-2.pml session-3.pml"
 			opts.separator "    casteml split session-all.pml"
+			opts.separator "    casteml spots --help"
+			opts.separator "    casteml spots liso_pig_nwa2376.isorg Li d7Li -a 1.0,4.0 -i -16,8"
+			opts.separator "    casteml casteml convert -f tex my_rat_ree.pml >  my_rat_ree.tex"
 			opts.separator ""
-			opts.separator "Options:"
+			opts.separator "Option:"
 
 			opts.on_tail("-?", "--help", "Show this message") do |v|
 				@options[:help] = v

@@ -43,7 +43,14 @@ See online document with option `--help`.
 
 # Show the help message
     $ cd ~/devel-godigo/gems/casteml
+    $ bundle exec rspec spec/casteml/command_manager_spec.rb
     $ bundle exec rspec spec/casteml/commands/convert_command_spec.rb --tag show_help:true
+    $ bundle exec rspec spec/casteml/commands/spots_command_spec.rb --tag show_help:true
+    $ bundle exec rspec spec/casteml/commands/join_command_spec.rb --tag show_help:true
+    $ bundle exec rspec spec/casteml/commands/split_command_spec.rb --tag show_help:true
+    $ bundle exec rspec spec/casteml/commands/upload_command_spec.rb --tag show_help:true
+    $ bundle exec rspec spec/casteml/commands/download_command_spec.rb --tag show_help:true
+    $ bundle exec rspec spec/casteml/commands/plot_command_spec.rb --tag show_help:true
 
 # Contributing
 
