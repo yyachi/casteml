@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'casteml/formats/csv_format'
 module Casteml::Formats
 	describe CsvFormat do
-		describe ".unit_from_numbers", :current => true do
+		describe ".unit_from_numbers" do
 			subject{ CsvFormat.unit_from_numbers(numbers) }
 			context "greater than 1.0" do
 			let(:numbers){ [12.0, 25.0] }
@@ -62,7 +62,7 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 				}
 			end
 
-			context "with unit", :current => true do
+			context "with unit" do
 				let(:opts){ {:with_unit => 'ppm'}}
 				let(:data){
 					[
@@ -77,7 +77,7 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 				}
 			end
 
-			context "with unit false", :current => true do
+			context "with unit false" do
 				let(:opts){ {:with_unit => false} }
 				let(:data){
 					[
@@ -92,7 +92,7 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 				}
 			end
 
-			context "without unit", :current => true do
+			context "without unit" do
 				let(:opts){ {:with_unit => 'parts'} }
 				let(:data){
 					[
@@ -157,9 +157,9 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 
 			context "with spot" do
 				let(:org_string){ <<-EOF
-	ID,session,sample_name,spot_x_image,spot_y_image
-	,test-1,sample-1,12.4,2.4
-	,test-2,sample-2,34.5,4.5
+ID,session,sample_name,spot_x_image,spot_y_image
+,test-1,sample-1,12.4,2.4
+,test-2,sample-2,34.5,4.5
 						EOF
 				}
 				before do
@@ -246,7 +246,21 @@ ID,session,sample_name,SiO2 (cg/g)
 			end
 		end
 
-		describe ".org2csv", :current => true do
+        describe ".tsv2csv" do
+          subject { CsvFormat.tsv2csv(string) }
+			context "with value include camma" do
+				let(:string){ <<-EOF
+ID\tsession\tdescription\td17O (permil)\td18O (permil)
+111\ttest-1\tRun#1916, 1.46mg\t3.956\t1.805
+222\ttest-2\tRun#1918, 1.83mg\t3.694\t1.64
+						EOF
+				}
+				it { expect(subject).to be_truthy }
+				it { expect(subject).to match(/111\,test-1\,\"Run#1916\, 1.46mg\"\,3.956\,1.805/) }                
+			end
+          
+        end
+		describe ".org2csv" do
 			subject { CsvFormat.org2csv(string) }
 
 			context "with template" do
@@ -274,6 +288,23 @@ ID,session,sample_name,SiO2 (cg/g)
 				it { expect(subject).not_to match(/TBLNAME/) }
 			end
 
+			context "with value include camma" do
+				let(:string){ <<-EOF
++TBLNAME: castemls					
+|ID|session|description|d17O (permil)|d18O (permil)|
+|-
+|111|test-1|Run#1916, 1.46mg|3.956|1.805|
+|222|test-2|Run#1918, 1.83mg|3.694|1.64|
+						EOF
+				}
+                before do
+                  #puts subject
+                end
+				it { expect(subject).to be_truthy }
+				it { expect(subject).to match(/111\,test-1\,\"Run#1916\, 1.46mg\"\,3.956\,1.805/) }                
+				it { expect(subject).not_to match(/TBLNAME/) }
+			end
+
 			context "with tab table" do
 				let(:string){ <<-EOF
 +TBLNAME: castemls					
@@ -285,8 +316,9 @@ ID,session,sample_name,SiO2 (cg/g)
 				}
 				it { expect(subject).to be_truthy }
 			end
+            
 		end
-		describe ".org_mode?", :current => true do
+		describe ".org_mode?" do
 			subject { CsvFormat.org_mode?(string) }
 			context "with template" do
 				let(:string){ <<-EOF
@@ -332,6 +364,11 @@ ID,session,sample_name,SiO2 (cg/g)
 				it { expect(subject).not_to be_truthy }
 			end
 
+            context "with \r\n" do
+              let(:string){ "#+TBLNAME: casteml\r\n| technique  |      |               XRF |                   XRF |                   XRF |                   XRF |\r\n| instrument |      |            PW2400 |                PW2400 |                PW2400 |                PW2400 |\r\n| analyst    |      |                HK |                    HK |                    HK |                    HK |\r\n| session    |      |        Allende-13 |             OK-10VM-d |               CBK-1-e |              OK-6-m-f |\r\n| bib-ID     |      |                   |                       |                       |                       |\r\n| stone-ID   |      | 20071216135144.en | 20130809083746-885416 | 20130809084217-096423 | 20130809083635-550077 |\r\n|------------+------+-------------------+-----------------------+-----------------------+-----------------------|\r\n| SiO2       | cg/g |              33.3 |                  40.3 |                  40.1 |                  40.4 |\r\n| TiO2       | cg/g |              0.08 |                  0.07 |                  0.09 |                  0.11 |\r\n| Al2O3      | cg/g |              2.66 |                  1.81 |                  1.78 |                  1.89 |\r\n| Fe2O3T     | cg/g |              37.0 |                  27.9 |                  27.6 |                  27.6 |\r\n| MnO        | cg/g |              0.18 |                  0.31 |                  0.31 |                  0.31 |\r\n| MgO        | cg/g |              24.1 |                  25.7 |                  24.7 |                  26.8 |\r\n| CaO        | cg/g |              2.45 |                  1.86 |                  2.02 |                  1.93 |\r\n| Na2O       | cg/g |              0.43 |                  0.98 |                  1.01 |                  1.03 |\r\n| K2O        | cg/g |              0.09 |                  0.14 |                  0.14 |                  0.14 |\r\n| P2O5       | cg/g |              0.26 |                  0.25 |                  0.23 |                  0.23 |\r\n| LOI        | cg/g |             -1.85 |                 -1.63 |                 -1.81 |                 -1.92 |\r\n| total      | cg/g |             98.74 |                 97.62 |                 96.17 |                 98.57 |\r\n| Cr         | ug/g |              0.54 |                  0.62 |                  0.64 |                  0.70 |\r\n| Ni         | ug/g |              1.60 |                  1.15 |                  1.06 |                  0.99 |\r\n"}
+  			  it { expect(subject).to be_truthy }
+            end
+            
 			context "with csv" do
 				let(:string){ <<-EOF		
 ID,session,technique

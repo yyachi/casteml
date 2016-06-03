@@ -8,7 +8,6 @@ class CSV::Row
 	def to_hash
 		hash = to_hash_org
 		hash_new = Hash.new
-
 		hash.each do |key, value|
 			next unless key
 
@@ -190,7 +189,7 @@ module Casteml::Formats
 			string = CSV.generate("", csv_opts) do |csv|
 				csv << column_names
 				hashs.each_with_index do |h, idx|
-					next if omit_null && omit_ids.include?(idx)
+				  next if omit_null && omit_ids.include?(idx)
 					row = h.values
 					row.concat(array_of_spot_data[idx]) unless without_spot
 					row.concat(array_of_data[idx].flatten)
@@ -213,23 +212,32 @@ module Casteml::Formats
 		end
 
 		def self.tsv2csv(string)
-			string.gsub(/\t/,',')
+		  string.gsub(/\t/,',')
+          vals = string.split(/\t/)
+          vals.map{|val| val =~ /\,/ ? "\"#{val}\"" : val}.join(',')
 		end
 
 		def self.org_mode?(string)
-			string =~ /^\|.*\|$/
+          string = string.gsub(/\r+\n/, "\n")
+          string =~ /^\|.*\|$/
 		end
 
 		def self.org2csv(string)
 			string.gsub!(/^#\+TBLNAME:.*\n/,"")
 			string.gsub!(/^\+TBLNAME:.*\n/,"")
 			string.gsub!(/^\|\-.*\|\n/,"")
+			string.gsub!(/^\|\-.*\n/,"")
 			string.gsub!(/^\|\s*/,"")
 			string.gsub!(/\s*\|$/,"")
 			string.gsub!(/\|\Z/,"")
-			#string.gsub!(/\|/,",")
-			string = string.split(/\n/).map{ |line| line.gsub(/\s*\|\s*/, ",") }.join("\n")
-			string
+            lines = string.split(/\n/)
+            rlines = []
+            lines.each do |line|
+              vals = line.split(/\s*\|\s*/)
+              rlines << vals.map{|val| val =~ /\,/ ? "\"#{val}\"" : val}.join(',')
+            end
+            string = rlines.join("\n")
+            string
 		end
 
 

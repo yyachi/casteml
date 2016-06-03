@@ -100,7 +100,30 @@ module Casteml
 			}
 		end
 
-		context "with isorgfile" do
+
+        context "with bug-1217.pml" do
+          subject { Casteml.convert_file(path, {:output_format => format}) }
+		  let(:path){'tmp/bug-1217.pml'}
+		  before do
+			setup_empty_dir('tmp')
+			setup_file(path)
+		  end
+          
+          context "to csv" do
+            let(:format){ :csv }
+		    it {
+			  expect(subject).to match(/\"Run#1908\, 1.93mg\, Leached with 0.6M HCl for 2 min.\"/)
+		    }
+          end
+          context "to tsv" do
+            let(:format){ :tsv }
+		    it {
+			  expect(subject).to match(/\tRun#1908\, 1.93mg\, Leached with 0.6M HCl for 2 min.\t/)
+		    }
+          end
+          
+        end
+		context "with isorgfile", :current => true do
 			subject { Casteml.convert_file(path) }
 			let(:path){'tmp/template.isorg'}
 			#let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
@@ -171,10 +194,11 @@ module Casteml
 			}
 		end
 
-		context "with real file to output_format dataframe", :current => true do
-			subject { Casteml.convert_file(path, :output_format => output_format, :with_category => 'trace')}
+		context "with real file to output_format dataframe" do
+			subject { Casteml.convert_file(path, :output_format => output_format, :with_category => category)}
 			let(:output_path){ File.join(File.dirname(path), File.basename(path, ".*") + ".#{output_format}") }
 			let(:output_format){ :dataframe }
+            let(:category){'trace'}
 			before do
 				setup_empty_dir('tmp')
 				setup_file(path)
@@ -183,11 +207,39 @@ module Casteml
 				end
 			end
 			context "data-from-casteml.csv" do
-				let(:path){'tmp/20130528105235-594267-R.pml'}
+			  let(:path){'tmp/20130528105235-594267-R.pml'}
 				it {
 					expect(subject).to be_an_instance_of(String)
 				}
 			end
+            context "bug-1217.pml" do
+              let(:path){'tmp/bug-1217.pml'}
+              let(:category){'oxygen'}
+		      it {
+                expect(subject).to match(/d17O\,1.805/)
+			  }
+            end
+            context "bug-1217.org" do
+              let(:path){'tmp/bug-1217.org'}
+              let(:category){'oxygen'}
+		      it {
+                expect(subject).to match(/d17O\,1.805/)
+			  }
+            end
+            context "bug-1217.tsv" do
+              let(:path){'tmp/bug-1217.tsv'}
+              let(:category){'oxygen'}
+		      it {
+                expect(subject).to match(/d17O\,1.805/)
+			  }
+            end
+            context "bug-1217.csv" do
+              let(:path){'tmp/bug-1217.csv'}
+              let(:category){'oxygen'}
+		      it {
+                expect(subject).to match(/d17O\,1.805/)
+			  }
+            end
 
 			context "image.pml" do
 				let(:path){'tmp/image.pml'}
