@@ -5,7 +5,7 @@ module Casteml
 			include TexHelper
 		    def initialize
 		    end
-		    
+
 		    def parallel_mv(p, d)
 		      m = []
 		      m[0] = p[0] + d[0]
@@ -32,7 +32,7 @@ module Casteml
 		    def degree2radian(deg)
 		        return (deg * Math::PI / 180)
 		    end
-		    
+
 
 		    def isocircle(diameter, angle)
 		      radius = diameter.to_f / 2
@@ -75,7 +75,7 @@ module Casteml
 		    end
 
 		    def color(color)
-		      "\\color{#{color}}"      
+		      "\\color{#{color}}"
 		    end
 
 		    def data(content)
@@ -116,10 +116,16 @@ module Casteml
 		      thread_sec        = (((iso * 10) % 10) / 10 * (-360)) % 360;
 
 		      base_content = circle(radius * 2)
-		      base_content += rotatebox(thread_hour,line(0,1,radius*1.0) + line(0,-1,radius*1.0))
-
 		      content = circle(radius * 2)
-		      content += rotatebox(thread_hour,linethickness("1.6pt") + vector(0,1,radius*1.0) + line(0,-1,radius*1.0))
+
+              ## vectorLength == diameter
+		      # base_content += rotatebox(thread_hour,line(0,1,radius*1.0) + line(0,-1,radius*1.0))
+		      # content += rotatebox(thread_hour,linethickness("1.6pt") + vector(0,1,radius*1.0) + line(0,-1,radius*1.0))
+
+              ## vectorLength == radius (July 2, 2016)
+		      base_content += rotatebox(thread_hour,line(0,1,radius*1.0))
+		      content += rotatebox(thread_hour,linethickness("1.6pt") + vector(0,1,radius*1.0))
+              
 		      #content += rotatebox(thread_minute,line(0,1,radius*0.85))
 		      #content += " " + onspot(options[:caption]) if options[:caption]
 		      tex = "% isoclock x=#{x} y=#{y} isotope=#{iso}\n"
@@ -128,7 +134,7 @@ module Casteml
 		      tex += color("black") + linethickness("1.6pt") + "\n"
 		      tex += put(x, y, content) + "\n"
 		      cp = parallel_mv(polar2descartes(radius * 1.2,Math::PI/2),[x,y])
-		      tex += put(cp[0], cp[1], onspot(options[:caption])) if options[:caption]    
+		      tex += put(cp[0], cp[1], onspot(options[:caption])) if options[:caption]
 		      tex += tick_for_circle(x, y, radius, degree2radian(thread_sec + 90), :length => 20.0)
 
 		      num_ticks = 10
@@ -140,8 +146,8 @@ module Casteml
 
 		        radian = degree2radian(deg)
 		        tex += tick_for_circle(x, y, radius, radian)
-		        # tex += caption_for_circle(x, y, radius, radian, format("%.1f,%.1f",iso_range_min,iso_range_max)) if options[:tick_captions]      
-		        tex += caption_for_circle(x, y, radius, radian, format("%g,%g",iso_range_min,iso_range_max)) if options[:tick_captions]      
+		        # tex += caption_for_circle(x, y, radius, radian, format("%.1f,%.1f",iso_range_min,iso_range_max)) if options[:tick_captions]
+		        tex += caption_for_circle(x, y, radius, radian, format("%g,%g",iso_range_min,iso_range_max)) if options[:tick_captions]
 		        (num_ticks - 1).times do |i|
 		          deg += ddeg
 		          tiso += diso
@@ -160,13 +166,13 @@ module Casteml
 		      percent = options[:length] || 10.0
 		      tick_length = radius * percent/100.0
 		      sp = parallel_mv(polar2descartes(radius-tick_length,radian),[x,y])
-		      # 
+		      #
 		      # p parallel_mv(sp,[x,y])
 		      # sp[0] += x
 		      # sp[1] += y
 		      # p sp
 		      ep = parallel_mv(polar2descartes(radius,radian),[x,y])
-		      # 
+		      #
 		      # ep[0] += x
 		      # ep[1] += y
 		      segment(sp,ep)
@@ -222,7 +228,7 @@ module Casteml
 		      end
 		      tex
 
-		    end  
+		    end
 
 		    def put_isocircle_old(x, y, r1, deg, options ={})
 		      content = isocircle(r1, deg)
