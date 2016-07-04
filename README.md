@@ -4,7 +4,7 @@ Provide a comprehensive utility for CASTEML
 
 # Dependency
 
-## [medusa_rest_client](http://devel.misasa.okayama-u.ac.jp/gitlab/gems/medusa_rest_client/tree/master "follow instruction")
+## [medusa_rest_client](https://github.com/misasa/medusa_rest_client "follow instruction")
 
 # Installation
 
@@ -45,15 +45,17 @@ See online document with option `--help`.
 
 1. Run test
 
-    $ cd ~/devel-godigo/gems/casteml
-    $ bundle exec rspec spec/casteml/command_manager_spec.rb
-    $ bundle exec rspec spec/casteml/commands/convert_command_spec.rb --tag show_help:true
-    $ bundle exec rspec spec/casteml/commands/spots_command_spec.rb --tag show_help:true
-    $ bundle exec rspec spec/casteml/commands/join_command_spec.rb --tag show_help:true
-    $ bundle exec rspec spec/casteml/commands/split_command_spec.rb --tag show_help:true
-    $ bundle exec rspec spec/casteml/commands/upload_command_spec.rb --tag show_help:true
-    $ bundle exec rspec spec/casteml/commands/download_command_spec.rb --tag show_help:true
-    $ bundle exec rspec spec/casteml/commands/plot_command_spec.rb --tag show_help:true
+```
+$ cd ~/devel-godigo/gems/casteml
+$ bundle exec rspec spec/casteml/command_manager_spec.rb
+$ bundle exec rspec spec/casteml/commands/convert_command_spec.rb --tag show_help:true
+$ bundle exec rspec spec/casteml/commands/spots_command_spec.rb --tag show_help:true
+$ bundle exec rspec spec/casteml/commands/join_command_spec.rb --tag show_help:true
+$ bundle exec rspec spec/casteml/commands/split_command_spec.rb --tag show_help:true
+$ bundle exec rspec spec/casteml/commands/upload_command_spec.rb --tag show_help:true
+$ bundle exec rspec spec/casteml/commands/download_command_spec.rb --tag show_help:true
+$ bundle exec rspec spec/casteml/commands/plot_command_spec.rb --tag show_help:true
+```
 
 2. Push to the Git server
 
@@ -61,13 +63,7 @@ See online document with option `--help`.
 
 4. Uninstall and install local gem module by
 
-    $ sudo gem uninstall casteml
-    $ sudo gem install casteml
-
-# Contributing
-
-1. Fork it ( https://github.com/[my-github-username]/casteml/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request
+```
+$ sudo gem uninstall casteml
+$ sudo gem install casteml
+```
