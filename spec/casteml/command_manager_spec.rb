@@ -34,6 +34,18 @@ module Casteml
 				end
 			end
 	
+
+			context "with -R", :current => true do
+				let(:args){ ['-R'] }
+				before do
+					puts cmd.show_version
+				end
+				it "shows version and exit" do
+					expect(cmd).to receive(:refresh_cache)
+					expect{ cmd.run args }.to exit_with_code(0)
+				end
+			end
+
 			context "with registered command" do
 				let(:command){ double(command_name).as_null_object }
 				let(:args){ [command_name] }

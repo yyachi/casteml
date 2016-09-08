@@ -103,6 +103,10 @@ a basic help message containing pointers to more information.
 				@options[:version] = v
 			end
 
+			opts.on_tail("-R", "--refresh", "Refresh cache files") do |v|
+				@options[:refresh] = v
+			end
+
 		end
 	end
 
@@ -115,6 +119,18 @@ a basic help message containing pointers to more information.
 		say opts
 	end
 
+    def refresh_cache
+#    	say "remote_dump refreshing..."
+		klasses = [Casteml::Unit, Casteml::MeasurementItem, Casteml::MeasurementCategory]
+	    klasses.each do |klass|
+      		dump_path = klass.dump_path
+        	say "#{dump_path} is removing..."
+        	FileUtils.rm(dump_path) if File.exist?(dump_path)
+	    	say "#{dump_path} is generating..."
+    		klass.dump_all
+      	end
+    end
+
 	def show_version
 		say "version: #{Casteml::VERSION}"
 		say <<EOF
@@ -123,6 +139,7 @@ configuration:
   cache files:
    #{Casteml::Unit.dump_path}
    #{Casteml::MeasurementItem.dump_path}
+   #{Casteml::MeasurementCategory.dump_path}
   *Delete the cache files to update.
 EOF
 	end
@@ -135,6 +152,9 @@ EOF
 			exit
 		elsif options[:version] then
 			show_version
+			exit
+		elsif options[:refresh] then
+			refresh_cache
 			exit
 		elsif args.empty?
 			show_help
