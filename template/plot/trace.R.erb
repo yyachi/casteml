@@ -1,12 +1,7 @@
 #!/usr/bin/env Rscript
-###' -*- mode: ess-mode -*-
+###' -*- mode: R-mode -*-
+###' DOS> casteml download -R 20130618143203-412319 > 20130618143203-412319.pml
 ###' DOS> casteml plot 20130618143203-412319.pml -c trace --template-file trace.R.erb
-###' DOS> casteml plot 20130618143203-412319.pml -c trace --template-file trace.R.erb
-###' casteml plot 20130618143203-412319.pml -c trace --template-file trace.R.erb
-###' Error in read.table(file = file, header = header, sep = sep, quote = quote,  : 
-###'   duplicate 'row.names' are not allowed
-###' Calls: t -> read.csv -> read.table
-###' Execution halted
 ###'
 ###' I/O SETUP
 ## infile <- "20130618143203-412319_trace.dataframe"
@@ -22,8 +17,8 @@ pdf(outfile)
 ###' ----------------
 ###' Load property and reference dataset
 ###' ----------------
-## Wasson, J. T., and Kallemeyn, G. W. (1988). Compositions of chondrites. Phil. Trans. Roy. Soc. London A, 325, 535–544.
-## McDonough, W., and Sun, S. (1995). The composition of the earth. Chemical Geology, 120(3-4), 223–253.
+###' Wasson, J. T., and Kallemeyn, G. W. (1988). Compositions of chondrites. Phil. Trans. Roy. Soc. London A, 325, 535–544.
+###' McDonough, W., and Sun, S. (1995). The composition of the earth. Chemical Geology, 120(3-4), 223–253.
 refin <- data.frame(row.names = c("H","Li","Be","B","C","N","F","Na","Mg","Al","Si","P","S","Cl","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Rb","Sr","Y","Zr","Nb","Mo","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Cs","Ba","La","Ce","Pr","Nd","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb","Lu","Hf","Ta","W","Re","Os","Ir","Pt","Au","Hg","Tl","Pb","Bi","Th","U"))
 refin[,'Boynton 1989'] <- c(NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.31,0.808,0.122,0.6,0.195,0.0735,0.259,0.0474,0.322,0.0718,0.21,0.0324,0.209,0.0322,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN)
 refin[,'McDonough 1995'] <- c(NaN,1.5,0.025,0.9,35000,3180,60,5100,96500,8600,106500,1080,54000,680,550,9250,5.92,440,56,2650,1920,181000,500,10500,120,310,9.2,31,1.85,21,3.57,2.30,7.25,1.57,3.82,0.24,0.900,0.710,0.130,0.550,0.200,0.710,0.080,1.650,0.140,2.330,0.450,0.190,2.410,0.237,0.613,0.0928,0.457,0.148,0.0563,0.199,0.0361,0.246,0.0546,0.160,0.0247,0.161,0.0246,0.103,0.0136,0.093,0.040,0.490,0.455,1.010,0.140,0.300,0.140,2.470,0.110,0.029,0.0074)
