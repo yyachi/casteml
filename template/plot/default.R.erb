@@ -1,11 +1,21 @@
-## #!/usr/bin/env Rscript
-### I/O SETUP
-## input  = "cbkstones.dataframe"
-input  = "<%= File.basename(dataframe_path,'*') -%>"
-### DATA HANDLING
-output = sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",input),"pdf")
-pdf(output)
-tbl0    <- read.csv(input,header=T,stringsAsFactors=F)
+#!/usr/bin/env Rscript
+###' DOS> cd %HOME%/devel-godigo/casteml/template/plot/
+###' DOS> casteml download -R 20130618143203-412319 > example.pml
+###' DOS> casteml plot example.pml --template-file default.R.erb
+###'
+###' I/O SETUP
+## input <- "example.dataframe"
+input <- "<%= File.basename(dataframe_path,'*') -%>"
+
+###' ----------------
+###' Load dataset from csvfile
+###' ----------------
+tbl0 <- read.csv(input,header=T,stringsAsFactors=F)
+pdf(sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf"))
+
+###' ----------------
+###' Real work
+###' ----------------
 tll1    <- tbl0[2:length(tbl0)]
 chem    <- tbl0[,1]
 nchem   <- nrow(tll1)
