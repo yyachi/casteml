@@ -39,12 +39,15 @@ EOS
 	def description
     <<-EOS
     Download pmlfile from Medusa.  Specify ID as argument.  This
-    accepts both stone-ID, session-ID (also referred as analysis-ID),
-    bib-ID, table-ID, and image-ID and return pmlfiles linked to
-    corresponding record.  For image-ID, pmlfiles linked via spot
-    record will be downloaded.  For stone-ID, recursive download is
-    available.  default output is toward to the standard output.
-    Redirect to certain file.
+    returns pmlfiles linked to corresponding record.  Default output
+    is toward to the standard output.  Redirect to certain file.
+
+    This accepts both stone-ID, session-ID (also referred as
+    analysis-ID), bib-ID, table-ID, and image-ID.  For image-ID,
+    pmlfiles linked via spot record are returned.  For bib-ID,
+    pmlfiles directly linked to the bib record are returned.  Only for
+    stone-ID, recursive download is available.  Unless stone-ID is
+    specified, recursive option is ignored.
 
     This command accept more than one ID.  Note that you can also
     obtain a multi-pmlfile for a whole family.  If you need a
