@@ -1,37 +1,39 @@
 #!/usr/bin/env Rscript
 ###' DOS> cd %HOME%/devel-godigo/casteml/template/plot/
-###' DOS> casteml download -R 20130618143203-412319 > example.pml
-###' DOS> casteml plot example.pml --template-file default.R.erb
+###' DOS> casteml download -R 20130528105235-594267 > example.pml
+###' DOS> casteml plot example.pml --template-file default.R.erb 
 ###'
 ###' I/O SETUP
-## input <- "example.dataframe"
-input <- "<%= File.basename(dataframe_path,'*') -%>"
+## infile <- "example.dataframe"
+infile <- "<%= File.basename(dataframe_path,'*') -%>"
 
 ###' ----------------
 ###' Load dataset from csvfile
 ###' ----------------
-tbl0 <- read.csv(input,header=T,stringsAsFactors=F)
+## tbl0 <- read.csv(infile,header=T,stringsAsFactors=F)
+tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
 pdf(sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf"))
 
 ###' ----------------
 ###' Real work
 ###' ----------------
-tll1    <- tbl0[2:length(tbl0)]
-chem    <- tbl0[,1]
-nchem   <- nrow(tll1)
-tbl2    <- as.data.frame(t(tll1))
-stone   <- rownames(tbl2)
-nstone  <- nrow(tbl2)
-xxx     <- 1:nstone
-col     <- rainbow(nchem)
-cexax   <- 0.2
-for(i in 1:nchem) {
-    mean <- mean(tbl2[,i], na.rm = T)
-    if (is.nan(mean) == FALSE) {                
-        yyy       <- tbl2[,i] / mean
-        chem.mean <- sprintf("%s / %.3g",chem[i],mean)
-        plot(xxx,yyy,xaxt="n",type="o",col=col[i],xlab="",ylab="",main=chem.mean)
-        axis(1,at=xxx,cex.axis=cexax,las=2,labels=stone,cex=cexax,tck=-0.005)
-    } else {}
+chemlist   <- colnames(tbl0)
+stonelist  <- rownames(tbl0)
+stoneindex <- 1:length(stonelist)
+cexax      <- 0.2
+
+for(iichem in 1:length(chemlist)) {
+    iimean <- mean(tbl0[,iichem], na.rm = T)
+    if (is.nan(iimean) == FALSE) {
+        XX    <- stoneindex
+        YY    <- tbl0[,iichem] / iimean
+        title <- sprintf("%s / %.3g",chemlist[iichem],iimean)
+        plot(XX,YY,xaxt="n",type="o",col=stoneindex,xlab="",ylab="",main=title)
+        axis(1,at=stoneindex,cex.axis=cexax,las=2,labels=stonelist,cex=cexax,tck=-0.005)
+    }
 }
+
+###' ----------------
+###' Closing remark
+###' ----------------
 dev.off()

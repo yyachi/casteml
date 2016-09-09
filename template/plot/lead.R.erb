@@ -1,16 +1,21 @@
 #!/usr/bin/env Rscript
 ###' DOS> cd %HOME%/devel-godigo/casteml/template/plot/
-###' DOS> casteml download -R 20130618143203-412319 > mydata.pml
-###' DOS> casteml plot example.pml -c lead --template-file trace.R.erb
-###' 
+###' DOS> casteml download -R 20080616170000.hk > example.pml
+###' DOS> casteml plot example.pml -c lead --template-file lead.R.erb
+###'
+###' DOS> casteml download -R 20080616170000.hk > example.pml
+###' DOS> casteml convert example.pml -c lead -f csv
+###' ERROR: undefined method `captures' for nil:NilClass. See 'casteml convert --help'.
+
 ###' I/O SETUP
-## input <- "example_lead.dataframe"
-input <- "<%= File.basename(dataframe_path,'*') -%>"
+## infile <- "example_lead.dataframe"
+infile <- "<%= File.basename(dataframe_path,'*') -%>"
 
 ###' ----------------
 ###' Load dataset from csvfile
 ###' ----------------
-tbl0 <- read.csv(input,header=T,stringsAsFactors=F)
+tbl0 <- read.csv(infile,header=T,stringsAsFactors=F)
+## tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
 pdf(sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf"))
 
 ###' ----------------

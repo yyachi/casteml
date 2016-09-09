@@ -1,254 +1,430 @@
 <?xml version='1.0' encoding='UTF-8'?><acquisitions><acquisition>
-    <global_id>20110203173134-825-803</global_id>
-    <name>LF-1916</name>
-    <device>SIRA Thermo-Fisher MAT253</device>
-    <technique>mass spectrometry with dual inlet</technique>
-    <operator>Ryoji Tanaka</operator>
-    <sample_global_id>20110203173024-157-542</sample_global_id>
-    <sample_name>Dhofar 018</sample_name>
-    <description>Run#1916, 1.46mg, Leached with 0.6M HCl for 2 min.</description>
-    <chemistries>
-      <analysis>
-        <nickname>d17O</nickname>
-        <value>1.805</value>
-        <unit>milli</unit>
-        <uncertainty>0.104</uncertainty>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>d18O</nickname>
-        <value>3.956</value>
-        <unit>milli</unit>
-        <uncertainty>0.046</uncertainty>
-        <label/>
-        <info/>
-      </analysis>
-    </chemistries>
-  </acquisition><acquisition>
-    <global_id>20110203173314-707-331</global_id>
-    <name>LF-1918</name>
-    <device>SIRA Thermo-Fisher MAT253</device>
-    <technique>mass spectrometry with dual inlet</technique>
-    <operator>Ryoji Tanaka</operator>
-    <sample_global_id>20110203173024-157-542</sample_global_id>
-    <sample_name>Dhofar 018</sample_name>
-    <description>Run#1918, 1.83mg, Leached with 0.6M HCl for 2 min.</description>
-    <chemistries>
-      <analysis>
-        <nickname>d17O</nickname>
-        <value>1.64</value>
-        <unit>milli</unit>
-        <uncertainty>0.08</uncertainty>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>d18O</nickname>
-        <value>3.694</value>
-        <unit>milli</unit>
-        <uncertainty>0.054</uncertainty>
-        <label/>
-        <info/>
-      </analysis>
-    </chemistries>
-  </acquisition><acquisition>
-    <global_id>20140709093700-124563</global_id>
-    <name>Dhofar 018</name>
-    <device>ICPMS Agilent 7500cs</device>
-    <technique>ICPMS (0)</technique>
-    <operator>Marian</operator>
-    <sample_global_id>20110203173024-157-542</sample_global_id>
-    <sample_name>Dhofar 018</sample_name>
+    <global_id>20090423092744982.hkitagawa</global_id>
+    <name>Elemental and isotopic abundance of I1501</name>
+    <device/>
+    <technique/>
+    <operator/>
+    <sample_global_id>20080616170000.hk</sample_global_id>
+    <sample_name>I1501</sample_name>
     <description/>
     <chemistries>
       <analysis>
-        <nickname>Be</nickname>
-        <value>0.053</value>
-        <unit>ug/g</unit>
+        <nickname>SiO2</nickname>
+        <value>47.7</value>
+        <unit>cg/g</unit>
         <uncertainty/>
-        <label/>
-        <info/>
+        <label>\abundance{SiO_{2}}</label>
+        <info>abundance of {SiO_{2}}</info>
       </analysis>
       <analysis>
-        <nickname>Li</nickname>
-        <value>4.24</value>
-        <unit>ug/g</unit>
+        <nickname>Al2O3</nickname>
+        <value>13.83</value>
+        <unit>cg/g</unit>
         <uncertainty/>
-        <label/>
-        <info/>
+        <label>\abundance{Al_{2}O_{3}}</label>
+        <info>abundance of {Al_{2}O_{3}}</info>
       </analysis>
       <analysis>
-        <nickname>Rb</nickname>
-        <value>0.306</value>
-        <unit>ug/g</unit>
+        <nickname>CaO</nickname>
+        <value>9.8</value>
+        <unit>cg/g</unit>
         <uncertainty/>
-        <label/>
-        <info/>
+        <label>\abundance{CaO}</label>
+        <info>abundance of {CaO}</info>
+      </analysis>
+      <analysis>
+        <nickname>MgO</nickname>
+        <value>4.81</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label>\abundance{MgO}</label>
+        <info>abundance of {MgO}</info>
+      </analysis>
+      <analysis>
+        <nickname>Fe2O3</nickname>
+        <value>7.63</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label>\abundance{Fe_{2}O_{3}}</label>
+        <info>abundance of {Fe_{2}O_{3}}</info>
+      </analysis>
+      <analysis>
+        <nickname>FeO</nickname>
+        <value>7.28</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label>\abundance{FeO}</label>
+        <info>abundance of {FeO}</info>
+      </analysis>
+      <analysis>
+        <nickname>Na2O</nickname>
+        <value>2.99</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label>\abundance{Na_{2}O}</label>
+        <info>abundance of {Na_{2}O}</info>
+      </analysis>
+      <analysis>
+        <nickname>H2O+</nickname>
+        <value>1.83</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label>\abundance{H_{2}O^{+}}</label>
+        <info>abundance of {H_{2}O^{+}}</info>
+      </analysis>
+      <analysis>
+        <nickname>TiO2</nickname>
+        <value>3.28</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label>\abundance{TiO_{2}}</label>
+        <info>abundance of {TiO_{2}}</info>
+      </analysis>
+      <analysis>
+        <nickname>K2O</nickname>
+        <value>0.5</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label>\abundance{K_{2}O}</label>
+        <info>abundance of {K_{2}O}</info>
+      </analysis>
+      <analysis>
+        <nickname>P2O5</nickname>
+        <value>0.47</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label>\abundance{P_{2}O_{5}}</label>
+        <info>abundance of {P_{2}O_{5}}</info>
+      </analysis>
+      <analysis>
+        <nickname>MnO</nickname>
+        <value>0.25</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label>\abundance{MnO}</label>
+        <info>abundance of {MnO}</info>
       </analysis>
       <analysis>
         <nickname>Sr</nickname>
-        <value>415.0</value>
+        <value>327.0</value>
         <unit>ug/g</unit>
         <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Y</nickname>
-        <value>2.4</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Cs</nickname>
-        <value>0.021</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
+        <label>\abundance{Sr}</label>
+        <info>abundance of {Sr}</info>
       </analysis>
       <analysis>
         <nickname>Ba</nickname>
-        <value>67.4</value>
+        <value>186.0</value>
         <unit>ug/g</unit>
         <uncertainty/>
-        <label/>
-        <info/>
+        <label>\abundance{Ba}</label>
+        <info>abundance of {Ba}</info>
       </analysis>
       <analysis>
-        <nickname>La</nickname>
-        <value>0.492</value>
+        <nickname>Cr</nickname>
+        <value>41.9</value>
         <unit>ug/g</unit>
         <uncertainty/>
-        <label/>
-        <info/>
+        <label>\abundance{Cr}</label>
+        <info>abundance of {Cr}</info>
+      </analysis>
+      <analysis>
+        <nickname>Ni</nickname>
+        <value>29.4</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Ni}</label>
+        <info>abundance of {Ni}</info>
+      </analysis>
+      <analysis>
+        <nickname>Zr</nickname>
+        <value>244.0</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Zr}</label>
+        <info>abundance of {Zr}</info>
+      </analysis>
+      <analysis>
+        <nickname>Nb</nickname>
+        <value>22.7</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Nb}</label>
+        <info>abundance of {Nb}</info>
       </analysis>
       <analysis>
         <nickname>Ce</nickname>
-        <value>1.15</value>
+        <value>59.9</value>
         <unit>ug/g</unit>
         <uncertainty/>
-        <label/>
-        <info/>
+        <label>\abundance{Ce}</label>
+        <info>abundance of {Ce}</info>
       </analysis>
       <analysis>
-        <nickname>Pr</nickname>
-        <value>0.16</value>
+        <nickname>La</nickname>
+        <value>24.6</value>
         <unit>ug/g</unit>
         <uncertainty/>
-        <label/>
-        <info/>
+        <label>\abundance{La}</label>
+        <info>abundance of {La}</info>
+      </analysis>
+      <analysis>
+        <nickname>Rb</nickname>
+        <value>4.12</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Rb}</label>
+        <info>abundance of {Rb}</info>
       </analysis>
       <analysis>
         <nickname>Nd</nickname>
-        <value>0.836</value>
+        <value>37.1</value>
         <unit>ug/g</unit>
         <uncertainty/>
-        <label/>
-        <info/>
+        <label>\abundance{Nd}</label>
+        <info>abundance of {Nd}</info>
       </analysis>
       <analysis>
-        <nickname>Sm</nickname>
-        <value>0.256</value>
+        <nickname>Y</nickname>
+        <value>51.9</value>
         <unit>ug/g</unit>
         <uncertainty/>
-        <label/>
-        <info/>
+        <label>\abundance{Y}</label>
+        <info>abundance of {Y}</info>
       </analysis>
       <analysis>
-        <nickname>Eu</nickname>
-        <value>0.23</value>
+        <nickname>Pr</nickname>
+        <value>8.16</value>
         <unit>ug/g</unit>
         <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Gd</nickname>
-        <value>0.361</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Tb</nickname>
-        <value>0.063</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Dy</nickname>
-        <value>0.42</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Ho</nickname>
-        <value>0.094</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Er</nickname>
-        <value>0.282</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Tm</nickname>
-        <value>0.042</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Yb</nickname>
-        <value>0.286</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Lu</nickname>
-        <value>0.045</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Pb</nickname>
-        <value>0.87</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
+        <label>\abundance{Pr}</label>
+        <info>abundance of {Pr}</info>
       </analysis>
       <analysis>
         <nickname>Th</nickname>
-        <value>0.049</value>
+        <value>2.37</value>
         <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Th}</label>
+        <info>abundance of {Th}</info>
+      </analysis>
+      <analysis>
+        <nickname>Li</nickname>
+        <value>5.55</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Li}</label>
+        <info>abundance of {Li}</info>
+      </analysis>
+      <analysis>
+        <nickname>Sm</nickname>
+        <value>9.01</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Sm}</label>
+        <info>abundance of {Sm}</info>
+      </analysis>
+      <analysis>
+        <nickname>Gd</nickname>
+        <value>9.42</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Gd}</label>
+        <info>abundance of {Gd}</info>
+      </analysis>
+      <analysis>
+        <nickname>Ta</nickname>
+        <value>1.42</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Ta}</label>
+        <info>abundance of {Ta}</info>
+      </analysis>
+      <analysis>
+        <nickname>Dy</nickname>
+        <value>9.18</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Dy}</label>
+        <info>abundance of {Dy}</info>
+      </analysis>
+      <analysis>
+        <nickname>Hf</nickname>
+        <value>6.22</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Hf}</label>
+        <info>abundance of {Hf}</info>
+      </analysis>
+      <analysis>
+        <nickname>Pb</nickname>
+        <value>2.04</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Pb}</label>
+        <info>abundance of {Pb}</info>
+      </analysis>
+      <analysis>
+        <nickname>Er</nickname>
+        <value>4.53</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Er}</label>
+        <info>abundance of {Er}</info>
+      </analysis>
+      <analysis>
+        <nickname>Yb</nickname>
+        <value>4.46</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Yb}</label>
+        <info>abundance of {Yb}</info>
+      </analysis>
+      <analysis>
+        <nickname>Eu</nickname>
+        <value>3.01</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Eu}</label>
+        <info>abundance of {Eu}</info>
+      </analysis>
+      <analysis>
+        <nickname>U</nickname>
+        <value>0.72</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{U}</label>
+        <info>abundance of {U}</info>
+      </analysis>
+      <analysis>
+        <nickname>Ho</nickname>
+        <value>1.86</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Ho}</label>
+        <info>abundance of {Ho}</info>
+      </analysis>
+      <analysis>
+        <nickname>Tb</nickname>
+        <value>1.54</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Tb}</label>
+        <info>abundance of {Tb}</info>
+      </analysis>
+      <analysis>
+        <nickname>Cs</nickname>
+        <value>0.152</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Cs}</label>
+        <info>abundance of {Cs}</info>
+      </analysis>
+      <analysis>
+        <nickname>Tm</nickname>
+        <value>0.662</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Tm}</label>
+        <info>abundance of {Tm}</info>
+      </analysis>
+      <analysis>
+        <nickname>Lu</nickname>
+        <value>0.618</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{Lu}</label>
+        <info>abundance of {Lu}</info>
+      </analysis>
+      <analysis>
+        <nickname>B</nickname>
+        <value>1.37</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label>\abundance{B}</label>
+        <info>abundance of {B}</info>
+      </analysis>
+      <analysis>
+        <nickname>Sr87zSr86</nickname>
+        <value>0.703449</value>
+        <unit/>
+        <uncertainty/>
+        <label>\abundance{^{87}Sr}/{^{86}Sr}</label>
+        <info>abundance of {^{87}Sr}/{^{86}Sr}</info>
+      </analysis>
+      <analysis>
+        <nickname>Pb208zPb204</nickname>
+        <value>38.1684</value>
+        <unit/>
+        <uncertainty/>
+        <label>\abundance{^{208}Pb}/{^{204}Pb}</label>
+        <info>abundance of {^{208}Pb}/{^{204}Pb}</info>
+      </analysis>
+      <analysis>
+        <nickname>Hf176zHf177</nickname>
+        <value>0.283178</value>
+        <unit/>
+        <uncertainty/>
+        <label>\abundance{^{176}Hf}/{^{177}Hf}</label>
+        <info>abundance of {^{176}Hf}/{^{177}Hf}</info>
+      </analysis>
+      <analysis>
+        <nickname>Pb207zPb204</nickname>
+        <value>15.4817</value>
+        <unit/>
+        <uncertainty/>
+        <label>\abundance{^{207}Pb}/{^{204}Pb}</label>
+        <info>abundance of {^{207}Pb}/{^{204}Pb}</info>
+      </analysis>
+      <analysis>
+        <nickname>Pb206zPb204</nickname>
+        <value>18.3421</value>
+        <unit/>
+        <uncertainty/>
+        <label>\abundance{^{206}Pb}/{^{204}Pb}</label>
+        <info>abundance of {^{206}Pb}/{^{204}Pb}</info>
+      </analysis>
+      <analysis>
+        <nickname>Nd143zNd144</nickname>
+        <value>0.512979</value>
+        <unit/>
+        <uncertainty/>
+        <label>\abundance{^{143}Nd}/{^{144}Nd}</label>
+        <info>abundance of {^{143}Nd}/{^{144}Nd}</info>
+      </analysis>
+    </chemistries>
+  </acquisition><acquisition>
+    <global_id>20160114184220-157191</global_id>
+    <name>I1501</name>
+    <device>ICPMS Thermo-Fisher Neptune</device>
+    <technique>ICPMS with multi-collection</technique>
+    <operator>hkitagawa</operator>
+    <sample_global_id>20080616170000.hk</sample_global_id>
+    <sample_name>I1501</sample_name>
+    <description/>
+    <chemistries>
+      <analysis>
+        <nickname>Hf176zHf177</nickname>
+        <value>0.283178</value>
+        <unit/>
         <uncertainty/>
         <label/>
         <info/>
       </analysis>
+    </chemistries>
+  </acquisition><acquisition>
+    <global_id>20110603191650-600-883</global_id>
+    <name>I1501</name>
+    <device>ICPMS Yokogawa PMS2000/Agilent 7500cs</device>
+    <technique>ICPMS (0)</technique>
+    <operator>hkitagawa</operator>
+    <sample_global_id>20080616170000.hk</sample_global_id>
+    <sample_name>I1501</sample_name>
+    <description>Methods applied are those described in Makishima et al. (1997, 1999), Makishima and Nakamura (1997, 2006), Yokoyama et al. (1999), Moriguti et al. (2004), and Lu et al. (2007)</description>
+    <chemistries>
       <analysis>
-        <nickname>U</nickname>
-        <value>0.235</value>
+        <nickname>Li</nickname>
+        <value>5.55</value>
         <unit>ug/g</unit>
         <uncertainty/>
         <label/>
@@ -256,66 +432,7 @@
       </analysis>
       <analysis>
         <nickname>B</nickname>
-        <value>16.1</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Zr</nickname>
-        <value>4.32</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Hf</nickname>
-        <value>0.138</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Nb</nickname>
-        <value>0.315</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Ta</nickname>
-        <value>0.016</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-    </chemistries>
-  </acquisition><acquisition>
-    <global_id>20140709093636-341020</global_id>
-    <name>DaG 779</name>
-    <device>ICPMS Agilent 7500cs</device>
-    <technique>ICPMS (0)</technique>
-    <operator>Marian</operator>
-    <sample_global_id>20130313090348-577-638</sample_global_id>
-    <sample_name>DaG 779</sample_name>
-    <description/>
-    <chemistries>
-      <analysis>
-        <nickname>Be</nickname>
-        <value>0.044</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Li</nickname>
-        <value>3.69</value>
+        <value>1.37</value>
         <unit>ug/g</unit>
         <uncertainty/>
         <label/>
@@ -323,7 +440,7 @@
       </analysis>
       <analysis>
         <nickname>Rb</nickname>
-        <value>0.053</value>
+        <value>4.12</value>
         <unit>ug/g</unit>
         <uncertainty/>
         <label/>
@@ -331,7 +448,7 @@
       </analysis>
       <analysis>
         <nickname>Sr</nickname>
-        <value>21.6</value>
+        <value>327.0</value>
         <unit>ug/g</unit>
         <uncertainty/>
         <label/>
@@ -339,167 +456,7 @@
       </analysis>
       <analysis>
         <nickname>Y</nickname>
-        <value>2.73</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Cs</nickname>
-        <value>0.001</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Ba</nickname>
-        <value>16.9</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>La</nickname>
-        <value>0.384</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Ce</nickname>
-        <value>1.01</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Pr</nickname>
-        <value>0.146</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Nd</nickname>
-        <value>0.801</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Sm</nickname>
-        <value>0.255</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Eu</nickname>
-        <value>0.093</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Gd</nickname>
-        <value>0.386</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Tb</nickname>
-        <value>0.069</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Dy</nickname>
-        <value>0.496</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Ho</nickname>
-        <value>0.109</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Er</nickname>
-        <value>0.334</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Tm</nickname>
-        <value>0.049</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Yb</nickname>
-        <value>0.34</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Lu</nickname>
-        <value>0.055</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Pb</nickname>
-        <value>0.206</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Th</nickname>
-        <value>0.052</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>U</nickname>
-        <value>0.02</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>B</nickname>
-        <value>1.24</value>
+        <value>51.9</value>
         <unit>ug/g</unit>
         <uncertainty/>
         <label/>
@@ -507,15 +464,7 @@
       </analysis>
       <analysis>
         <nickname>Zr</nickname>
-        <value>5.85</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Hf</nickname>
-        <value>0.178</value>
+        <value>244.0</value>
         <unit>ug/g</unit>
         <uncertainty/>
         <label/>
@@ -523,7 +472,143 @@
       </analysis>
       <analysis>
         <nickname>Nb</nickname>
-        <value>0.431</value>
+        <value>22.7</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Cs</nickname>
+        <value>0.152</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Ba</nickname>
+        <value>186.0</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>La</nickname>
+        <value>24.6</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Ce</nickname>
+        <value>59.9</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Pr</nickname>
+        <value>8.16</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Nd</nickname>
+        <value>37.1</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Sm</nickname>
+        <value>9.01</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Eu</nickname>
+        <value>3.01</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Gd</nickname>
+        <value>9.42</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Tb</nickname>
+        <value>1.54</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Dy</nickname>
+        <value>9.18</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Ho</nickname>
+        <value>1.86</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Er</nickname>
+        <value>4.53</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Tm</nickname>
+        <value>0.662</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Yb</nickname>
+        <value>4.46</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Lu</nickname>
+        <value>0.618</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Hf</nickname>
+        <value>6.22</value>
         <unit>ug/g</unit>
         <uncertainty/>
         <label/>
@@ -531,7 +616,31 @@
       </analysis>
       <analysis>
         <nickname>Ta</nickname>
-        <value>0.021</value>
+        <value>1.42</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Pb</nickname>
+        <value>2.04</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Th</nickname>
+        <value>2.37</value>
+        <unit>ug/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>U</nickname>
+        <value>0.72</value>
         <unit>ug/g</unit>
         <uncertainty/>
         <label/>
@@ -539,350 +648,195 @@
       </analysis>
     </chemistries>
   </acquisition><acquisition>
-    <global_id>20110203172730-984-276</global_id>
-    <name>LF-1912</name>
-    <device>SIRA Thermo-Fisher MAT253</device>
-    <technique>mass spectrometry with dual inlet</technique>
-    <operator>Ryoji Tanaka</operator>
-    <sample_global_id>20110203172626-290-792</sample_global_id>
-    <sample_name>Dar al Gani 779</sample_name>
-    <description>Run#1912, 1.68mg, Leached with 0.6M HCl for 2 min.</description>
+    <global_id>20110606083444-158-103</global_id>
+    <name>I1501</name>
+    <device>Microbalance/Muffle furnace ADVANTEC KM-420</device>
+    <technique>gravimetry</technique>
+    <operator>hkitagawa</operator>
+    <sample_global_id>20080616170000.hk</sample_global_id>
+    <sample_name>I1501</sample_name>
+    <description>Abundance is estimated from the loss on ignition and ferric-ferrous ratio</description>
     <chemistries>
       <analysis>
-        <nickname>d17O</nickname>
-        <value>1.601</value>
-        <unit>milli</unit>
-        <uncertainty>0.076</uncertainty>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>d18O</nickname>
-        <value>3.528</value>
-        <unit>milli</unit>
-        <uncertainty>0.036</uncertainty>
+        <nickname>H2O+</nickname>
+        <value>1.83</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
         <label/>
         <info/>
       </analysis>
     </chemistries>
   </acquisition><acquisition>
-    <global_id>20110203172914-024-060</global_id>
-    <name>LF-1914</name>
-    <device>SIRA Thermo-Fisher MAT253</device>
-    <technique>mass spectrometry with dual inlet</technique>
-    <operator>Ryoji Tanaka</operator>
-    <sample_global_id>20110203172626-290-792</sample_global_id>
-    <sample_name>Dar al Gani 779</sample_name>
-    <description>Run#1914, 2.16mg, Leached with 0.6M HCl for 2 min.</description>
+    <global_id>20110606083622-617-356</global_id>
+    <name>I1501</name>
+    <device>Piston Burette Schott Titronic 96</device>
+    <technique>Titration with Yokoyama and Nakamura (2002)</technique>
+    <operator>hkitagawa</operator>
+    <sample_global_id>20080616170000.hk</sample_global_id>
+    <sample_name>I1501</sample_name>
+    <description>A method applied are that described in Yokoyama and Nakamura (2002)</description>
     <chemistries>
       <analysis>
-        <nickname>d17O</nickname>
-        <value>1.362</value>
-        <unit>milli</unit>
-        <uncertainty>0.174</uncertainty>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>d18O</nickname>
-        <value>3.055</value>
-        <unit>milli</unit>
-        <uncertainty>0.042</uncertainty>
+        <nickname>FeO</nickname>
+        <value>7.28</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
         <label/>
         <info/>
       </analysis>
     </chemistries>
   </acquisition><acquisition>
-    <global_id>20110205104819-808-451</global_id>
-    <name>LF-1908</name>
-    <device>SIRA Thermo-Fisher MAT253</device>
-    <technique>mass spectrometry with dual inlet</technique>
-    <operator>Ryoji Tanaka</operator>
-    <sample_global_id>20110205104605-781-051</sample_global_id>
-    <sample_name>NWA 1182-b</sample_name>
-    <description>Run#1908, 1.93mg, Leached with 0.6M HCl for 2 min.</description>
-    <chemistries>
-      <analysis>
-        <nickname>d17O</nickname>
-        <value>1.662</value>
-        <unit>milli</unit>
-        <uncertainty>0.106</uncertainty>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>d18O</nickname>
-        <value>3.59</value>
-        <unit>milli</unit>
-        <uncertainty>0.05</uncertainty>
-        <label/>
-        <info/>
-      </analysis>
-    </chemistries>
-  </acquisition><acquisition>
-    <global_id>20110205104702-960-486</global_id>
-    <name>LF-1906</name>
-    <device>SIRA Thermo-Fisher MAT253</device>
-    <technique>mass spectrometry with dual inlet</technique>
-    <operator>Ryoji Tanaka</operator>
-    <sample_global_id>20110205104605-781-051</sample_global_id>
-    <sample_name>NWA 1182-b</sample_name>
-    <description>Run#1906, 1.24mg, Leached with 0.6M HCl for 2 min.</description>
-    <chemistries>
-      <analysis>
-        <nickname>d17O</nickname>
-        <value>1.691</value>
-        <unit>milli</unit>
-        <uncertainty>0.07</uncertainty>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>d18O</nickname>
-        <value>3.672</value>
-        <unit>milli</unit>
-        <uncertainty>0.058</uncertainty>
-        <label/>
-        <info/>
-      </analysis>
-    </chemistries>
-  </acquisition><acquisition>
-    <global_id>20140709093613-014961</global_id>
-    <name>NWA 1182</name>
-    <device>ICPMS Agilent 7500cs</device>
-    <technique>ICPMS (0)</technique>
-    <operator>Marian</operator>
-    <sample_global_id>20110205104605-781-051</sample_global_id>
-    <sample_name>NWA 1182-b</sample_name>
+    <global_id>20110713173726-903-108</global_id>
+    <name>I1501</name>
+    <device>TIMS Thermo-Fisher MAT261/262</device>
+    <technique>TIMS</technique>
+    <operator>hkitagawa</operator>
+    <sample_global_id>20080616170000.hk</sample_global_id>
+    <sample_name>I1501</sample_name>
     <description/>
     <chemistries>
       <analysis>
-        <nickname>Be</nickname>
-        <value>0.238</value>
+        <nickname>Sr87zSr86</nickname>
+        <value>0.703449</value>
+        <unit/>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Nd143zNd144</nickname>
+        <value>0.512979</value>
+        <unit/>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Pb206zPb204</nickname>
+        <value>18.3421</value>
+        <unit/>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Pb207zPb204</nickname>
+        <value>15.4817</value>
+        <unit/>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Pb208zPb204</nickname>
+        <value>38.1684</value>
+        <unit/>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+    </chemistries>
+  </acquisition><acquisition>
+    <global_id>20110602184915-337-297</global_id>
+    <name>I1501</name>
+    <device>XRF PANalytical PW2400</device>
+    <technique>XRF (0)</technique>
+    <operator>hkitagawa</operator>
+    <sample_global_id>20080616170000.hk</sample_global_id>
+    <sample_name>I1501</sample_name>
+    <description>11-times diluted lithium tetraborate glass bead</description>
+    <chemistries>
+      <analysis>
+        <nickname>SiO2</nickname>
+        <value>47.7</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>TiO2</nickname>
+        <value>3.28</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Al2O3</nickname>
+        <value>13.83</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Fe2O3T</nickname>
+        <value>15.73</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>MnO</nickname>
+        <value>0.25</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>MgO</nickname>
+        <value>4.81</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>CaO</nickname>
+        <value>9.8</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Na2O</nickname>
+        <value>2.99</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>K2O</nickname>
+        <value>0.5</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>P2O5</nickname>
+        <value>0.47</value>
+        <unit>cg/g</unit>
+        <uncertainty/>
+        <label/>
+        <info/>
+      </analysis>
+      <analysis>
+        <nickname>Cr</nickname>
+        <value>41.9</value>
         <unit>ug/g</unit>
         <uncertainty/>
         <label/>
         <info/>
       </analysis>
       <analysis>
-        <nickname>Li</nickname>
-        <value>6.44</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Rb</nickname>
-        <value>0.241</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Sr</nickname>
-        <value>67.5</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Y</nickname>
-        <value>14.5</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Cs</nickname>
-        <value>0.008</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Ba</nickname>
-        <value>31.4</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>La</nickname>
-        <value>2.48</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Ce</nickname>
-        <value>6.76</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Pr</nickname>
-        <value>0.959</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Nd</nickname>
-        <value>5.11</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Sm</nickname>
-        <value>1.594</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Eu</nickname>
-        <value>0.498</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Gd</nickname>
-        <value>2.27</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Tb</nickname>
-        <value>0.408</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Dy</nickname>
-        <value>2.77</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Ho</nickname>
-        <value>0.596</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Er</nickname>
-        <value>1.74</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Tm</nickname>
-        <value>0.251</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Yb</nickname>
-        <value>1.646</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Lu</nickname>
-        <value>0.253</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Pb</nickname>
-        <value>0.227</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Th</nickname>
-        <value>0.32</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>U</nickname>
-        <value>0.093</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>B</nickname>
-        <value>0.653</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Zr</nickname>
-        <value>32.5</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Hf</nickname>
-        <value>0.958</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Nb</nickname>
-        <value>2.69</value>
-        <unit>ug/g</unit>
-        <uncertainty/>
-        <label/>
-        <info/>
-      </analysis>
-      <analysis>
-        <nickname>Ta</nickname>
-        <value>0.129</value>
+        <nickname>Ni</nickname>
+        <value>29.4</value>
         <unit>ug/g</unit>
         <uncertainty/>
         <label/>
