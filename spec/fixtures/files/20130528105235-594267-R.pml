@@ -9987,7 +9987,7 @@
       <analysis>
         <nickname>nFe</nickname>
         <value>14.61</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -9995,7 +9995,7 @@
       <analysis>
         <nickname>nMn</nickname>
         <value>0.26</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10003,7 +10003,7 @@
       <analysis>
         <nickname>nCr</nickname>
         <value>22.34</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10011,7 +10011,7 @@
       <analysis>
         <nickname>nTi</nickname>
         <value>1.43</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10019,7 +10019,7 @@
       <analysis>
         <nickname>nAl</nickname>
         <value>3.47</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10027,7 +10027,7 @@
       <analysis>
         <nickname>nMg</nickname>
         <value>1.33</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10035,7 +10035,7 @@
       <analysis>
         <nickname>nNa</nickname>
         <value>0.12</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10061,7 +10061,7 @@
       <analysis>
         <nickname>nFe</nickname>
         <value>14.13</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10069,7 +10069,7 @@
       <analysis>
         <nickname>nMn</nickname>
         <value>0.28</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10077,7 +10077,7 @@
       <analysis>
         <nickname>nCr</nickname>
         <value>22.16</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10085,7 +10085,7 @@
       <analysis>
         <nickname>nTi</nickname>
         <value>1.2</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10093,7 +10093,7 @@
       <analysis>
         <nickname>nAl</nickname>
         <value>3.46</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10101,7 +10101,7 @@
       <analysis>
         <nickname>nMg</nickname>
         <value>1.49</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10109,7 +10109,7 @@
       <analysis>
         <nickname>nNa</nickname>
         <value>0.17</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10135,7 +10135,7 @@
       <analysis>
         <nickname>nCa</nickname>
         <value>17.26</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10143,7 +10143,7 @@
       <analysis>
         <nickname>nCl</nickname>
         <value>4.51</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10151,7 +10151,7 @@
       <analysis>
         <nickname>nP</nickname>
         <value>17.3</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10159,7 +10159,7 @@
       <analysis>
         <nickname>nNa</nickname>
         <value>0.23</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10185,7 +10185,7 @@
       <analysis>
         <nickname>nCa</nickname>
         <value>17.31</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10193,7 +10193,7 @@
       <analysis>
         <nickname>nCl</nickname>
         <value>4.51</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10201,7 +10201,7 @@
       <analysis>
         <nickname>nP</nickname>
         <value>17.32</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>
@@ -10209,7 +10209,7 @@
       <analysis>
         <nickname>nNa</nickname>
         <value>0.27</value>
-        <unit>ppc</unit>
+        <unit>%</unit>
         <uncertainty/>
         <label/>
         <info/>

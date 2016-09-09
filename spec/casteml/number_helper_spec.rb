@@ -131,12 +131,17 @@ module Casteml
 			let(:klass){ Class.new.extend(NumberHelper) }
 			let(:number){ 0.33333 }
 			let(:unit){ :"cg/g" }
-			before do
-				puts subject
+			context "33.333 cg/g" do
+				it {
+					expect(subject).to be_eql(33.333)
+				}
 			end
-			it {
-				expect(subject).to be_eql(33.333)
-			}
+			context "specify undefined unit" do
+				let(:unit){ :ppc }
+				it {
+					expect{subject}.to raise_error(RuntimeError, "unit conversion error [#{unit.to_s}]. try casteml --refresh")
+				}
+			end
 		end
 
 		describe ".number_from", :current => true do
@@ -159,6 +164,14 @@ module Casteml
 				it {
 					expect(subject).to be_eql(0.0333)
 				}
+			end
+
+			context "specify undefined unit" do
+				let(:number){ 3.33 }
+				let(:unit){ :ppc }
+				it {
+					expect{subject}.to raise_error(RuntimeError, "unit conversion error [#{unit.to_s}]. try casteml --refresh")
+				}				
 			end
 
 		end

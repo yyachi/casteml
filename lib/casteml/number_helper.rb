@@ -128,7 +128,7 @@ module Casteml
               pico: "p",
               nano: "n",
               micro: "u",
-              #mili: "m",
+              mili: "m",
               centi: "c",
               # deci: Tenth
               unit: "",
@@ -171,7 +171,11 @@ module Casteml
 
 		def number_to(number, unit)
 			precision = number.to_s.scan(/\d/).count
-			number = Alchemist.measure(number, UNIT).to(unit.to_sym).to_f
+			begin
+				number = Alchemist.measure(number, UNIT).to(unit.to_sym).to_f
+			rescue => e
+				raise "unit conversion error [#{unit.to_s}]. try casteml --refresh"
+			end
 			rounded_number = NumberToRoundedConverter.convert(number, :precision => precision, :significant => true)
 			Float(rounded_number)			
 		end
@@ -186,7 +190,11 @@ module Casteml
 
 		def number_from(number, unit)
 			precision = number.to_s.scan(/\d/).count
-			number = Alchemist.measure(number, unit).to(UNIT).to_f
+			begin
+				number = Alchemist.measure(number, unit).to(UNIT).to_f
+			rescue => e
+				raise "unit conversion error [#{unit.to_s}]. try casteml --refresh"
+			end
 			rounded_number = NumberToRoundedConverter.convert(number, :precision => precision, :significant => true)
 			Float(rounded_number)
 		end

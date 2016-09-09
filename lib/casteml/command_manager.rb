@@ -124,11 +124,16 @@ a basic help message containing pointers to more information.
 		klasses = [Casteml::Unit, Casteml::MeasurementItem, Casteml::MeasurementCategory]
 	    klasses.each do |klass|
       		dump_path = klass.dump_path
-        	say "#{dump_path} is removing..."
+#        	say "#{dump_path} is removing..."
         	FileUtils.rm(dump_path) if File.exist?(dump_path)
 	    	say "#{dump_path} is generating..."
     		klass.dump_all
       	end
+    end
+
+    def refresh_abundance_unit_file
+      	say "#{Casteml::ABUNDANCE_UNIT_FILE} is generating..."
+    	Casteml::Unit.refresh_abundance_unit_file
     end
 
 	def show_version
@@ -155,6 +160,7 @@ EOF
 			exit
 		elsif options[:refresh] then
 			refresh_cache
+			refresh_abundance_unit_file
 			exit
 		elsif args.empty?
 			show_help

@@ -1,23 +1,25 @@
 ---
 :abundance:
   :parts: 1.0
-  :parts_per_cent: 1.0e-2
-  :percent: 1.0e-2
-  :ppc: 1.0e-2
-  :parts_per_mille: 1.0e-3
-  :permil: 1.0e-3
-  :parts_per_myriad: 1.0e-4
-  :parmyriad: 1.0e-4
-  :parts_per_milli: 1.0e-6
-  :ppm: 1.0e-6
-  :parts_per_billi: 1.0e-9
-  :ppb: 1.0e-9
   :gram_per_gram: 1.0
   :"g/g": 1.0
-  :centi_gram_per_gram: 1.0e-2
-  :"cg/g": 1.0e-2
-  :"%": 1.0e-2
-  :micro_gram_per_gram: 1.0e-6
-  :"ug/g": 1.0e-6
-  :nano_gram_per_gram: 1.0e-9
-  :"ng/g": 1.0e-9
+  :micro_gram_per_gram: 1.0e-06
+  :"ug/g": 1.0e-06
+  :pico_gram_per_gram: 1.0e-12
+  :"pg/g": 1.0e-12
+  :nano_gram_per_gram: 1.0e-09
+  :"ng/g": 1.0e-09
+  :centi_gram_per_gram: 0.01
+  :"cg/g": 0.01
+  :femto_gram_per_gram: 1.0e-15
+  :"fg/g": 1.0e-15
+  :parts_per_myriad: 0.0001
+  :"permyriad": 0.0001
+  :parts_per_mille: 0.001
+  :"permil": 0.001
+  :parts_per_cent: 0.01
+  :"%": 0.01
+  :parts_per_milli: 1.0e-06
+  :"ppm": 1.0e-06
+  :parts_per_billi: 1.0e-09
+  :"ppb": 1.0e-09

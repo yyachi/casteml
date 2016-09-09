@@ -75,7 +75,7 @@ module Casteml
 			}
 		end
 
-		context "with category and output dataframe" do
+		context "with category and output dataframe", :current => true do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20110203165130-611-312.pml' }
 			let(:opts){ {:with_category => category, :output_format => :dataframe } }
@@ -83,6 +83,7 @@ module Casteml
 			before do
 				setup_empty_dir('tmp')
 				setup_file(path)
+				puts subject
 			end
 			it {
 				expect(subject).to match(/d18O/)

@@ -23,7 +23,7 @@ module Casteml
 				end
 			end
 
-			context "with -V", :current => true do
+			context "with -V" do
 				let(:args){ ['-V'] }
 				before do
 					puts cmd.show_version
@@ -38,13 +38,15 @@ module Casteml
 			context "with -R", :current => true do
 				let(:args){ ['-R'] }
 				before do
-					puts cmd.show_version
+					#puts cmd.show_version
 				end
 				it "shows version and exit" do
 					expect(cmd).to receive(:refresh_cache)
+					expect(cmd).to receive(:refresh_abundance_unit_file)
 					expect{ cmd.run args }.to exit_with_code(0)
 				end
 			end
+
 
 			context "with registered command" do
 				let(:command){ double(command_name).as_null_object }
