@@ -1,6 +1,6 @@
 #!/usr/bin/env Rscript
 ###' DOS> cd %HOME%/devel-godigo/casteml/template/plot/
-###' DOS> casteml download -R 20130618143203-412319 > example.pml
+###' DOS> casteml download -R 20130528105235-594267 > example.pml
 ###' DOS> casteml plot example.pml -c oxygen --template-file oxygen.R.erb
 ###'
 ###' I/O SETUP
@@ -10,23 +10,23 @@ infile <- "<%= File.basename(dataframe_path,'*') -%>"
 ###' ----------------
 ###' Load dataset from csvfile
 ###' ----------------
-tbl0 <- read.csv(infile,header=T,stringsAsFactors=F)
+tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
 pdf(sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf"))
 
-tbl1   <- subset(tbl0, subset = (element == "d18O" | element == "d17O"))
-tbl2   <- tbl1[, colSums(is.na(tbl1)) != nrow(tbl1)] # exclude clumn include NA
-tll3   <- subset(tbl2, select = c(-element))
-legend <- names(tll3)
-col    <- rainbow(length(tll3))
-pch    <- c(16)
-cex    <- c(1.5)
-xlim   <- c(0,10)
-ylim   <- c(0,10)
-plot(0, 0, type="n", xlim=xlim, ylim=ylim,
+###' ----------------
+###' Real work
+###' ----------------
+stonelist  <- rownames(tbl0)
+stoneindex <- 1:length(stonelist)
+XX         <- tbl0[,'d18O']
+YY         <- tbl0[,'d17O']
+plot(XX,YY,type="p",pch=stoneindex,col=stoneindex,
      xlab=expression(paste(delta,{}^18*O)), ylab=expression(paste(delta,{}^17*O)), asp=1)
 
+legend('bottomright',stonelist,ncol=4,cex=0.5,pch=stoneindex,col=stoneindex)
+
 ###' ----------------
-###' reference lines
+###' Draw reference lines
 ###' ----------------
 abline(0,0.52)  # TF line
 abline(-4,0.94) # CCAM line
@@ -44,11 +44,7 @@ d18O.itokawa <- c(5.2,2.4,4.0,5.1,7.2,8.0,8.8,2.9,1.7,6.9)
 d17O.itokawa <- c(5.2,2.5,4.6,5.0,5.5,4.2,5.8,2.6,1.7,4.1)
 points(d18O.itokawa, d17O.itokawa, pch=1)
 text(5.2,5.6,"itokawa")
-###' plot stones
-for(i in 1:length(tll3)){
-    points(tll3[1,i], tll3[2,i], col=col[i], pch=pch, cex=cex)
-}
-legend("topleft", legend, pch=pch, col=col)
+
 ###' ----------------
 ###' Closing remark
 ###' ----------------
