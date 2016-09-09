@@ -1,10 +1,10 @@
 #!/usr/bin/env Rscript
-args = commandArgs(trailingOnly=TRUE)
 ###' DOS> cd %HOME%/devel-godigo/casteml/template/plot/
 ###' DOS> casteml download -R 20130528105235-594267 > example.pml
 ###' DOS> casteml plot example.pml -c trace --template-file trace.R.erb
 ###'
 ###' I/O SETUP
+## args = commandArgs(trailingOnly=TRUE)
 ## ifelse(length(args) == 1,
 ##        infile <- args[1],
 ##        infile <- "<%= File.basename(dataframe_path,'*') -%>")
