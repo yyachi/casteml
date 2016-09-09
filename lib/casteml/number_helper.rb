@@ -172,7 +172,7 @@ module Casteml
 		def number_to(number, unit)
 			precision = number.to_s.scan(/\d/).count
 			begin
-				number = Alchemist.measure(number, UNIT).to(unit.to_sym).to_f
+				number = Alchemist.measure(number, UNIT).to(unit.to_sym).to_f unless unit.blank?
 			rescue => e
 				raise "unit conversion error [#{unit.to_s}]. try casteml --refresh"
 			end
@@ -191,7 +191,7 @@ module Casteml
 		def number_from(number, unit)
 			precision = number.to_s.scan(/\d/).count
 			begin
-				number = Alchemist.measure(number, unit).to(UNIT).to_f
+				number = Alchemist.measure(number, unit).to(UNIT).to_f  unless unit.blank?
 			rescue => e
 				raise "unit conversion error [#{unit.to_s}]. try casteml --refresh"
 			end

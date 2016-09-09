@@ -174,6 +174,14 @@ module Casteml
 				}				
 			end
 
+			context "specify undefined unit" do
+				let(:number){ 0.33 }
+				let(:unit){ "" }
+				it {
+					expect(subject).to be_eql(0.33)
+				}				
+			end
+
 		end
 
 	end
