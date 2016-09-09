@@ -2,8 +2,14 @@
 ###' DOS> cd %HOME%/devel-godigo/casteml/template/plot/
 ###' DOS> casteml download -R 20130528105235-594267 > example.pml
 ###' DOS> casteml plot example.pml --template-file default.R.erb 
-###'
+
+###' ----------------
 ###' I/O SETUP
+###' ----------------
+## args = commandArgs(trailingOnly=TRUE)
+## ifelse(length(args) == 1,
+##        infile <- args[1],
+##        infile <- "<%= File.basename(dataframe_path,'*') -%>")
 ## infile <- "example.dataframe"
 infile <- "<%= File.basename(dataframe_path,'*') -%>"
 
@@ -20,14 +26,14 @@ pdf(sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf"))
 chemlist   <- colnames(tbl0)
 stonelist  <- rownames(tbl0)
 stoneindex <- 1:length(stonelist)
-cexax      <- 0.2
+cexax      <- 0.4
 
-for(iichem in 1:length(chemlist)) {
-    iimean <- mean(tbl0[,iichem], na.rm = T)
+for(iichem in chemlist) {
+    iimean <- mean(tbl0[,iichem],na.rm = T)
     if (is.nan(iimean) == FALSE) {
         XX    <- stoneindex
         YY    <- tbl0[,iichem] / iimean
-        title <- sprintf("%s / %.3g",chemlist[iichem],iimean)
+        title <- sprintf("%s / %.3g",iichem,iimean)
         plot(XX,YY,xaxt="n",type="o",col=stoneindex,xlab="",ylab="",main=title)
         axis(1,at=stoneindex,cex.axis=cexax,las=2,labels=stonelist,cex=cexax,tck=-0.005)
     }
