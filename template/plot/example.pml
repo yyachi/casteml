@@ -53920,9 +53920,6 @@
       I1501
     </sample_name>
     <description>
-      Methods applied are those described in Makishima et al. (1997, 1999),
-      Makishima and Nakamura (1997, 2006), Yokoyama et al. (1999), Moriguti et
-      al. (2004), and Lu et al. (2007)
     </description>
     <chemistries>
       <analysis>
