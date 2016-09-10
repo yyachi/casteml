@@ -24,7 +24,7 @@ pdf(sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf"))
 ###' Real work
 ###' ----------------
 stonelist  <- rownames(tbl0)
-stoneindex <- 1:length(stonelist)
+stoneindex <- 1:nrow(tbl0)
 
 XX         <- tbl0[,'Pb206zPb204']
 YY1        <- tbl0[,'Pb207zPb204']

@@ -41,16 +41,16 @@ periodic[,'compatibility'] <- c(-1,30,-1,-1,-1,-1,19,-1,-1,-1,-1,17,-1,-1,10,-1,
 ###' Setup constants
 ###' ----------------
 stonelist        <- rownames(tbl0)
-stoneindex       <- 1:length(stonelist)
-fulllist         <- colnames(tbl0)
+stoneindex       <- 1:nrow(tbl0)
+fulleltlist      <- colnames(tbl0)
 
 ###' ----------------
 ###' parse full and partial
 ###' ----------------
 
-###' full plot
-property         <- periodic[fulllist,'atomicnumber'] # atomicnumber, volatility, compatibility
-names(property)  <- fulllist
+###' full-element plot
+property         <- periodic[fulleltlist,'atomicnumber'] # atomicnumber, volatility, compatibility
+names(property)  <- fulleltlist
 XX0              <- sort(property)
 XX               <- 1:length(XX0)
 names(XX)        <- names(XX0)
@@ -58,12 +58,12 @@ ZZ               <- tbl0[,names(XX)]
 CI               <- ref0['Wasson 1988',names(XX)]
 YY               <- t(ZZ) / CI
 
-###' partial plot
+###' partial-element plot
 REElist          <- c('La','Ce','Pr','Nd','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu');
-partlist         <- intersect(REElist,fulllist)
+parteltlist      <- intersect(REElist,fulleltlist)
 #
-property1        <- periodic[partlist,'atomicnumber'] # atomicnumber, volatility, compatibility
-names(property1) <- partlist
+property1        <- periodic[parteltlist,'atomicnumber'] # atomicnumber, volatility, compatibility
+names(property1) <- parteltlist
 XX1              <- sort(property1)
 ZZ1              <- tbl0[,names(XX1)]
 CI1              <- ref0['Wasson 1988',names(XX1)]

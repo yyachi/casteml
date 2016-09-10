@@ -19,7 +19,7 @@ pdf(sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf"))
 ###' Real work
 ###' ----------------
 stonelist  <- rownames(tbl0)
-stoneindex <- 1:length(stonelist)
+stoneindex <- 1:nrow(tbl0)
 XX         <- tbl0[,'d18O']
 YY         <- tbl0[,'d17O']
 plot(XX,YY,type="p",pch=stoneindex,col=stoneindex,
