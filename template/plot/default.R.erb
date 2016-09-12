@@ -11,8 +11,8 @@
 ## ifelse(length(args) == 1,
 ##        infile <- args[1],
 ##        infile <- "<%= File.basename(dataframe_path,'*') -%>")
-infile <- "example.dataframe"
-## infile <- "<%= File.basename(dataframe_path,'*') -%>"
+## infile <- "example.dataframe"
+infile <- "<%= File.basename(dataframe_path,'*') -%>"
 
 ###' ----------------
 ###' Load dataset from csvfile
