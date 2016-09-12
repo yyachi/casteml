@@ -58,39 +58,31 @@ EOS
     of May 13 (2015), the R-script should be in
     ~/orochi-devel/casteml/template/plot/.
 
-    To modify the plot, revise newly generated R-script then run
-    vanilla R.
+    Do not forget to include path to R.exe such for 'c:/Program
+    Files/R/R-3.2.5/bin/x64/' in %PATH%.  To modify the plot, revise
+    newly generated R-script then run vanilla R.
 EOF
 	end
 
 	def example
 	<<-EOS
-    $ casteml download -R 20130528105235-594267 > cbkstones.pml
-    $ casteml plot cbkstones.pml
+    $ casteml download -R 20130528105235-594267 > cbk.pml
+    $ casteml plot cbk.pml
     $ ls
-    cbkstones.pml
-    cbkstones.dataframe
-    cbkstones.R
-    cbkstones.pdf
-    $ vi cbkstones.R
+    cbk.pml cbk.dataframe cbk.R cbk.pdf
+    $ vi cbk.R
     ...
-    $ R --vanilla --slave < cbkstones.R
+    $ R --vanilla --slave < cbk.R
 
-    $ casteml download -R 20130528105235-594267 > cbkstones.pml
-    $ casteml plot cbkstones.pml --category trace
+    $ casteml download -R 20130528105235-594267 > cbk.pml
+    $ casteml plot cbk.pml --category trace
     $ ls
-    cbkstones.pml
-    cbkstones_trace.dataframe
-    cbkstones_trace.R
-    cbkstones_trace.pdf
+    cbk.pml cbk_trace.dataframe cbk_trace.R cbk_trace.pdf
 
-    $ casteml download -R 20130528105235-594267 > cbkstones.pml
-    $ casteml plot cbkstones.pml --category oxygen
+    $ casteml download -R 20130528105235-594267 > cbk.pml
+    $ casteml plot cbk.pml --category oxygen
     $ ls
-    cbkstones.pml
-    cbkstones_oxygen.dataframe
-    cbkstones_oxygen.R
-    cbkstones_oxygen.pdf
+    cbk.pml cbk_oxygen.dataframe cbk_oxygen.R cbk_oxygen.pdf
 EOS
 	end
 
