@@ -42,16 +42,18 @@ EOS
     returns pmlfiles linked to corresponding record.  Default output
     is toward to the standard output.  Redirect to certain file.
 
-    This accepts both stone-ID, session-ID (also referred as
+    This accepts both stone-ID, box-ID, session-ID (also referred as
     analysis-ID), bib-ID, table-ID, and image-ID.  For image-ID,
-    pmlfiles linked via spot record are returned.  For bib-ID,
-    pmlfiles directly linked to the bib record are returned.  Only for
-    stone-ID, recursive download is available.  Unless stone-ID is
-    specified, recursive option is ignored.
+    analyses linked via spot record are returned.  For bib-ID,
+    analyses directly linked to the bib record are returned.  Only for
+    stone-ID and box-ID, recursive download is available.  Unless
+    stone-ID or box-ID is specified, recursive option is ignored.
+    Note that option '--Recursive' with box-ID takes huge amount of
+    time.
 
     This command accept more than one ID.  Note that you can also
     obtain a multi-pmlfile for a whole family.  If you need a
-    multi-pmlfile, (1) download similatentously or (2) seperately then
+    multi-pmlfile, (1) download simultaneously or (2) separately then
     join them by a command `casteml join'.
 
     You may want to plot the multi-pmlfile by a command `casteml
