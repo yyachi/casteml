@@ -21,17 +21,22 @@ rplotfile <- sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf")
 pdf(rplotfile)
 
 ###' ----------------
+###' unit definition
+###' ----------------
+tableunit <- "ug/g"
+convector <- c(1,1,100,100,1000,1000,1000000,1000000000,1000000000000)
+names(convector) <- c("none","g/g","cg/g","%","permil","mg/g","ug/g","ng/g","pg/g")
+
+###' ----------------
 ###' load dataset from csvfile with unit
 ###' ----------------
 ## tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
 tblin <- read.csv(infile,row.names=1,header=T,stringsAsFactors=F)
 if ('unit' %in% colnames(tblin)) {
-    convector <- c(1,100,100,1000,1000,1000000,1000000000,1000000000000)
-    names(convector) <- c("g/g","cg/g","%","permil","mg/g","ug/g","ng/g","pg/g")
     factor <- convector[tblin[,'unit']]
     names(factor) <- rownames(tblin)
     factor[is.na(factor)] <- 1
-    tbl0 <- t(tblin[colnames(tblin) != 'unit'] / factor) * 1000000 # unit for ug/g or ppm
+    tbl0 <- t(tblin[colnames(tblin) != 'unit'] / factor) * convector[tableunit]
 } else {
     tbl0 <- t(tblin)
 }
@@ -40,7 +45,7 @@ if ('unit' %in% colnames(tblin)) {
 ###' load reference dataset and periodic table
 ###' ----------------
 
-###' refrences
+###' element abundance in ug/g unit
 ###' - Wasson, J. T., and Kallemeyn, G. W. (1988). Compositions of chondrites. Phil. Trans. Roy. Soc. London A, 325, 535–544.
 ###' - McDonough, W., and Sun, S. (1995). The composition of the earth. Chemical Geology, 120(3-4), 223–253.
 ###' - Janousek, V. et al. (2015). Geochemical Modelling of Igneous Processes--Principles And Recipes in R Language. Springer
@@ -48,7 +53,7 @@ refin <- data.frame(row.names = c("H","Li","Be","B","C","N","F","Na","Mg","Al","
 refin[,'Boynton 1989'] <- c(NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,0.31,0.808,0.122,0.6,0.195,0.0735,0.259,0.0474,0.322,0.0718,0.21,0.0324,0.209,0.0322,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN)
 refin[,'McDonough 1995'] <- c(NaN,1.5,0.025,0.9,35000,3180,60,5100,96500,8600,106500,1080,54000,680,550,9250,5.92,440,56,2650,1920,181000,500,10500,120,310,9.2,31,1.85,21,3.57,2.30,7.25,1.57,3.82,0.24,0.900,0.710,0.130,0.550,0.200,0.710,0.080,1.650,0.140,2.330,0.450,0.190,2.410,0.237,0.613,0.0928,0.457,0.148,0.0563,0.199,0.0361,0.246,0.0546,0.160,0.0247,0.161,0.0246,0.103,0.0136,0.093,0.040,0.490,0.455,1.010,0.140,0.300,0.140,2.470,0.110,0.029,0.0074)
 refin[,'Wasson 1988'] <- c(20000,1.57,0.027,1.2,32000,1500,64,4900,97000,8600,105000,1020,59000,680,560,9200,5.80,420,55,2650,1900,182000,508,10700,121,312,9.8,33.0,1.84,19.6,3.60,2.22,7.9,1.44,3.8,0.27,0.920,0.710,0.134,0.560,0.208,0.650,0.080,1.720,0.153,2.400,0.500,0.183,2.300,0.236,0.616,0.0929,0.457,0.149,0.056,0.197,0.0355,0.245,0.0547,0.160,0.0247,0.159,0.0245,0.120,0.016,0.100,0.037,0.490,0.460,0.990,0.144,0.390,0.142,2.400,0.110,0.029,0.0082)
-ref0 <- t(refin)
+ref0 <- t(refin) / 1000000 * convector[tableunit]
 
 ###' periodic table
 periodic <- data.frame(row.names = c("H","Li","Be","B","C","N","F","Na","Mg","Al","Si","P","S","Cl","K","Ca","Sc","Ti","V","Cr","Mn","Fe","Co","Ni","Cu","Zn","Ga","Ge","As","Se","Br","Rb","Sr","Y","Zr","Nb","Mo","Ru","Rh","Pd","Ag","Cd","In","Sn","Sb","Te","I","Cs","Ba","La","Ce","Pr","Nd","Sm","Eu","Gd","Tb","Dy","Ho","Er","Tm","Yb","Lu","Hf","Ta","W","Re","Os","Ir","Pt","Au","Hg","Tl","Pb","Bi","Th","U"))
