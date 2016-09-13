@@ -21,20 +21,20 @@ rplotfile <- sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf")
 pdf(rplotfile)
 
 ###' ----------------
-###' load dataset from csvfile
-###' ----------------
-tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
-
-###' ----------------
 ###' load dataset from csvfile with unit
 ###' ----------------
-## tblin <- read.csv(infile,row.names=1,header=T,stringsAsFactors=F)
-## convector <- c(1,100,100,1000,1000,1000000,1000000000,1000000000000)
-## names(convector) <- c("g/g","cg/g","%","permil","mg/g","ug/g","ng/g","pg/g")
-## factor <- convector[tblin[,'unit']]
-## names(factor) <- rownames(tblin)
-## factor[is.na(factor)] <- 1
-## tbl0 <- t(tblin[colnames(tblin) != 'unit'] / factor) * 1000000 # unit for ug/g or ppm
+## tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
+tblin <- read.csv(infile,row.names=1,header=T,stringsAsFactors=F)
+if ('unit' %in% colnames(tblin)) {
+    convector <- c(1,100,100,1000,1000,1000000,1000000000,1000000000000)
+    names(convector) <- c("g/g","cg/g","%","permil","mg/g","ug/g","ng/g","pg/g")
+    factor <- convector[tblin[,'unit']]
+    names(factor) <- rownames(tblin)
+    factor[is.na(factor)] <- 1
+    tbl0 <- t(tblin[colnames(tblin) != 'unit'] / factor) * 1000000 # unit for ug/g or ppm
+} else {
+    tbl0 <- t(tblin)
+}
 
 ###' ----------------
 ###' load reference dataset and periodic table
