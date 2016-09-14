@@ -23,7 +23,7 @@ EOS
 						'Number format (%.4g)') do |v, options|
 			options[:number_format] = v
 		end
-		#MeasurementCategory.find_all
+		# MeasurementCategory.find_all
 		category_names = Casteml::MeasurementCategory.record_pool.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
 						"Only pass measurement category of (#{category_names.join(', ')})") do |v, options|
@@ -57,38 +57,40 @@ EOS
 	def description
 		<<-EOF
     Convert (pml csv tsv isorg)
-         to (pml csv tsv isorg org dataframe tex pdf).
+         to (pml csv tsv isorg dataframe tex pdf).
     The converted datasets are wrote out to standard output.  Use
     redirect to save as file.
 
 Format:
+    pml:       The standard CASTEML file.
     csv:       Comma Separated Values (CSV) supported as input.
-               Each stone will be on each column.
+               Each stone and chem is on each row and col, respectively.
+               You can have a second row dedicated for unit without rowname.
     tsv:       Tab Separated Values (TSV) supported as input.
                Same as csv but delimiter.
-    isorg:     ORG format supported as input.  Same as csvx but
-               delimiter.
+    isorg:     ORG format supported as input.
+               Same as csv but delimiter.
     dataframe: Comma Separated Values (CSV) dedicated for R input,
-               not for casteml input.  Similar to csv but colum and
-               row are flipped.  The first line is header and starts
-               with `element'.  Each stone will be on each row.
+               not for casteml input.  Similar to csv but column and
+               row are flipped.  The first line is header that starts
+               with `element'.  Each stone and chem is on
+               each row and column, respectively.  Second column
+               is dedicated for unit with colname `unit'.
+   tex:        Text of table dedicated for LaTeX input.
+   pdf:        PDF with table that is created based on output with '-f tex' option.
 EOF
 	end
 
 	def example
 	<<-EOS
-    $ casteml convert my_rat_ree@150106.csv > my_rat_ree@150106.pml
-    $ ls
-    my_rat_ree@150106.pml
-    $ casteml split my_rat_ree@150106.pml
+    $ casteml convert ratree@150106.csv > ratree@150106.pml
+    $ casteml convert -f tex -n %.5g ratree@150106.pml > ratree@150106.tex
+    $ casteml convert -f csv --unit '%' ratree@150106.pml > ratree@150106.csv
+    $ casteml convert -f csv --unit 'cg/g' ratree@150106.pml > ratree@150106.csv
+    $ casteml convert -f csv --no-unit ratree@150106.pml > ratree@150106.csv
 
-    $ casteml convert -f tex -n %.5g my_rat_ree@150106.pml > my_rat_ree@150106.tex
-    $ pdflatex my_rat_ree@150106.tex
-
-    $ casteml convert -f csv --unit '%' my_rat_ree@150106.pml > my_rat_ree@150106.csv
-    $ casteml convert -f csv --unit 'cg/g' my_rat_ree@150106.pml > my_rat_ree@150106.csv
-
-    $ casteml convert -f csv --no-unit my_rat_ree@150106.pml > my_rat_ree@150106.csv
+    R> dffile <- '20080616170000.dataframe'
+    R> df0    <- t(read.csv(dffile,row.names=1,header=T,stringsAsFactors=F))
 EOS
 	end
 
@@ -103,7 +105,7 @@ EOS
 
 
 
-    
+
 	def output(string)
 		puts string
 	end
