@@ -27,6 +27,7 @@ module Casteml
 			end
 
 		end
+
 		context "with average and output csv" do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20130528105345-976071-in.csv'}
@@ -75,15 +76,15 @@ module Casteml
 			}
 		end
 
-		context "with category and output dataframe", :current => true do
+		context "with category and output dataframe" do
 			subject { Casteml.convert_file(path, opts)}
-			let(:path){ 'tmp/20110203165130-611-312.pml' }
+			let(:path){ 'tmp/20110518194205-602-801.pml' }
+#			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
 			let(:opts){ {:with_category => category, :output_format => :dataframe } }
 			let(:category){ "oxygen" }
 			before do
 				setup_empty_dir('tmp')
 				setup_file(path)
-				puts subject
 			end
 			it {
 				expect(subject).to match(/d18O/)
@@ -91,6 +92,41 @@ module Casteml
 			#expect(Casteml).to receive(:convert_file).with(path, {:output_format => :dataframe, :with_category => 'isotope (delta)'})
 		end
 
+		context "without category and output dataframe" do
+			subject { Casteml.convert_file(path, opts)}
+#			let(:path){ 'tmp/20110203165130-611-312.pml' }
+			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
+			let(:opts){ {:output_format => :dataframe } }
+			#let(:category){ "oxygen" }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+				#puts subject
+			end
+			it {
+				expect(subject).to match(/element,unit/)
+				expect(subject).to match(/Ni,ppm/)
+			}
+			#expect(Casteml).to receive(:convert_file).with(path, {:output_format => :dataframe, :with_category => 'isotope (delta)'})
+		end
+
+
+		context "with unit_separate and output csv", :current => true do
+			subject { Casteml.convert_file(path, opts)}
+#			let(:path){ 'tmp/20110203165130-611-312.pml' }
+			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
+			let(:opts){ {:output_format => :csv, :unit_separate => true } }
+			#let(:category){ "oxygen" }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			#	puts subject
+			end
+			it {
+				expect(subject).to match(/ppm\,""/)
+			}
+			#expect(Casteml).to receive(:convert_file).with(path, {:output_format => :dataframe, :with_category => 'isotope (delta)'})
+		end
 		context "with csvfile" do
 			let(:path){'tmp/mytable.csv'}
 			let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
@@ -124,7 +160,7 @@ module Casteml
           end
           
         end
-		context "with isorgfile", :current => true do
+		context "with isorgfile" do
 			subject { Casteml.convert_file(path) }
 			let(:path){'tmp/template.isorg'}
 			#let(:data){ [{:session => 'deleteme-1'}, {:session => 'deleteme-2'}] }
@@ -217,28 +253,28 @@ module Casteml
               let(:path){'tmp/bug-1217.pml'}
               let(:category){'oxygen'}
 		      it {
-                expect(subject).to match(/d17O\,1.805/)
+                expect(subject).to match(/d17O\,permil\,1.805/)
 			  }
             end
             context "bug-1217.org" do
               let(:path){'tmp/bug-1217.org'}
               let(:category){'oxygen'}
 		      it {
-                expect(subject).to match(/d17O\,1.805/)
+                expect(subject).to match(/d17O\,permil\,1.805/)
 			  }
             end
             context "bug-1217.tsv" do
               let(:path){'tmp/bug-1217.tsv'}
               let(:category){'oxygen'}
 		      it {
-                expect(subject).to match(/d17O\,1.805/)
+                expect(subject).to match(/d17O\,permil\,1.805/)
 			  }
             end
             context "bug-1217.csv" do
               let(:path){'tmp/bug-1217.csv'}
               let(:category){'oxygen'}
 		      it {
-                expect(subject).to match(/d17O\,1.805/)
+                expect(subject).to match(/d17O\,permil\,1.805/)
 			  }
             end
 

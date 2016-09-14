@@ -89,9 +89,17 @@ module Casteml::Formats
 
 			without_error = opts.delete(:without_error)
 			with_unit = opts.delete(:with_unit)
+			unit_separate = opts.delete(:unit_separate)
 			without_spot = opts.delete(:without_spot)
 			with_nicknames = opts.delete(:with_nicknames)
 			omit_null = opts.delete(:omit_null)
+			omit_description = opts.delete(:omit_description)
+
+			if omit_description
+				hashs.each do |hash|
+					hash.delete(:description)
+				end
+			end
 			#array_of_spot.compact!
 			#array_of_abundances.compact!
 			if with_nicknames
@@ -128,15 +136,6 @@ module Casteml::Formats
 				array_of_units << unit
 			end
 
-			nicknames_with_unit = []
-			nicknames.each_with_index do |nickname, idx|
-				unit = array_of_units[idx]
-				if without_error
-					nicknames_with_unit << ( ( unit && unit != 'parts' ) ? "#{nickname} (#{unit})" : nickname)
-				else
-					nicknames_with_unit << [( ( unit && unit != 'parts') ? "#{nickname} (#{unit})" : nickname), "#{nickname}_error"]
-				end
-			end
 
 			array_of_data = []
 			array_of_abundances.each_with_index do |abundances, i|
@@ -185,9 +184,37 @@ module Casteml::Formats
 
 			column_names = hashs.first.keys
 			column_names.concat(spot_methods) unless without_spot
-			column_names.concat(nicknames_with_unit.flatten)
+			if unit_separate
+				unit_names = hashs.first.keys.map{|key| ""}
+				unit_names.concat(spot_methods.map{|sp| ""}) unless without_spot
+			end
+#			nicknames_with_unit = []
+			nicknames.each_with_index do |nickname, idx|
+				unit = array_of_units[idx]
+				if unit_separate
+					column_names << nickname
+					unit_names << ( ( unit && unit != 'parts' ) ? "#{unit}" : "")
+					unless without_error
+						column_names << "#{nickname}_error"
+						unit_names << ""
+					end	
+				else
+					column_names << ( ( unit && unit != 'parts' ) ? "#{nickname} (#{unit})" : nickname)
+					unless without_error
+						column_names << "#{nickname}_error"
+					end
+				end
+			end
+			#column_names.concat(nicknames_with_unit.flatten)
+
+			# if unit_separate
+			# 	unit_names = hashs.first.keys.map{|key| ""}
+			# 	unit_names.concat(spot_methods.map{|sp| ""}) unless without_spot
+			# 	unit_names.concat(array_of_units)
+			# end
 			string = CSV.generate("", csv_opts) do |csv|
 				csv << column_names
+				csv << unit_names if unit_separate
 				hashs.each_with_index do |h, idx|
 				  next if omit_null && omit_ids.include?(idx)
 					row = h.values

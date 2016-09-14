@@ -81,6 +81,10 @@ module Casteml
       end
     end
 
+    if options[:unit_separate]
+      opts[:unit_separate] = options[:unit_separate]
+    end
+
 
     unless opts[:output_format]
       opts[:output_format] = Casteml.is_pml?(path) ? :csv : :pml
@@ -166,11 +170,12 @@ module Casteml
     when :tsv
       string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "\t"))
     when :dataframe
-      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => true, :omit_null => true))
+      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => true, :omit_null => true, :unit_separate => true, :omit_description => true))
       string = Formats::CsvFormat.transpose(string)
       string.gsub!(/\s\(.*\)/,"")
       string.sub!(/session/,"element")
       string.sub!(/name/,"element")
+      string.sub!(/element,\"\"/,"element,unit")
       string.sub!(/description.*\n/,"")      
       string.gsub!(/spot\_global\_id.*\n/,"")
       string.sub!(/spot\_attachment\_file\_global\_id.*\n/,"")
