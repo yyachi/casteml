@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 ###'
 ###' Plot elements and all datasets.  Codes correspond to former
-###' should be copied from `trace.R.eb'.
+###' is copy of `trace.R.eb'.
 ###'
 ###' DOS> cd %HOME%/devel-godigo/casteml/template/plot/
 ###' DOS> casteml download -R 20130528105235-594267 > example.pml
@@ -11,10 +11,6 @@
 ###' ----------------
 ###' I/O SETUP
 ###' ----------------
-## args = commandArgs(trailingOnly=TRUE)
-## ifelse(length(args) == 1,
-##        infile <- args[1],
-##        infile <- "<%= File.basename(dataframe_path,'*') -%>")
 ## infile <- "example.dataframe"
 infile <- "<%= File.basename(dataframe_path,'*') -%>"
 rplotfile <- sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf")

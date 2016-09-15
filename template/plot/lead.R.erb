@@ -7,19 +7,31 @@
 ###' ----------------
 ###' I/O SETUP
 ###' ----------------
-## args = commandArgs(trailingOnly=TRUE)
-## ifelse(length(args) == 1,
-##        infile <- args[1],
-##        infile <- "<%= File.basename(dataframe_path,'*') -%>")
-## infile <- "example_lead.dataframe"
+## infile <- "example.dataframe"
 infile <- "<%= File.basename(dataframe_path,'*') -%>"
+rplotfile <- sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf")
+pdf(rplotfile)
 
 ###' ----------------
-###' Load dataset from csvfile
+###' unit definition
 ###' ----------------
-## tbl0 <- read.csv(infile,header=T,stringsAsFactors=F)
-tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
-pdf(sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf"))
+tableunit <- "none"
+convector <- c(1,1,100,100,100,1000,1000,1000000,1000000,1000000000,1000000000,1000000000000)
+names(convector) <- c("none","g/g","wt%","cg/g","%","permil","mg/g","ppm","ug/g","ppb","ng/g","pg/g")
+
+###' ----------------
+###' load dataset from csvfile with unit
+###' ----------------
+## tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
+tblin <- read.csv(infile,row.names=1,header=T,stringsAsFactors=F)
+if ('unit' %in% colnames(tblin)) {
+    factor <- convector[tblin[,'unit']]
+    names(factor) <- rownames(tblin)
+    factor[is.na(factor)] <- 1
+    tbl0 <- t(tblin[colnames(tblin) != 'unit'] / factor) * convector[tableunit]
+} else {
+    tbl0 <- t(tblin)
+}
 
 ###' ----------------
 ###' Real work
