@@ -64,18 +64,35 @@ EOS
 Format:
     pml:       The standard CASTEML file.
     csv:       Comma Separated Values (CSV) supported as input.
-               Each stone and chem is on each row and col, respectively.
-               You can have a second row dedicated for unit without rowname.
+               Each stone and chem is on each row and column, respectively.
+
+               See how the CSV file looks like by following command.
+               $ casteml download 20081202172326.hkitagawa > 20081202172326.pml
+               $ casteml convert 20081202172326.pml | head
+
+               A column of chem can be accompanied by a column of
+               error of the chem.  Name of the column should be with
+               `_error' (ie, `SiO2_error' for `SiO2').
+
+               A column of chem can be accompanied by unit.  Unit of
+               the column should be specified in parenthesis following
+               the name of chem (ie, `SiO2 (wt%)' instead of `SiO2').
+               See `text' column of list in
+               `http://medusa-uri/stone/units'.  instead, you can use
+               a dedicated second row (or line) for unit.  ROWNAME
+               SHOULD BE EMPTY.
+
+               You can completely flip row and column.
     tsv:       Tab Separated Values (TSV) supported as input.
                Same as csv but delimiter.
     isorg:     ORG format supported as input.
                Same as csv but delimiter.
-    dataframe: Comma Separated Values (CSV) dedicated for R input,
-               not for casteml input.  Similar to csv but column and
-               row are flipped.  The first line is header that starts
-               with `element'.  Each stone and chem is on
-               each row and column, respectively.  Second column
-               is dedicated for unit with colname `unit'.
+    dataframe: Comma Separated Values (CSV) dedicated for R input, not
+               for casteml input.  Similar to CSV but column and row
+               are flipped.  The first line is header that starts with
+               `element'.  Each stone and chem is on each column and
+               row, respectively but second column is dedicated for
+               unit with colname `unit'.
    tex:        Text of table dedicated for LaTeX input.
    pdf:        PDF with table that is created based on output with '-f tex' option.
 EOF
@@ -83,14 +100,16 @@ EOF
 
 	def example
 	<<-EOS
-    $ casteml convert ratree@150106.csv > ratree@150106.pml
-    $ casteml convert -f tex -n %.5g ratree@150106.pml > ratree@150106.tex
-    $ casteml convert -f csv --unit '%' ratree@150106.pml > ratree@150106.csv
-    $ casteml convert -f csv --unit 'cg/g' ratree@150106.pml > ratree@150106.csv
-    $ casteml convert -f csv --no-unit ratree@150106.pml > ratree@150106.csv
+    $ casteml download 20081202172326.hkitagawa > 20081202172326.pml
+    $ casteml convert 20081202172326.pml > 20081202172326.csv
+    $ casteml convert -f csv --unit '%' 20081202172326.pml > 20081202172326.csv
+    $ casteml convert -f csv --unit 'cg/g' 20081202172326.pml > 20081202172326.csv
+    $ casteml convert -f csv --no-unit 20081202172326.pml > 20081202172326.csv
+    $ casteml convert -f tex -n %.5g 20081202172326.pml > 20081202172326.tex
+    $ casteml convert -f dataframe 20081202172326.pml > 20081202172326.dataframe
 
-    R> dffile <- '20080616170000.dataframe'
-    R> df0    <- t(read.csv(dffile,row.names=1,header=T,stringsAsFactors=F))
+    R> dffile <- '20081202172326.dataframe'
+    R> df0    <- read.csv(dffile,row.names=1,header=T,stringsAsFactors=F)
 EOS
 	end
 
