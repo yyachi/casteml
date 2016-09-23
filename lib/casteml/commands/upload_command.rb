@@ -16,8 +16,9 @@ EOS
 
 	def description
 	<<-EOF
-    Upload pmlfile to Medusa.  Users are encoraged to call this
-    program through `orochi-upload'.
+    Upload pmlfile to Medusa.  See `casteml convert --help' for data
+    format.  Note that these also is program to upload files named
+    `orochi-upload'.
 
     This program `#{program_name}' creates sessions (also referred as
     analyses) that unite chemical datasets.  You want to correlate
@@ -30,13 +31,13 @@ EOS
     coordinate of an imagefile.  Origin of a coordinate is center of
     an image.  A spot coordinate is normalized by the longest side.
     As a consequence, the longest side ranges from -50 to 50.  Use a
-    Matlab script spot.m to create pmlfile with spots, and follow
-    instrution provided by spots.m.
+    Matlab script `spot.m' to create pmlfile with spots, and follow
+    instrution provided by `spots.m'.
 
     This program `#{program_name}' uploads datasets, coordinates, and
     imagefile `my-spots-picture.jpg'.  If there is Affine matrix file
     `my-spots-picture.affine' (xy-on-image to vs space), it also
-    uploads it.  Use `spots.m' to create CASTEML with spots.
+    uploads it.  Use `spots.m' to create pmlfile with spots.
 EOF
 	end
 
@@ -55,9 +56,9 @@ EOS
 
 	def see_also
 	<<-EOS
-    casteml join
-    casteml mv
     orochi-upload
+    casteml convert --help
+    casteml join
     http://dream.misasa.okayama-u.ac.jp
     spots.m
 EOS
