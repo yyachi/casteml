@@ -72,7 +72,7 @@ names(property)  <- chemlist
 XX0              <- sort(property)
 XX               <- 1:length(XX0)
 names(XX)        <- names(XX0)
-ZZ               <- tbl0[,names(XX)]
+ZZ               <- tbl0[,names(XX),drop=FALSE]
 CI               <- ref0['Wasson 1988',names(XX)]
 YY               <- t(ZZ) / CI
 
@@ -80,7 +80,7 @@ YY               <- t(ZZ) / CI
 property1        <- periodic[subchemlist,'atomicnumber'] # atomicnumber, volatility, compatibility
 names(property1) <- subchemlist
 XX1              <- sort(property1)
-ZZ1              <- tbl0[,names(XX1)]
+ZZ1              <- tbl0[,names(XX1),drop=FALSE]
 CI1              <- ref0['Wasson 1988',names(XX1)]
 YY1              <- t(ZZ1) / CI1
 
