@@ -35,9 +35,17 @@ EOS
     instrution provided by `spots.m'.
 
     This program `#{program_name}' uploads datasets, coordinates, and
-    imagefile `my-spots-picture.jpg'.  If there is Affine matrix file
-    `my-spots-picture.affine' (xy-on-image to vs space), it also
-    uploads it.  Use `spots.m' to create pmlfile with spots.
+    imagefile `my-spots-picture.jpg'.  Note imagefile is described in
+    pmlfile and NOT in arguments.  When this program finds imageometry
+    file file `my-spots-picture.geo' (Affine matrix of xy-on-image to
+    vs space), it also uploads it.  Use `spots.m' to create pmlfile
+    with spots.  An example of the imageometry file is shown below.
+
+    $ cat my-spots-picture.geo
+    affine_xy2vs:
+    - [1.2, 0.0,  4.2]
+    - [0.0, 1.2, -1.3]
+    - [  0,   0,  1.0]
 EOF
 	end
 

@@ -61,14 +61,20 @@ EOS
     The converted datasets are wrote out to standard output.  Use
     redirect to save as file.
 
+    See how pmlfile with analysis looks like by following command.
+    $ casteml download 20081202172326.hkitagawa > 20081202172326.pml
+    $ casteml convert 20081202172326.pml | head
+    $ open http://database.misasa.okayama-u.ac.jp/stone/bibs/8.pml
+
+    See how pmlfile with analysis and spot looks like by following command.
+    $ casteml download 20160923194512-900008 > 20160923194512-900008.pml
+    $ casteml convert 20160923194512-900008.pml | head
+    $ open http://database.misasa.okayama-u.ac.jp/stone/attachment_files/48326.pml
+
 Format:
     pml:       The standard CASTEML file.
     csv:       Comma Separated Values (CSV) supported as input.
                Each stone and chem is on each row and column, respectively.
-
-               See how the CSV file looks like by following command.
-               $ casteml download 20081202172326.hkitagawa > 20081202172326.pml
-               $ casteml convert 20081202172326.pml | head
 
                A column of chem can be accompanied by a column of
                error of the chem.  Name of the column should be with
