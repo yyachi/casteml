@@ -1,27 +1,27 @@
 #!/usr/bin/env Rscript
-###' DOS> cd %HOME%/devel-godigo/casteml/template/plot/
-###' DOS> casteml download -R 20080616170000.hk > example.pml
-###' DOS> casteml plot example.pml -c lead --template-file lead.R.erb
-###' DOS> open example_lead.pdf
+#' DOS> cd %HOME%/devel-godigo/casteml/template/plot/
+#' DOS> casteml download -R 20080616170000.hk > example.pml
+#' DOS> casteml plot example.pml -c lead --template-file lead.R.erb
+#' DOS> open example_lead.pdf
 
-###' ----------------
-###' I/O SETUP
-###' ----------------
+#' ----------------
+#' I/O SETUP
+#' ----------------
 ## infile <- "example.dataframe"
 infile <- "<%= File.basename(dataframe_path,'*') -%>"
 rplotfile <- sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf")
 pdf(rplotfile)
 
-###' ----------------
-###' unit definition
-###' ----------------
+#' ----------------
+#' unit definition
+#' ----------------
 tableunit <- "none"
 convector <- c(1,1,100,100,100,1000,1000,1000000,1000000,1000000000,1000000000,1000000000000)
 names(convector) <- c("none","g/g","wt%","cg/g","%","permil","mg/g","ppm","ug/g","ppb","ng/g","pg/g")
 
-###' ----------------
-###' load dataset from csvfile with unit
-###' ----------------
+#' ----------------
+#' load dataset from csvfile with unit
+#' ----------------
 ## tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
 tblin <- read.csv(infile,row.names=1,header=T,stringsAsFactors=F)
 if ('unit' %in% colnames(tblin)) {
@@ -33,9 +33,9 @@ if ('unit' %in% colnames(tblin)) {
     tbl0 <- t(tblin)
 }
 
-###' ----------------
-###' Real work
-###' ----------------
+#' ----------------
+#' Real work
+#' ----------------
 stonelist  <- rownames(tbl0)
 stoneindex <- 1:nrow(tbl0)
 
@@ -43,27 +43,27 @@ XX         <- tbl0[,'Pb206zPb204']
 YY1        <- tbl0[,'Pb207zPb204']
 YY2        <- tbl0[,'Pb208zPb204']
 
-###' ----------------
-###' plots
-###' ----------------
-###'
-###' Pb206zPb204_vs_Pb207zPb204
+#' ----------------
+#' plots
+#' ----------------
+#'
+#' Pb206zPb204_vs_Pb207zPb204
 plot(XX,YY1,type="p",
      col=stoneindex,pch=stoneindex,
      xlab=expression({}^206*"Pb/"*{}^204*"Pb"),ylab=expression({}^207*"Pb/"*{}^204*"Pb"))
 legend("bottomright",stonelist,col=stoneindex,pch=stoneindex,ncol=2,cex=0.5)
-###' Northern Hemisphere Reference Line (Hart,1984)
+#' Northern Hemisphere Reference Line (Hart,1984)
 curve(0.1084*x + 13.491,type="l",lty=1,add=TRUE)
 
-###' Pb206zPb204_vs_Pb208zPb204
+#' Pb206zPb204_vs_Pb208zPb204
 plot(XX,YY2,type="p",
      col=stoneindex,pch=stoneindex,
      xlab=expression({}^206*"Pb/"*{}^204*"Pb"),ylab=expression({}^208*"Pb/"*{}^204*"Pb"))
 legend("bottomright",stonelist,col=stoneindex,pch=stoneindex,ncol=2,cex=0.5)
-###' Northern Hemisphere Reference Line (Hart,1984)
+#' Northern Hemisphere Reference Line (Hart,1984)
 curve(1.209*x + 15.627,type="l",lty=1,add=TRUE)
 
-###' ----------------
-###' Closing remark
-###' ----------------
+#' ----------------
+#' Closing remark
+#' ----------------
 dev.off()
