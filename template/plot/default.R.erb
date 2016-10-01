@@ -17,21 +17,18 @@ rplotfile <- sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf")
 pdf(rplotfile)
 
 #' ----------------
-#'* load dataset from csvfile with unit
-#' ----------------
-library('chelyabinsk') # library(devtools); install_github('misasa/chelyabinsk')
-tableunit <- "ug/g"
-tbl0      <-cas.read.dataframe(infile,tableunit)
-
-#' ----------------
 #'* unit definition (should be defined as function in the future)
 #' ----------------
+tableunit        <- "ug/g"
 convector        <- c( 1,     1,    100, 100,    100,1000,    1000,  1000000,1000000,1000000000,1000000000,1000000000000)
 names(convector) <- c("none","g/g","wt%","cg/g","%","permil","mg/g","ppm",  "ug/g", "ppb",     "ng/g",    "pg/g")
 
-## #' ----------------
-## #'* load dataset from csvfile with unit
-## #' ----------------
+#' ----------------
+#'* load dataset from csvfile with unit
+#' ----------------
+library('chelyabinsk') # library(devtools); install_github('misasa/chelyabinsk')
+tbl0 <- cas.read.dataframe(infile,tableunit)
+
 ## ## tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
 ## tblin <- read.csv(infile,row.names=1,header=T,stringsAsFactors=F)
 ## if ('unit' %in% colnames(tblin)) {

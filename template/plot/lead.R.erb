@@ -5,7 +5,7 @@
 #' DOS> open example_lead.pdf
 
 #' ----------------
-#' I/O SETUP
+#'* I/O SETUP
 #' ----------------
 ## infile <- "example.dataframe"
 infile <- "<%= File.basename(dataframe_path,'*') -%>"
@@ -13,28 +13,31 @@ rplotfile <- sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf")
 pdf(rplotfile)
 
 #' ----------------
-#' unit definition
+#'* unit definition
 #' ----------------
 tableunit <- "none"
 convector <- c(1,1,100,100,100,1000,1000,1000000,1000000,1000000000,1000000000,1000000000000)
 names(convector) <- c("none","g/g","wt%","cg/g","%","permil","mg/g","ppm","ug/g","ppb","ng/g","pg/g")
 
 #' ----------------
-#' load dataset from csvfile with unit
+#'* load dataset from csvfile with unit
 #' ----------------
-## tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
-tblin <- read.csv(infile,row.names=1,header=T,stringsAsFactors=F)
-if ('unit' %in% colnames(tblin)) {
-    factor <- convector[tblin[,'unit']]
-    names(factor) <- rownames(tblin)
-    factor[is.na(factor)] <- 1
-    tbl0 <- t(tblin[colnames(tblin) != 'unit'] / factor) * convector[tableunit]
-} else {
-    tbl0 <- t(tblin)
-}
+library('chelyabinsk') # library(devtools); install_github('misasa/chelyabinsk')
+tbl0 <- cas.read.dataframe(infile,tableunit)
+
+## ## tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
+## tblin <- read.csv(infile,row.names=1,header=T,stringsAsFactors=F)
+## if ('unit' %in% colnames(tblin)) {
+##     factor <- convector[tblin[,'unit']]
+##     names(factor) <- rownames(tblin)
+##     factor[is.na(factor)] <- 1
+##     tbl0 <- t(tblin[colnames(tblin) != 'unit'] / factor) * convector[tableunit]
+## } else {
+##     tbl0 <- t(tblin)
+## }
 
 #' ----------------
-#' Real work
+#'* Real work
 #' ----------------
 stonelist  <- rownames(tbl0)
 stoneindex <- 1:nrow(tbl0)
@@ -44,7 +47,7 @@ YY1        <- tbl0[,'Pb207zPb204']
 YY2        <- tbl0[,'Pb208zPb204']
 
 #' ----------------
-#' plots
+#'* plots
 #' ----------------
 #'
 #' Pb206zPb204_vs_Pb207zPb204
@@ -64,6 +67,6 @@ legend("bottomright",stonelist,col=stoneindex,pch=stoneindex,ncol=2,cex=0.5)
 curve(1.209*x + 15.627,type="l",lty=1,add=TRUE)
 
 #' ----------------
-#' Closing remark
+#'* Closing remark
 #' ----------------
 dev.off()
