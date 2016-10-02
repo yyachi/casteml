@@ -27,7 +27,7 @@ names(convector) <- c("none","g/g","wt%","cg/g","%","permil","mg/g","ppm",  "ug/
 #'* load dataset from csvfile with unit
 #' ----------------
 library('chelyabinsk') # library(devtools); install_github('misasa/chelyabinsk')
-tbl0 <- cas.read.dataframe(infile,tableunit)
+tbl0 <- cbk.read.dataframe(infile,tableunit)
 
 ## ## tbl0 <- t(read.csv(infile,row.names=1,header=T,stringsAsFactors=F))
 ## tblin <- read.csv(infile,row.names=1,header=T,stringsAsFactors=F)
