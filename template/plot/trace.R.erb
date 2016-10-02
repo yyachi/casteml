@@ -33,10 +33,10 @@ periodic[,'compatibility'] <- cas.periodic('compatibility')[elementlist]
 #' - McDonough, W., and Sun, S. (1995). The composition of the earth. Chemical Geology, 120(3-4), 223–253.
 #' - Janousek, V. et al. (2015). Geochemical Modelling of Igneous Processes--Principles And Recipes in R Language. Springer
 refin <- data.frame(row.names = elementlist)
-refin[,'Boynton 1989']   <- cas.ref("Boynton 1989",atomicnumber)
-refin[,'McDonough 1995'] <- cas.ref("McDonough 1995",atomicnumber)
-refin[,'Wasson 1988']    <- cas.ref("Wasson 1988",atomicnumber)
-ref0 <- t(refin) / 1000000 * cas.convector(tableunit)
+refin[,'Wasson 1988']    <- cas.ref("Wasson 1988",    atomicnumber) / 1000000
+refin[,'McDonough 1995'] <- cas.ref("McDonough 1995", atomicnumber) / 1000000
+refin[,'Boynton 1989']   <- cas.ref("Boynton 1989",   atomicnumber) / 1000000
+ref0 <- t(refin) * cas.convector(tableunit)
 
 #' ----------------
 #'* setup constants
