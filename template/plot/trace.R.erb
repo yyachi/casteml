@@ -5,7 +5,7 @@
 #' DOS> open example_trace.pdf
 
 #' ----------------
-#'* opening remarks
+#'* OPENING REMARKS
 #' ----------------
 library('chelyabinsk') # library(devtools); install_github('misasa/chelyabinsk')
 ## infile <- "example.dataframe" # for debug
@@ -20,26 +20,28 @@ tableunit        <- "ug/g"
 tbl0 <- cbk.read.dataframe(infile,tableunit)
 
 #' load periodic table
-atomicnumber <- cbk.periodic('atomicnumber')
-elementlist  <- names(atomicnumber)
-periodic <- data.frame(row.names = elementlist)
-periodic[,'atomicnumber']  <- atomicnumber
-periodic[,'volatility']    <- cbk.periodic('volatility')[elementlist]
-periodic[,'compatibility'] <- cbk.periodic('compatibility')[elementlist]
+## atomicnumber <- cbk.periodic('atomicnumber')
+## elementlist  <- names(atomicnumber) # all elements
+## periodic <- data.frame(row.names = elementlist)
+## periodic[,'atomicnumber']  <- atomicnumber
+## periodic[,'volatility']    <- cbk.periodic('volatility')[elementlist]
+## periodic[,'compatibility'] <- cbk.periodic('compatibility')[elementlist]
+periodic <- read.csv(cbk.path('periodic-table.csv'),header=T,row.names=1)
 
 #' load reference dataset
 #' element abundances from reference in ug/g unit
 #' - Wasson, J. T., and Kallemeyn, G. W. (1988). Compositions of chondrites. Phil. Trans. Roy. Soc. London A, 325, 535–544.
 #' - McDonough, W., and Sun, S. (1995). The composition of the earth. Chemical Geology, 120(3-4), 223–253.
 #' - Janousek, V. et al. (2015). Geochemical Modelling of Igneous Processes--Principles And Recipes in R Language. Springer
-refin <- data.frame(row.names = elementlist)
-refin[,'Wasson 1988']    <- cbk.ref("Wasson 1988",    atomicnumber) / 1000000
-refin[,'McDonough 1995'] <- cbk.ref("McDonough 1995", atomicnumber) / 1000000
-refin[,'Boynton 1989']   <- cbk.ref("Boynton 1989",   atomicnumber) / 1000000
-ref0 <- t(refin) * cbk.convector(tableunit)
+## refin <- data.frame(row.names = elementlist)
+## refin[,'Wasson.1988']    <- cbk.ref("Wasson.1988",    atomicnumber) / 1000000
+## refin[,'McDonough.1995'] <- cbk.ref("McDonough.1995", atomicnumber) / 1000000
+## refin[,'Boynton.1989']   <- cbk.ref("Boynton.1989",   atomicnumber) / 1000000
+## ref0 <- (t(refin) * cbk.convector(tableunit))
+ref1 <- cbk.read.dataframe(cbk.path("ref1.dataframe"),tableunit)
 
 #' ----------------
-#'* setup constants
+#'* SETUP CONSTANTS
 #' ----------------
 stonelist        <- rownames(tbl0)
 stoneindex       <- 1:nrow(tbl0)
@@ -48,7 +50,7 @@ REElist          <- c('La','Ce','Pr','Nd','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm
 subchemlist      <- intersect(REElist,chemlist)
 
 #' ----------------
-#'* parse full and partial
+#'* PARSE FULL AND PARTIAL
 #' ----------------
 
 #' full
@@ -58,7 +60,8 @@ XX0              <- sort(property)
 XX               <- 1:length(XX0)
 names(XX)        <- names(XX0)
 ZZ               <- tbl0[,names(XX),drop=FALSE]
-CI               <- ref0['Wasson 1988',names(XX)]
+## CI            <- ref0['Wasson.1988',names(XX)]
+CI               <- cbk.vector(ref1['Wasson.1988',names(XX)])
 YY               <- t(ZZ) / CI
 
 #' partial
@@ -66,11 +69,12 @@ property1        <- periodic[subchemlist,'atomicnumber'] # atomicnumber, volatil
 names(property1) <- subchemlist
 XX1              <- sort(property1)
 ZZ1              <- tbl0[,names(XX1),drop=FALSE]
-CI1              <- ref0['Wasson 1988',names(XX1)]
+## CI1           <- ref0['Wasson.1988',names(XX1)]
+CI1              <- cbk.vector(ref1['Wasson.1988',names(XX1)])
 YY1              <- t(ZZ1) / CI1
 
 #' ----------------
-#'* plots spider and ree
+#'* PLOTS SPIDER AND REE
 #' ----------------
 par(mar=c(4.5,4.5,0.5,0.5),mfrow=c(2,1)) # c(bottom,left,top,right) c(5.1,4.1,4.1,2.1)
 
@@ -92,7 +96,7 @@ box(lwd=1)
 legend('bottomright',stonelist,lty=1,pch=stoneindex,col=stoneindex,ncol=4,cex=0.5)
 
 #' ----------------
-#'* closing remark
+#'* CLOSING REMARK
 #' ----------------
 dev.off()
 cbk.exec(rplotfile)
