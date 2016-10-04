@@ -8,8 +8,8 @@
 #'* opening remarks
 #' ----------------
 library('chelyabinsk') # library(devtools); install_github('misasa/chelyabinsk')
-## infile <- "example.dataframe" # for debug
-infile <- "<%= File.basename(dataframe_path,'*') -%>"
+infile <- "example.dataframe" # for debug
+## infile <- "<%= File.basename(dataframe_path,'*') -%>"
 rplotfile <- sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf")
 pdf(rplotfile)
 
@@ -95,4 +95,4 @@ legend('bottomright',stonelist,lty=1,pch=stoneindex,col=stoneindex,ncol=4,cex=0.
 #'* closing remark
 #' ----------------
 dev.off()
-## cbk.exec(rplotfile)
+cbk.exec(rplotfile)
