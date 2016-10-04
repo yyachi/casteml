@@ -29,10 +29,10 @@ tbl0 <- cbk.read.dataframe(infile,tableunit)
 periodic <- read.csv(cbk.path('periodic-table.csv'),header=T,row.names=1)
 
 #' load reference dataset
-#' element abundances from reference in ug/g unit
-#' - Wasson, J. T., and Kallemeyn, G. W. (1988). Compositions of chondrites. Phil. Trans. Roy. Soc. London A, 325, 535–544.
-#' - McDonough, W., and Sun, S. (1995). The composition of the earth. Chemical Geology, 120(3-4), 223–253.
-#' - Janousek, V. et al. (2015). Geochemical Modelling of Igneous Processes--Principles And Recipes in R Language. Springer
+#' Element abundances are from [1, 2, 3] in ug/g unit.
+#' [1] Wasson, J. T., and Kallemeyn, G. W. (1988). Compositions of chondrites. Phil. Trans. Roy. Soc. London A, 325, 535–544.
+#' [2] McDonough, W., and Sun, S. (1995). The composition of the earth. Chemical Geology, 120(3-4), 223–253.
+#' [3] Janousek, V. et al. (2015). Geochemical Modelling of Igneous Processes--Principles And Recipes in R Language. Springer
 ## refin <- data.frame(row.names = elementlist)
 ## refin[,'Wasson.1988']    <- cbk.ref("Wasson.1988",    atomicnumber) / 1000000
 ## refin[,'McDonough.1995'] <- cbk.ref("McDonough.1995", atomicnumber) / 1000000
