@@ -26,7 +26,8 @@ tbl0 <- cbk.read.dataframe(infile,tableunit)
 ## periodic[,'atomicnumber']  <- atomicnumber
 ## periodic[,'volatility']    <- cbk.periodic('volatility')[elementlist]
 ## periodic[,'compatibility'] <- cbk.periodic('compatibility')[elementlist]
-periodic <- read.csv(cbk.path('periodic-table.csv'),header=T,row.names=1)
+## periodic <- read.csv(cbk.path('periodic-table.csv'),header=T,row.names=1)
+periodic <- cbk.periodic()
 
 #' load reference dataset
 #' Element abundances are from [1, 2, 3] in ug/g unit.
