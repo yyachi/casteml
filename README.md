@@ -4,7 +4,7 @@ Provide a comprehensive utility for CASTEML
 
 # Dependency
 
-## [medusa_rest_client](https://github.com/misasa/medusa_rest_client "follow instruction")
+## [gem package -- medusa_rest_client](https://github.com/misasa/medusa_rest_client "follow instruction")
 ## [R package -- chelyabinsk](https://github.com/misasa/chelyabinsk "follow instruction")
 
 # Installation
