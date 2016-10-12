@@ -1,25 +1,27 @@
 #!/usr/bin/env Rscript
-#' DOS> cd %HOME%/devel-godigo/casteml/template/plot/
-#' DOS> casteml download -R 20130528105235-594267 > example.pml
-#' DOS> casteml plot example.pml -c trace --template-file trace.R.erb
-#' DOS> open example_trace.pdf
+### DOS> cd %HOME%/devel-godigo/casteml/template/plot/
+### DOS> casteml download -R 20130528105235-594267 > example.pml
+### DOS> casteml plot example.pml -c trace --template-file trace.R.erb
+### DOS> open example_trace.pdf
 
-#' ----------------
-#'* OPENING REMARKS
-#' ----------------
+### ----------------
+###* OPENING REMARK
+### ----------------
 library('chelyabinsk') # library(devtools); install_github('misasa/chelyabinsk')
 ## infile <- "example.dataframe" # for debug
+## infile <- cbk.casteml.convert(cbk.casteml.download("20081202172326.hkitagawa"),"trace") # for debug
+
 infile <- "<%= File.basename(dataframe_path,'*') -%>"
 rplotfile <- sprintf("%s.%s",sub("\\.[[:alnum:]]+$","",infile),"pdf")
 pdf(rplotfile)
 
-#' unit definition
+### unit definition
 tableunit        <- "ug/g"
 
-#' load dataset from csvfile with unit
+### load dataset from csvfile with unit
 tbl0 <- cbk.read.dataframe(infile,tableunit)
 
-#' load periodic table
+### load periodic table
 ## atomicnumber <- cbk.periodic('atomicnumber')
 ## elementlist  <- names(atomicnumber) # all elements
 ## periodic <- data.frame(row.names = elementlist)
@@ -29,11 +31,11 @@ tbl0 <- cbk.read.dataframe(infile,tableunit)
 ## periodic <- read.csv(cbk.path('periodic-table.csv'),header=T,row.names=1)
 periodic <- cbk.periodic()
 
-#' load reference dataset
-#' Element abundances are from [1, 2, 3] in ug/g unit.
-#' [1] Wasson, J. T., and Kallemeyn, G. W. (1988). Compositions of chondrites. Phil. Trans. Roy. Soc. London A, 325, 535–544.
-#' [2] McDonough, W., and Sun, S. (1995). The composition of the earth. Chemical Geology, 120(3-4), 223–253.
-#' [3] Janousek, V. et al. (2015). Geochemical Modelling of Igneous Processes--Principles And Recipes in R Language. Springer
+### load reference dataset
+### Element abundances are from [1, 2, 3] in ug/g unit.
+### [1] Wasson, J. T., and Kallemeyn, G. W. (1988). Compositions of chondrites. Phil. Trans. Roy. Soc. London A, 325, 535–544.
+### [2] McDonough, W., and Sun, S. (1995). The composition of the earth. Chemical Geology, 120(3-4), 223–253.
+### [3] Janousek, V. et al. (2015). Geochemical Modelling of Igneous Processes--Principles And Recipes in R Language. Springer
 ## refin <- data.frame(row.names = elementlist)
 ## refin[,'Wasson.1988']    <- cbk.ref("Wasson.1988",    atomicnumber) / 1000000
 ## refin[,'McDonough.1995'] <- cbk.ref("McDonough.1995", atomicnumber) / 1000000
@@ -41,20 +43,20 @@ periodic <- cbk.periodic()
 ## ref0 <- (t(refin) * cbk.convector(tableunit))
 ref1 <- cbk.read.dataframe(cbk.path("ref1.dataframe"),tableunit)
 
-#' ----------------
-#'* SETUP CONSTANTS
-#' ----------------
+### ----------------
+###* SETUP CONSTANTS
+### ----------------
 stonelist        <- rownames(tbl0)
 stoneindex       <- 1:nrow(tbl0)
 chemlist         <- colnames(tbl0)
 REElist          <- c('La','Ce','Pr','Nd','Sm','Eu','Gd','Tb','Dy','Ho','Er','Tm','Yb','Lu');
 subchemlist      <- intersect(REElist,chemlist)
 
-#' ----------------
-#'* PARSE FULL AND PARTIAL
-#' ----------------
+### ----------------
+###* PARSE FULL AND PARTIAL
+### ----------------
 
-#' full
+### full
 property         <- periodic[chemlist,'atomicnumber'] # atomicnumber, volatility, compatibility
 names(property)  <- chemlist
 XX0              <- sort(property)
@@ -65,7 +67,7 @@ ZZ               <- tbl0[,names(XX),drop=FALSE]
 CI               <- cbk.vector(ref1['Wasson.1988',names(XX)])
 YY               <- t(ZZ) / CI
 
-#' partial
+### partial
 property1        <- periodic[subchemlist,'atomicnumber'] # atomicnumber, volatility, compatibility
 names(property1) <- subchemlist
 XX1              <- sort(property1)
@@ -74,12 +76,12 @@ ZZ1              <- tbl0[,names(XX1),drop=FALSE]
 CI1              <- cbk.vector(ref1['Wasson.1988',names(XX1)])
 YY1              <- t(ZZ1) / CI1
 
-#' ----------------
-#'* PLOTS SPIDER AND REE
-#' ----------------
+### ----------------
+###* PLOTS SPIDER AND REE
+### ----------------
 par(mar=c(4.5,4.5,0.5,0.5),mfrow=c(2,1)) # c(bottom,left,top,right) c(5.1,4.1,4.1,2.1)
 
-#' full
+### full
 matplot(XX,YY,log="y",type="o",lty=1,pch=stoneindex,
      xlab='',ylab='ZZ/CI',axes=FALSE)
 axis(1,at=XX,labels=names(XX),cex.axis=0.9,las=2)
@@ -87,7 +89,7 @@ axis(2,axTicks(2),axTicks(2))
 abline(h=1,lty=2)
 box(lwd=1)
 
-#' pertial
+### pertial
 matplot(XX1,YY1,log="y",type="o",lty=1,pch=stoneindex,
      xlab='',ylab='ZZ/CI',axes=FALSE)
 axis(1,at=XX1,labels=names(XX1),cex.axis=0.9,las=2)
@@ -96,8 +98,8 @@ abline(h=1,lty=2)
 box(lwd=1)
 legend('bottomright',stonelist,lty=1,pch=stoneindex,col=stoneindex,ncol=4,cex=0.5)
 
-#' ----------------
-#'* CLOSING REMARK
-#' ----------------
+### ----------------
+###* CLOSING REMARK
+### ----------------
 dev.off()
 cbk.exec(rplotfile)
