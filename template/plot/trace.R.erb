@@ -37,9 +37,9 @@ periodic <- cbk.periodic()
 ### [2] McDonough, W., and Sun, S. (1995). The composition of the earth. Chemical Geology, 120(3-4), 223–253.
 ### [3] Janousek, V. et al. (2015). Geochemical Modelling of Igneous Processes--Principles And Recipes in R Language. Springer
 ## refin <- data.frame(row.names = elementlist)
-## refin[,'Wasson.1988']    <- cbk.ref("Wasson.1988",    atomicnumber) / 1000000
-## refin[,'McDonough.1995'] <- cbk.ref("McDonough.1995", atomicnumber) / 1000000
-## refin[,'Boynton.1989']   <- cbk.ref("Boynton.1989",   atomicnumber) / 1000000
+## refin[,'Wasson.1988']    <- cbk.ref("Wasson.1988","ppm",    atomicnumber) / 1000000
+## refin[,'McDonough.1995'] <- cbk.ref("McDonough.1995","ppm", atomicnumber) / 1000000
+## refin[,'Boynton.1989']   <- cbk.ref("Boynton.1989","ppm",   atomicnumber) / 1000000
 ## ref0 <- (t(refin) * cbk.convector(tableunit))
 ref1 <- cbk.read.dataframe(cbk.path("ref1.dataframe"),tableunit)
 
