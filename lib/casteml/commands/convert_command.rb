@@ -84,9 +84,9 @@ Format:
                the column should be specified in parenthesis following
                the name of chem (ie, `SiO2 (wt%)' instead of `SiO2').
                See `text' column of list in
-               `http://medusa-uri/stone/units'.  instead, you can use
-               a dedicated second row (or line) for unit.  ROWNAME
-               SHOULD BE EMPTY.
+               `http://medusa-uri/stone/units'.  Instead, you can use
+               a dedicated second row (or line) for unit.  LABEL of
+               row (or line) SHOULD BE EMPTY.
 
                You can completely flip row and column.
     tsv:       Tab Separated Values (TSV) supported as input.
