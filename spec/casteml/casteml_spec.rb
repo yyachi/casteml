@@ -92,6 +92,24 @@ module Casteml
 			#expect(Casteml).to receive(:convert_file).with(path, {:output_format => :dataframe, :with_category => 'isotope (delta)'})
 		end
 
+
+		context "with vs_coordinate and output dataframe", :current => true do
+			subject { Casteml.convert_file(path, opts)}
+			let(:path){ 'tmp/20160820170853-707954.pml' }
+#			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
+			let(:opts){ {:with_category => category, :output_format => :dataframe } }
+			let(:category){ "oxygen" }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				expect(subject).not_to match(/^x_vs/)
+				expect(subject).not_to match(/^y_vs/)
+				expect(subject).to match(/d18O/)
+			}
+			#expect(Casteml).to receive(:convert_file).with(path, {:output_format => :dataframe, :with_category => 'isotope (delta)'})
+		end
 		context "without category and output dataframe" do
 			subject { Casteml.convert_file(path, opts)}
 #			let(:path){ 'tmp/20110203165130-611-312.pml' }
