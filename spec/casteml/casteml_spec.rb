@@ -93,7 +93,7 @@ module Casteml
 		end
 
 
-		context "with vs_coordinate and output dataframe", :current => true do
+		context "with vs_coordinate and output dataframe" do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20160820170853-707954.pml' }
 #			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
@@ -129,7 +129,7 @@ module Casteml
 		end
 
 
-		context "with unit_separate and output csv", :current => true do
+		context "with unit_separate and output csv" do
 			subject { Casteml.convert_file(path, opts)}
 #			let(:path){ 'tmp/20110203165130-611-312.pml' }
 			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
@@ -514,8 +514,11 @@ module Casteml
 			}
 		end
 
-		context "with output_format = :pdf" do
+		context "with output_format = :pdf", :current => true do
 			let(:opts){ {:output_format => :pdf}}
+			before do
+				allow(Casteml).to receive(:compile_tex)
+			end
 			it {
 				expect(Formats::TexFormat).to receive(:to_string).with(data, {}).and_return("Hello World")
 				Casteml.encode(data, opts)
