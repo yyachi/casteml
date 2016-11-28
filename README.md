@@ -4,8 +4,10 @@ Provide a comprehensive utility for CASTEML
 
 # Dependency
 
+## [Ruby](https://www.ruby-lang.org "follow instruction")
+Ruby should be later than 2.1.
+
 ## [gem package -- medusa_rest_client](https://github.com/misasa/medusa_rest_client "follow instruction")
-## [R package -- chelyabinsk](https://github.com/misasa/chelyabinsk "follow instruction")
 
 # Installation
 
