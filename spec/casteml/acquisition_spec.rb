@@ -31,7 +31,7 @@ module Casteml
 				it { expect(subject.bibliography_uid).to be_eql(bibliography_uid)}				
 			end
 
-			context "with download type attrib", :current => true do
+			context "with download type attrib" do
 			 	let(:attrib){ {
 			 					:global_id => global_id,
 			 					:name => session, 

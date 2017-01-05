@@ -11,7 +11,7 @@ module Casteml
 		let(:label){ 'label'}
 		let(:info){ 'info'}
 
-		describe ".precision", :current => true do
+		describe ".precision" do
 			subject { Abundance.precision(data, error) }
 			let(:data){ 12.3456789 }
 			context "with error 0.03" do
@@ -83,7 +83,7 @@ module Casteml
 				it { expect(subject.info).to be_eql(info)}				
 			end
 
-			context "with error NAN and unit", :current => true do
+			context "with error NAN and unit" do
 				let(:attrib){ {:nickname => nickname, :data => data, :unit => unit, :error => error, :label => label, :info => info } }			
 				let(:data){ "12.3456" }
 				let(:error){ "NAN" }

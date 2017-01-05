@@ -126,7 +126,7 @@ module Casteml
 
 		end
 
-		describe ".number_to", :current => true do
+		describe ".number_to" do
 			subject { klass.number_to(number, unit) }
 			let(:klass){ Class.new.extend(NumberHelper) }
 			let(:number){ 0.33333 }
@@ -144,7 +144,7 @@ module Casteml
 			end
 		end
 
-		describe ".number_from", :current => true do
+		describe ".number_from" do
 			subject { klass.number_from(number, unit) }
 
 			let(:klass){ Class.new.extend(NumberHelper) }

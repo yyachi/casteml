@@ -15,18 +15,15 @@ module Casteml
 			#klass.set_remote_class(remote_class)
 		end
 
-		describe ".record_pool", :current => true do
+		describe ".record_pool" do
 			subject { klass.record_pool }
-			before do
-				p subject
-			end
 			it {
 				expect(subject).to be_present
 			}
 		end
 
 
-		describe ".record_pool", :current => false do
+		describe ".record_pool" do
 			subject { klass.record_pool }
 			let(:name){ 'deleteme-1' }
 			before do

@@ -48,7 +48,7 @@ module Casteml::Commands
 				}
 			end
 
-			context "with --no-unit", :current => true do
+			context "with --no-unit" do
 				subject{ cmd.invoke_with_build_args args, build_args }
 				let(:path){ 'tmp/mytable.tsv'}
 				let(:data){ double('data').as_null_object }
@@ -67,7 +67,7 @@ module Casteml::Commands
 				}
 			end
 
-			context "with unit '%'", :current => true do
+			context "with unit '%'" do
 				subject{ cmd.invoke_with_build_args args, build_args }
 				let(:path){ 'tmp/mytable.tsv'}
 				let(:data){ double('data').as_null_object }

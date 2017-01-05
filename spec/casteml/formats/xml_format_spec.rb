@@ -51,7 +51,7 @@ module Casteml::Formats
 				}			
 		end
 
-		describe ".elem_to_hash", :current => true do
+		describe ".elem_to_hash" do
 			subject{ XmlFormat.elem_to_hash(doc.root) }
 			let(:doc){ REXML::Document.new xml }
 

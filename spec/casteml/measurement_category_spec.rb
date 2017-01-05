@@ -14,27 +14,23 @@ module Casteml
 			#klass.set_remote_class(remote_class)
 		end
 
-		describe ".dump_path", :current => true do
+		describe ".dump_path" do
 			subject { klass.dump_path }
 			it {
 				expect(subject).to be_present
 			}
 		end
 
-		describe ".record_pool", :current => true do
+		describe ".record_pool" do
 			subject { klass.record_pool }
-			before do
-				p subject
-			end
 			it {
 				expect(subject).to be_present
 			}
 		end
 
-		describe "#nicknames", :current => true do
+		describe "#nicknames" do
 			let(:obj){klass.find_by_name('trace')}
 			before do
-				p obj.nicknames
 			end
 			it {
 				expect(obj.nicknames).to be_present
@@ -42,7 +38,7 @@ module Casteml
 		end
 
 
-		describe ".record_pool", :current => false do
+		describe ".record_pool" do
 			subject { klass.record_pool }
 			let(:name){ 'deleteme-1' }
 			before do

@@ -91,7 +91,7 @@ module Casteml
 			let(:tech1){ double('tech-1', :id => 1, :name => 'tech-1').as_null_object }
 			let(:tech2){ double('tech-2', :id => 2, :name => 'tech-2').as_null_object }
 			let(:tech3){ double('tech-3', :id => 3, :name => 'tech-3').as_null_object }
-			context "with empty record_pool", :current => true do
+			context "with empty record_pool" do
 				before do
 					klass.record_pool = []
 				end

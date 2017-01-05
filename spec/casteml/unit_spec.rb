@@ -27,7 +27,7 @@ module Casteml
 			}
 		end
 
-		describe ".find_by_name_or_text", :current => true do
+		describe ".find_by_name_or_text" do
 			subject { klass.find_by_name_or_text(name_or_text) }
 			let(:name_or_text){ name }
 			let(:name){ 'centi_gram_per_gram' }

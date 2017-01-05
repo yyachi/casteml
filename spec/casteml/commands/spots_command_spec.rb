@@ -60,7 +60,7 @@ module Casteml::Commands
 
 				end
 
-				context "and abundance and isotope", :current => true do
+				context "and abundance and isotope" do
 					let(:args){ [pmlfile, abundance, isotope, "-d"] }
 					let(:abundance){ "Li" }
 					let(:isotope){ "d7Li"}

@@ -44,7 +44,7 @@ module Casteml::Commands
 				end
 			end
 
-			context "without options", :current => true do
+			context "without options" do
 				subject { cmd.invoke_with_build_args args, build_args }
 
 				let(:path){ 'tmp/20130528105235-594267-R.pml'}

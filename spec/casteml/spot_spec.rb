@@ -33,7 +33,7 @@ module Casteml
 
 		end
 
-		describe "#spot_x", :current => true do
+		describe "#spot_x" do
 			subject{ obj.spot_x }
 			let(:attrib){ {:x_image => x_image }}
 			let(:obj){ Spot.new(attrib) }
@@ -79,7 +79,7 @@ module Casteml
 
 		end
 
-		describe "#spot_y", :current => true do
+		describe "#spot_y" do
 			subject{ obj.spot_y }
 			let(:attrib){ {:y_image => y_image }}
 			let(:obj){ Spot.new(attrib) }

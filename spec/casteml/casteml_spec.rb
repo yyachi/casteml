@@ -93,19 +93,22 @@ module Casteml
 		end
 
 
-		context "with vs_coordinate and output dataframe" do
+		context "with vs_coordinate and output dataframe", :current => true do
 			subject { Casteml.convert_file(path, opts)}
-			let(:path){ 'tmp/20160820170853-707954.pml' }
+			#let(:path){ 'tmp/20160820170853-707954.pml' }
+			let(:path){ 'tmp/20160819165624-372633.pml'}
 #			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
 			let(:opts){ {:with_category => category, :output_format => :dataframe } }
 			let(:category){ "oxygen" }
 			before do
 				setup_empty_dir('tmp')
 				setup_file(path)
+				#puts subject
 			end
 			it {
-				expect(subject).not_to match(/^x_vs/)
-				expect(subject).not_to match(/^y_vs/)
+				expect(subject).to match(/^x_vs/)
+				expect(subject).to match(/^y_vs/)
+				expect(subject).not_to match(/^spot_attachment_file_path/)				
 				expect(subject).to match(/d18O/)
 			}
 			#expect(Casteml).to receive(:convert_file).with(path, {:output_format => :dataframe, :with_category => 'isotope (delta)'})
@@ -514,7 +517,7 @@ module Casteml
 			}
 		end
 
-		context "with output_format = :pdf", :current => true do
+		context "with output_format = :pdf" do
 			let(:opts){ {:output_format => :pdf}}
 			before do
 				allow(Casteml).to receive(:compile_tex)
