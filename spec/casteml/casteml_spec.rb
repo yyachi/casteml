@@ -108,6 +108,10 @@ module Casteml
 			it {
 				expect(subject).to match(/^x_vs/)
 				expect(subject).to match(/^y_vs/)
+				expect(subject).to match(/^sample_id/)
+				expect(subject).to match(/^analysis_id/)
+				expect(subject).to match(/^image_id/)
+				expect(subject).to match(/^image_path/)
 				expect(subject).not_to match(/^spot_attachment_file_path/)				
 				expect(subject).to match(/d18O/)
 			}
