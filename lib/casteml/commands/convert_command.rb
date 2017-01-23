@@ -99,7 +99,9 @@ Format:
                `element'.  Each stone and chem is on each column and
                row, respectively but second column is dedicated for
                unit with colname `unit'.
-   tex:        Text of table dedicated for LaTeX input.
+   tex:        Text of table dedicated for LaTeX input.  Define label used for
+               convertion at `http://medusa-uri/app/measurement_items'.  You have
+               to clear local cache as instructed in `casteml --verion'.
    pdf:        PDF with table that is created based on output with '-f tex' option.
 EOF
 	end
