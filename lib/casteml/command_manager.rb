@@ -145,7 +145,8 @@ configuration:
    #{Casteml::Unit.dump_path}
    #{Casteml::MeasurementItem.dump_path}
    #{Casteml::MeasurementCategory.dump_path}
-  *Delete the cache files to update.
+
+To update configuration, revise at Medusa and issue `casteml --refresh' locally.
 EOF
 	end
 
