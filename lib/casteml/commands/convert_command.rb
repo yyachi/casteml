@@ -58,7 +58,7 @@ EOS
 		<<-EOF
     Convert (pml csv tsv isorg)
          to (pml csv tsv isorg dataframe tex pdf).
-    The converted datasets are wrote out to standard output.  Use
+    The converted datasets are written out to standard output.  Use
     redirect to save as file.
 
     See how pmlfile with analysis looks like by following command.

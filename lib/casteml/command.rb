@@ -53,7 +53,7 @@ EOS
     def implementation
       <<-EOS
     Orochi, version 9
-    Copyright (C) 2015 Okayama University
+    Copyright (C) 2015-2017 Okayama University
     License GPLv3+: GNU GPL version 3 or later
 EOS
     end
