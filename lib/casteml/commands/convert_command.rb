@@ -84,7 +84,7 @@ Format:
                the column should be specified in parenthesis following
                the name of chem (ie, `SiO2 (wt%)' instead of `SiO2').
                See `text' column of list in
-               `http://medusa-uri/stone/units'.  Instead, you can use
+               `http://medusa-uri/app/units'.  Instead, you can use
                a dedicated second row (or line) for unit.  LABEL of
                row (or line) SHOULD BE EMPTY.
 
