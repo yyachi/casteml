@@ -147,6 +147,7 @@ configuration:
    #{Casteml::MeasurementCategory.dump_path}
 
 To update configuration, revise at Medusa and issue `casteml --refresh' locally.
+When still conversion does not work as expected, re-install gem `alchemist'.
 EOF
 	end
 
