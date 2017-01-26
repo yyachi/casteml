@@ -170,7 +170,7 @@ module Casteml
     when :tsv
       string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "\t"))
     when :dataframe
-      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => true, :omit_null => true, :unit_separate => true, :omit_description => true))
+      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => false, :omit_null => true, :unit_separate => true, :omit_description => true))
       string = Formats::CsvFormat.transpose(string)
       string.gsub!(/\s\(.*\)/,"")
       string.sub!(/session/,"element")

@@ -88,6 +88,7 @@ module Casteml
 			end
 			it {
 				expect(subject).to match(/d18O/)
+				expect(subject).to match(/d18O_error/)				
 			}
 			#expect(Casteml).to receive(:convert_file).with(path, {:output_format => :dataframe, :with_category => 'isotope (delta)'})
 		end

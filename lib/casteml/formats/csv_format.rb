@@ -182,7 +182,14 @@ module Casteml::Formats
 				end
 			end
 
-			column_names = hashs.first.keys
+			attrib_keys = []
+			#column_names = hashs.first.keys
+			hashs.each do |hash|
+				attrib_keys.concat(hash.keys)
+				attrib_keys.uniq!
+			end
+
+			column_names = attrib_keys.dup
 			column_names.concat(spot_methods) unless without_spot
 			if unit_separate
 				unit_names = hashs.first.keys.map{|key| ""}
@@ -217,7 +224,8 @@ module Casteml::Formats
 				csv << unit_names if unit_separate
 				hashs.each_with_index do |h, idx|
 				  next if omit_null && omit_ids.include?(idx)
-					row = h.values
+#					row = h.values
+					row = attrib_keys.map{|key| h.has_key?(key) ? h[key]: nil }
 					row.concat(array_of_spot_data[idx]) unless without_spot
 					row.concat(array_of_data[idx].flatten)
 					csv << row

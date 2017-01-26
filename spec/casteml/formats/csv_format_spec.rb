@@ -107,6 +107,28 @@ ID,session,sample_name,SiO2 (cg/g),Al2O3 (cg/g),Li (ug/g),SiO2_error,Al2O3_error
 				}
 			end
 
+
+			context "with different attributes in each hashs" do
+				subject { CsvFormat.to_string(data, opts) }
+				let(:data){
+					[
+						{:session => 1, :abundances => [{:nickname => 'B', :data => '12.345', :unit => 'ug/g'},{:nickname => 'Lu', :data => '1.345', :unit => 'ug/g'}]},
+						{:session => 2, :device => 'hoge', :abundances => [{:nickname => 'SiO2', :data => '14.345', :unit => 'cg/g'},{:nickname => 'Li', :data => '0.00000001245', :unit => 'cg/g'}]},						
+						{:session => 3, :technique => 'hoo', :abundances => [{:nickname => 'Si', :data => '0.15345'},{:nickname => 'Lu', :data => '1.145', :unit => 'ug/g'}]},
+					]
+				}
+				let(:opts){ {:omit_null => true} }
+				before do
+					puts subject
+				end
+				it {
+					expect(subject).to match(/session,device,technique,*/)
+					expect(subject).to be_an_instance_of(String)
+					#expect(subject.split("\n").count).to be_eql(3)
+				}
+			end
+
+
 			context "with omit_null" do
 				subject { CsvFormat.to_string(data, opts) }
 				let(:data){
@@ -244,6 +266,7 @@ ID,session,sample_name,SiO2 (cg/g)
 				}
 				it { expect(subject).to be_falsey }				
 			end
+
 		end
 
         describe ".tsv2csv" do
