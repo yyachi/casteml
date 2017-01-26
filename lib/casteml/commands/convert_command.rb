@@ -85,7 +85,7 @@ Format:
                the name of chem (ie, `SiO2 (wt%)' instead of `SiO2').
                See `text' column of list in
                `http://medusa-uri/app/units'.  Instead, you can use
-               a dedicated second row (or line) for unit.  LABEL of
+               the dedicated second row (or line) for unit.  LABEL of
                row (or line) SHOULD BE EMPTY.
 
                You can completely flip row and column.
@@ -97,7 +97,7 @@ Format:
                for casteml input.  Similar to CSV but column and row
                are flipped.  The first line is header that starts with
                `element'.  Each stone and chem is on each column and
-               row, respectively but second column is dedicated for
+               row, respectively but the second column is dedicated for
                unit with colname `unit'.
    tex:        Text of table dedicated for LaTeX input.  Define label used for
                convertion at `http://medusa-uri/app/measurement_items'.  You have
