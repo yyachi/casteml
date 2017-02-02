@@ -71,6 +71,9 @@ EOS
     $ casteml convert 20160923194512-900008.pml | head
     $ open http://database.misasa.okayama-u.ac.jp/stone/attachment_files/48326.pml
 
+    This program relays on gem-package alchemist.  As of February
+    2017, the alchemist cannot handle wt%.  Use % or cg/g instead.
+
 Format:
     pml:       The standard CASTEML file.
     csv:       Comma Separated Values (CSV) supported as input.
