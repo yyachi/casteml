@@ -107,7 +107,10 @@ module Casteml::Formats
 	        	end
 	        end
 	        acquisitions.each do |acquisition|
-	        	
+	        	if acquisition.has_key?(:place)
+	        		place = acquisition.delete(:place)
+	        		acquisition[:place] = place if place.instance_of?(Hash)
+	        	end
 	        	if acquisition.has_key?(:spot)
 	        		spot = acquisition.delete(:spot)
 	        		acquisition[:spot] = spot if spot.instance_of?(Hash)

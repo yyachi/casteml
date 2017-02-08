@@ -15,7 +15,7 @@ EOS
 		super 'convert', '    Convert (pml csv tsv isorg) to (pml csv tsv org isorg dataframe tex pdf)' # Summary:
 
 		add_option('-f', '--format OUTFORMAT',
-						'Output format (pml csv tsv org isorg dataframe tex pdf)') do |v, options|
+						'Output format (pml csv tsv org isorg dataframe dflame tex pdf)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
 
@@ -49,6 +49,17 @@ EOS
 						'Specify unit on output format (csv tsv org isorg)') do |v, options|
 			options[:with_unit] = v
 		end
+
+    add_option('-p', '--place',
+            'Output with place') do |v, options|
+      options[:with_place] = v
+    end
+
+
+    # add_option('-e', '--error',
+    #         'Output with error') do |v, options|
+    #   options[:with_error] = v
+    # end
 		# add_option('-d', '--debug', 'Show debug information') do |v|
 		# 	options[:debug] = v
 		# end

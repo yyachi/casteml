@@ -117,9 +117,26 @@ module Casteml::Commands
 					end
 				end
 
+				context "with --descendants" do
+					let(:args){ [id, '--descendants']}
+					it "calls download with id" do
+						expect(Casteml).to receive(:get).with(id, {:recursive => :self_and_descendants}).and_return(xml)
+						expect(cmd).to receive(:output).with(Regexp.new("session"))
+						cmd.invoke_with_build_args args, build_args
+					end
+				end
 
 				context "with -R" do
 					let(:args){ [id, '-R']}
+					it "calls download with id" do
+						expect(Casteml).to receive(:get).with(id, {:recursive => :families}).and_return(xml)
+						expect(cmd).to receive(:output).with(Regexp.new("session"))						
+						cmd.invoke_with_build_args args, build_args
+					end
+				end
+
+				context "with --families" do
+					let(:args){ [id, '--families']}
 					it "calls download with id" do
 						expect(Casteml).to receive(:get).with(id, {:recursive => :families}).and_return(xml)
 						expect(cmd).to receive(:output).with(Regexp.new("session"))						

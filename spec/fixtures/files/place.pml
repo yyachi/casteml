@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<acquisition>
+  <global_id>20160721172314-723228</global_id>
+  <name>test-3</name>
+  <device>XRF</device>
+  <technique/>
+  <operator/>
+  <sample_global_id>20160721172253-974291</sample_global_id>
+  <sample_name>dd-2</sample_name>
+  <description/>
+  <spot>
+    <global_id>20160801165429-911175</global_id>
+    <attachment_file_global_id>20160730112143-602321</attachment_file_global_id>
+    <attachment_file_path>/system/attachment_files/0004/5685/ys_ol_ok11mc_2754_2760.jpg?1469845302</attachment_file_path>
+    <x_image>-16.395833333333357</x_image>
+    <y_image>-9.708333333333357</y_image>
+    <x_overpic>33.60416666666664</x_overpic>
+    <y_overpic>30.291666666666643</y_overpic>
+    <x_vs>189.29726666666647</x_vs>
+    <y_vs>-2199.2827125000003</y_vs>
+  </spot>
+  <place>
+    <global_id>20160107191328-747347</global_id>
+    <name>locality of NWA2376-B-1</name>
+    <longitude>-16.5572222222222</longitude>
+    <latitude>65.0041666666667</latitude>
+    <elevation/>
+    <description/>
+  </place>
+  <chemistries>
+    <analysis>
+      <nickname>CaO</nickname>
+      <value>56.7</value>
+      <unit>cg/g</unit>
+      <uncertainty/>
+      <label/>
+      <info/>
+    </analysis>
+    <analysis>
+      <nickname>SiO2</nickname>
+      <value>45.6</value>
+      <unit>cg/g</unit>
+      <uncertainty/>
+      <label/>
+      <info/>
+    </analysis>
+  </chemistries>
+</acquisition>

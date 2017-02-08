@@ -76,21 +76,27 @@ module Casteml::Formats
 		def self.to_string(hashs, opts = {})
 			array_of_abundances = []
 			array_of_spot = []
+			array_of_place = []
 
 			hashs.each do |h|
 				spot_attrib = h.delete(:spot)
+				place_attrib = h.delete(:place)
 				abundances = h.delete(:abundances)
 				array_of_spot << ( spot_attrib ? spot_attrib : nil )
+				array_of_place << ( place_attrib ? place_attrib : nil )
 				array_of_abundances << ( abundances ? abundances.map{|ab| Casteml::Abundance.new(ab) } : nil )
 			end
 
 			csv_opts = {}
 			csv_opts[:col_sep] = opts.delete(:col_sep) || ","
 
+			#with_error = opts.delete(:with_error)
 			without_error = opts.delete(:without_error)
 			with_unit = opts.delete(:with_unit)
 			unit_separate = opts.delete(:unit_separate)
 			without_spot = opts.delete(:without_spot)
+			with_place = opts.delete(:with_place) || false
+			without_place = with_place ? false : true
 			with_nicknames = opts.delete(:with_nicknames)
 			omit_null = opts.delete(:omit_null)
 			omit_description = opts.delete(:omit_description)
@@ -161,6 +167,7 @@ module Casteml::Formats
 				end
 				array_of_data << data
 			end
+
 			spot_keys = array_of_spot.compact.map{|spot| spot.keys }.flatten.uniq
 			spot_methods = spot_keys.map{|m| "spot_#{m}"}
 			array_of_spot_data = []
@@ -174,6 +181,18 @@ module Casteml::Formats
 				array_of_spot_data << data
 			end
 
+			place_keys = array_of_place.compact.map{|place| place.keys }.flatten.uniq
+			place_methods = place_keys.map{|m| "place_#{m}"}
+			array_of_place_data = []
+			array_of_place.each do |place|
+				data = Array.new(place_keys.size, nil)
+				if place
+					place_keys.each_with_index do |key, idx|
+						data[idx] = place[key]
+					end
+				end
+				array_of_place_data << data
+			end
 
 			if omit_null
 				omit_ids = []
@@ -191,9 +210,11 @@ module Casteml::Formats
 
 			column_names = attrib_keys.dup
 			column_names.concat(spot_methods) unless without_spot
+			column_names.concat(place_methods) unless without_place
 			if unit_separate
 				unit_names = hashs.first.keys.map{|key| ""}
 				unit_names.concat(spot_methods.map{|sp| ""}) unless without_spot
+				unit_names.concat(place_methods.map{|sp| ""}) unless without_place
 			end
 #			nicknames_with_unit = []
 			nicknames.each_with_index do |nickname, idx|
@@ -227,6 +248,7 @@ module Casteml::Formats
 #					row = h.values
 					row = attrib_keys.map{|key| h.has_key?(key) ? h[key]: nil }
 					row.concat(array_of_spot_data[idx]) unless without_spot
+					row.concat(array_of_place_data[idx]) unless without_place
 					row.concat(array_of_data[idx].flatten)
 					csv << row
 				end

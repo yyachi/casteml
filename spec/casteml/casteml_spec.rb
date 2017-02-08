@@ -14,14 +14,14 @@ module Casteml
 			context "specify %" do
 				let(:unit){ '%' }
 				it {
-					expect(Casteml).to receive(:encode).with(data, {:output_format => :csv, :with_unit => '%'})
+					expect(Casteml).to receive(:encode).with(data, {:output_format => :csv, :with_unit => '%', :without_error => false})
 					subject
 				}
 			end
 			context "specify false" do
 				let(:unit){ false }
 				it {
-					expect(Casteml).to receive(:encode).with(data, {:output_format => :csv, :with_unit => 'parts'})
+					expect(Casteml).to receive(:encode).with(data, {:output_format => :csv, :with_unit => 'parts', :without_error => false})
 					subject
 				}
 			end
@@ -75,6 +75,67 @@ module Casteml
 				expect(subject).to match(/average/)
 			}
 		end
+
+		context "with place and output dataframe" do
+			subject { Casteml.convert_file(path, opts)}
+			let(:path){ 'tmp/place.pml' }
+#			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
+			let(:opts){ {:with_place => true, :output_format => :dataframe } }
+			#let(:category){ "oxygen" }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				expect(subject).to match(/longitude/)
+			}			
+		end
+
+		context "without place and output dataframe" do
+			subject { Casteml.convert_file(path, opts)}
+			let(:path){ 'tmp/place.pml' }
+#			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
+			let(:opts){ {:output_format => :dataframe } }
+			#let(:category){ "oxygen" }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				expect(subject).not_to match(/longitude/)
+			}			
+		end
+
+		context "output dflame", :current => true do
+			subject { Casteml.convert_file(path, opts)}
+			let(:path){ 'tmp/place.pml' }
+#			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
+			let(:opts){ {:output_format => :dflame } }
+			#let(:category){ "oxygen" }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				expect(subject).to match(/_error/)
+			}			
+		end
+
+		context "without error and output dataframe" do
+			subject { Casteml.convert_file(path, opts)}
+			let(:path){ 'tmp/place.pml' }
+#			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
+			let(:opts){ {:without_error => true, :output_format => :dataframe } }
+			#let(:category){ "oxygen" }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				expect(subject).not_to match(/_error/)
+			}			
+		end
+
 
 		context "with category and output dataframe" do
 			subject { Casteml.convert_file(path, opts)}

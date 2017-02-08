@@ -61,6 +61,13 @@ module Casteml
   def self.convert_file(path, options = {})
     #opts[:type] = opts.delete(:format)
     opts = {}
+
+    if options[:with_place]
+      opts[:with_place] = options[:with_place]
+    end
+
+    opts[:without_error] = options[:without_error] || false
+
     if options[:with_average]
       opts[:with_average] = options[:with_average]
     end
@@ -169,14 +176,14 @@ module Casteml
       string = Formats::CsvFormat.to_string(data, opts)
     when :tsv
       string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "\t"))
-    when :dataframe
-      string = Formats::CsvFormat.to_string(data, opts.merge(:without_error => false, :omit_null => true, :unit_separate => true, :omit_description => true))
+    when :dataframe, :dflame
+      string = Formats::CsvFormat.to_string(data, opts.merge(:omit_null => true, :unit_separate => true, :omit_description => true))
       string = Formats::CsvFormat.transpose(string)
       string.gsub!(/\s\(.*\)/,"")
       string.sub!(/session/,"element")
       string.sub!(/name/,"element")
       string.sub!(/element,\"\"/,"element,unit")
-      string.sub!(/description.*\n/,"")      
+      string.sub!(/^description.*\n/,"")      
       string.gsub!(/spot\_global\_id.*\n/,"")
       #string.sub!(/spot\_attachment\_file\_global\_id.*\n/,"")
       string.sub!(/spot\_attachment\_file\_global\_id/,"image\_id")
@@ -189,6 +196,12 @@ module Casteml
       string.gsub!(/spot\_x\_vs/,"x\_vs")      
       string.gsub!(/spot\_y\_vs/,"y\_vs")                
 #      string.gsub!(/sample\_global\_id.*\n/,"")
+      string.gsub!(/place\_global\_id/,"place\_id")
+      string.gsub!(/place\_name.*\n/,"")
+      string.gsub!(/place\_longitude/,"longitude")
+      string.gsub!(/place\_latitude/,"latitude")
+      string.gsub!(/place\_elevation/,"elevation")
+      string.gsub!(/place\_description.*\n/,"")
       string.gsub!(/sample\_global\_id/,"sample\_id")      
       string.gsub!(/^global\_id.*\n/,"")
 #      string.gsub!(/^global\_id/,"analysis\_id")

@@ -20,12 +20,12 @@ EOS
 			options[:output_format] = v.to_sym
 		end
 
-		add_option('-r', '--recursive',
+		add_option('-r', '--descendants',
 						'Analyses with descendants of a stone') do |v|
 			options[:recursive] = :self_and_descendants
 		end
 
-		add_option('-R', '--Recursive',
+		add_option('-R', '--families',
 						'Analyses with a whole family of a stone') do |v|
 			options[:recursive] = :families
 		end
