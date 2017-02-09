@@ -13,27 +13,27 @@ EOS
 	end
 
     def initialize
-		super 'download', '    Download pmlfile from Medusa' # Summary:
+	  super 'download', '    Download pmlfile from Medusa' # Summary:
 
-		add_option('-f', '--format OUTFORMAT',
-						'Output format (pml, csv, tsv, org, isorg, tex, pdf, dataframe)') do |v, options|
-			options[:output_format] = v.to_sym
-		end
+	  add_option('-f', '--format OUTFORMAT',
+				 'Output format (pml, csv, tsv, org, isorg, tex, pdf, dataframe)') do |v, options|
+		options[:output_format] = v.to_sym
+	  end
 
-		add_option('-r', '--descendants',
-						'Analyses with descendants of a stone') do |v|
-			options[:recursive] = :self_and_descendants
-		end
+	  add_option('-r', '--descendant',
+				 'Analyses with descendants of a stone') do |v|
+		options[:recursive] = :self_and_descendants
+	  end
 
-		add_option('-R', '--families',
-						'Analyses with a whole family of a stone') do |v|
-			options[:recursive] = :families
-		end
+	  add_option('-R', '--family',
+				 'Analyses with a whole family of a stone') do |v|
+		options[:recursive] = :families
+	  end
 
-		add_option('-n', '--number-format NUMFORMAT',
-						'Number format (%.4g)') do |v, options|
-			options[:number_format] = v
-		end
+	  add_option('-n', '--number-format NUMFORMAT',
+				 'Number format (%.4g)') do |v, options|
+		options[:number_format] = v
+	  end
 	end
 
 	def description
