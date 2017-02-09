@@ -12,63 +12,63 @@ class Casteml::Commands::ConvertCommand < Casteml::Command
 EOS
 	end
     def initialize
-		super 'convert', '    Convert (pml csv tsv isorg) to (pml csv tsv org isorg dataframe tex pdf)' # Summary:
+		super 'convert', '    Convert (pml csv tsv isorg) to (pml csv tsv org isorg dflame tex pdf)' # Summary:
 
 		add_option('-f', '--format OUTFORMAT',
-						'Output format (pml csv tsv org isorg dataframe dflame tex pdf)') do |v, options|
+				   'Output format (pml csv tsv org isorg dflame tex pdf)') do |v, options|
 			options[:output_format] = v.to_sym
 		end
 
 		add_option('-n', '--number-format FORMAT',
-						'Number format (%.4g)') do |v, options|
+				   'Number format (%.4g)') do |v, options|
 			options[:number_format] = v
 		end
 		# MeasurementCategory.find_all
 		category_names = Casteml::MeasurementCategory.record_pool.map{|category| "'" + category.name + "'"}
 		add_option('-c', '--category CATEGORY',
-						"Only pass measurement category of (#{category_names.join(', ')})") do |v, options|
+				   "Only pass measurement category of (#{category_names.join(', ')})") do |v, options|
 			options[:with_category] = v
 		end
 
 		add_option('-t', '--transpose',
-						'Transpose row and column on output format (csv tsv org isorg tex)') do |v, options|
+				   'Transpose row and column on output format (csv tsv org isorg tex)') do |v, options|
 			options[:transpose] = v
 		end
 
 		add_option('-a', '--average',
-						'Output with average') do |v, options|
+				   'Output with average') do |v, options|
 			options[:with_average] = v
 		end
 
 		add_option('-s', '--smash',
-						'Only output average') do |v, options|
+				   'Only output average') do |v, options|
 			options[:smash] = v
 		end
 
 		add_option('--[no-]unit [UNIT]',
-						'Specify unit on output format (csv tsv org isorg)') do |v, options|
+				   'Specify unit on output format (csv tsv org isorg)') do |v, options|
 			options[:with_unit] = v
 		end
 
-    add_option('-p', '--place',
-            'Output with place') do |v, options|
-      options[:with_place] = v
-    end
+        add_option('-p', '--place',
+                   'Export also place (latitude, longitude, elevation)') do |v, options|
+          options[:with_place] = v
+        end
 
-
-    # add_option('-e', '--error',
-    #         'Output with error') do |v, options|
-    #   options[:with_error] = v
-    # end
+        # add_option('-e', '--error',
+        #            'Output with error') do |v, options|
+        #   options[:with_error] = v
+        # end
+        
 		# add_option('-d', '--debug', 'Show debug information') do |v|
-		# 	options[:debug] = v
+		#   options[:debug] = v
 		# end
 	end
 
 	def description
 		<<-EOF
     Convert (pml csv tsv isorg)
-         to (pml csv tsv isorg dataframe tex pdf).
+         to (pml csv tsv isorg dflame tex pdf).
     The converted datasets are written out to standard output.  Use
     redirect to save as file.
 
@@ -107,14 +107,14 @@ Format:
                Same as csv but delimiter.
     isorg:     ORG format supported as input.
                Same as csv but delimiter.
-    dataframe: Comma Separated Values (CSV) dedicated for R input, not
+    dflame     Comma Separated Values (CSV) dedicated for R input, not
                for casteml input.  Similar to CSV but column and row
                are flipped.  The first line is header that starts with
                `element'.  Each stone and chem is on each column and
                row, respectively but the second column is dedicated for
                unit with colname `unit'.
    tex:        Text of table dedicated for LaTeX input.  Define label used for
-               convertion at `http://medusa-uri/app/measurement_items'.  You have
+               conversion at `http://medusa-uri/app/measurement_items'.  You have
                to clear local cache by `casteml --refresh'.
    pdf:        PDF with table that is created based on output with '-f tex' option.
 EOF
@@ -128,10 +128,10 @@ EOF
     $ casteml convert -f csv --unit 'cg/g' 20081202172326.pml > 20081202172326.csv
     $ casteml convert -f csv --no-unit 20081202172326.pml > 20081202172326.csv
     $ casteml convert -f tex -n %.5g 20081202172326.pml > 20081202172326.tex
-    $ casteml convert -f dataframe 20081202172326.pml > 20081202172326.dataframe
+    $ casteml convert -f dflame 20081202172326.pml > 20081202172326-dflame0.csv
 
-    R> dffile <- '20081202172326.dataframe'
-    R> df0    <- read.csv(dffile,row.names=1,header=T,stringsAsFactors=F)
+    R> file    <- '20081202172326-dflame0.csv'
+    R> pmlame0 <- read.csv(file,row.names=1,header=T,stringsAsFactors=F)
 EOS
 	end
 
@@ -160,7 +160,7 @@ EOS
 
     	string = Casteml.convert_file(path, options)
     	output(string)
-    	#puts string
-    	#xml = Casteml::Format::XmlFormat.from_array(data)
+    	# puts string
+    	# xml = Casteml::Format::XmlFormat.from_array(data)
 	end
 end
