@@ -48,6 +48,46 @@ module Casteml::Commands
 				}
 			end
 
+			context "with medusa9" do
+				subject{ cmd.invoke_with_build_args args, build_args }
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:data){ double('data').as_null_object }
+				let(:args){ [path, '-f', 'pml', '--medusa9']}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+				it {
+					expect(Casteml).to receive(:convert_file).with(path, {:output_format => :pml, :version => '9'})				
+					subject
+				}
+				it {
+					expect(cmd).to receive(:output).with(/chemistries/)
+					subject
+				}
+
+			end
+
+
+			context "without medusa9" do
+				subject{ cmd.invoke_with_build_args args, build_args }
+				let(:path){ 'tmp/mytable.tsv'}
+				let(:data){ double('data').as_null_object }
+				let(:args){ [path, '-f', 'pml']}
+				before(:each) do
+					setup_empty_dir('tmp')
+					setup_file(path)
+				end
+				it {
+					expect(Casteml).to receive(:convert_file).with(path, {:output_format => :pml})				
+					subject
+				}
+				it {
+					expect(cmd).to receive(:output).with(/abundances/)
+					subject
+				}
+
+			end
 			context "with --no-unit" do
 				subject{ cmd.invoke_with_build_args args, build_args }
 				let(:path){ 'tmp/mytable.tsv'}

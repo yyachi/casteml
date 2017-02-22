@@ -4,25 +4,44 @@ require 'tempfile'
 module Casteml::Formats
 	class XmlFormat
 		def self.to_string(data, opts = {})
+			# version = opts[:version] ? opts[:version] : '8'
+			# if version == '9'
+			# 	data.each do |h|
+			# 		if h.has_key?(:abundances)
+			# 			abs = h[:abundances]
+			# 			abs.each do |ab|
+			# 				ab[:value] = ab.delete(:data) if ab.has_key?(:data)
+			# 				ab[:uncertainty] = ab.delete(:error) if ab.has_key?(:error)
+			# 			end
+			# 			h[:chemistries] = h.delete(:abundances)
+			# 		end
+			# 	end
+				
+			# 	# data.each do |k,v|
+			# 	# 	puts k
+			# 	# 	puts v
+			# 	# end
+			# end
 		    fp = StringIO.new
-		    write(from_array(data), fp)
+		    write(from_array(data, opts), fp)
 		    fp.close
 		    fp.string			
 		end
 
-		def self.from_array(array)
+		def self.from_array(array, opts = {})
 			doc = REXML::Document.new
 			doc << REXML::XMLDecl.new('1.0', 'UTF-8')
 			#doc.add_element el
 			acqs_tag = REXML::Element.new('acquisitions')
 			array.each do |hash|
-				acqs_tag.add_element from_hash(hash)
+				acqs_tag.add_element from_hash(hash, opts)
 			end
 			doc.add_element acqs_tag
 			doc
 		end
 
-		def self.from_hash(hash)
+		def self.from_hash(hash, opts = {})
+			version = opts[:version] ? opts[:version] : '8'
 			abundances = hash.delete(:abundances)
 			spot = hash.delete(:spot)
 			acq_tag = REXML::Element.new('acquisition')
@@ -33,9 +52,19 @@ module Casteml::Formats
 			end
 
 			if abundances && !abundances.empty?
-				abs_tag = REXML::Element.new('abundances')
-				abundances.each do |abundance|
+			    case version
+    			  when '9'
+					abs_tag = REXML::Element.new('chemistries')
+					ab_tag = REXML::Element.new('analysis')
+    			  else
+					abs_tag = REXML::Element.new('abundances')
 					ab_tag = REXML::Element.new('abundance')
+				end
+				abundances.each do |abundance|
+					if version == '9'
+						abundance[:value] = abundance.delete(:data) if abundance.has_key?(:data)
+						abundance[:uncertainty] = abundance.delete(:error) if abundance.has_key?(:error)
+					end
 					abundance.each do |key, value|
 						element = REXML::Element.new(key.to_s)
 						element.text = value

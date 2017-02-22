@@ -3,6 +3,32 @@ require 'casteml'
 module Casteml
 	describe ".convert_file" do
 
+		describe "to pml", :current => true do
+			subject { Casteml.convert_file(path, opts)}
+			let(:path){ 'tmp/20130528105345-976071-in.csv'}
+			let(:opts){ {:output_format => :pml } }
+			before do
+				setup_empty_dir('tmp')
+				setup_file(path)
+			end
+			it {
+				expect(subject).to match(/acquisitions/)
+				expect(subject).to match(/abundances/)
+				expect(subject).to match(/abundance/)
+			}
+			context "with version 9" do
+				let(:opts){ {:output_format => :pml, :version => '9' } }
+				before do
+#					puts subject
+				end
+				it {
+					expect(subject).to match(/acquisitions/)
+					expect(subject).to match(/chemistries/)
+					expect(subject).to match(/analysis/)
+				}				
+			end
+		end
+
 		describe "with with_unit" do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/20130528105345-976071-in.csv'}

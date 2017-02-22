@@ -40,6 +40,12 @@ EOS
 			options[:with_average] = v
 		end
 
+
+    add_option('--medusa9',
+           'Output with medusa9 format') do |v, options|
+      options[:version] = '9'
+    end
+
 		add_option('-s', '--smash',
 				   'Only output average') do |v, options|
 			options[:smash] = v

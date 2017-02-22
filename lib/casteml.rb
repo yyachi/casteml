@@ -62,6 +62,10 @@ module Casteml
     #opts[:type] = opts.delete(:format)
     opts = {}
 
+    if options[:version]
+      opts[:version] = options[:version]
+    end
+
     if options[:with_place]
       opts[:with_place] = options[:with_place]
     end
