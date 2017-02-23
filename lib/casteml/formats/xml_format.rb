@@ -32,7 +32,6 @@ module Casteml::Formats
 				if version == '9' && key.to_s == "session"
 					tag_name = 'name'
 				end
-				p tag_name
 				element = REXML::Element.new(tag_name)
 				element.text = value
 				acq_tag.elements.add(element)
