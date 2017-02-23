@@ -13,6 +13,7 @@ module Casteml
 			end
 			it {
 				expect(subject).to match(/acquisitions/)
+				#expect(subject).to match(/session/)
 				expect(subject).to match(/abundances/)
 				expect(subject).to match(/abundance/)
 			}
@@ -23,6 +24,7 @@ module Casteml
 				end
 				it {
 					expect(subject).to match(/acquisitions/)
+					#expect(subject).to match(/session/)
 					expect(subject).to match(/chemistries/)
 					expect(subject).to match(/analysis/)
 				}				

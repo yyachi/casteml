@@ -46,7 +46,11 @@ module Casteml::Formats
 			spot = hash.delete(:spot)
 			acq_tag = REXML::Element.new('acquisition')
 			hash.each do |key, value|
-				element = REXML::Element.new(key.to_s)
+				tag_name = key.to_s
+				if version == '9' && key == :session
+					tag_name = 'name'
+				end
+				element = REXML::Element.new(tag_name)
 				element.text = value
 				acq_tag.elements.add(element)
 			end

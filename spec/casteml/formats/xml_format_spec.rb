@@ -4,11 +4,23 @@ module Casteml::Formats
 	describe XmlFormat do
 
 		describe ".to_string" do
-			subject { XmlFormat.to_string(data) }
-			let(:data){ [{:session => "1"}, {:session => "2"}] }
+			subject { XmlFormat.to_string(data, opts) }
+			let(:data){ [{:session => "1", :abundances => [{:nickname => 'SiO2', :value => '0.456'}]}, {:session => "2"}] }
+			let(:opts){ {} }
 			it {
 				expect(subject).to be_an_instance_of(String)
+				expect(subject).to match(/<session>/)
+				expect(subject).to match(/abundances/)
+				expect(subject).to match(/abundance/)				
 			}
+			context "with version 9" do
+				let(:opts){ {:version => '9'} }
+				it {
+					expect(subject).to match(/<name>/)
+					expect(subject).to match(/chemistries/)
+					expect(subject).to match(/analysis/)
+				}
+			end
 		end
 
 
