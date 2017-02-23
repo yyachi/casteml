@@ -5,15 +5,16 @@ module Casteml
 
 		describe "to pml", :current => true do
 			subject { Casteml.convert_file(path, opts)}
-			let(:path){ 'tmp/20130528105345-976071-in.csv'}
+			let(:path){ 'tmp/medusa9-test.csv'}
 			let(:opts){ {:output_format => :pml } }
 			before do
 				setup_empty_dir('tmp')
 				setup_file(path)
+				puts subject
 			end
 			it {
 				expect(subject).to match(/acquisitions/)
-				#expect(subject).to match(/session/)
+				expect(subject).to match(/<session>/)
 				expect(subject).to match(/abundances/)
 				expect(subject).to match(/abundance/)
 			}
@@ -24,7 +25,7 @@ module Casteml
 				end
 				it {
 					expect(subject).to match(/acquisitions/)
-					#expect(subject).to match(/session/)
+					expect(subject).to match(/<name>/)
 					expect(subject).to match(/chemistries/)
 					expect(subject).to match(/analysis/)
 				}				

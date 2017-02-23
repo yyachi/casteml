@@ -4,24 +4,6 @@ require 'tempfile'
 module Casteml::Formats
 	class XmlFormat
 		def self.to_string(data, opts = {})
-			# version = opts[:version] ? opts[:version] : '8'
-			# if version == '9'
-			# 	data.each do |h|
-			# 		if h.has_key?(:abundances)
-			# 			abs = h[:abundances]
-			# 			abs.each do |ab|
-			# 				ab[:value] = ab.delete(:data) if ab.has_key?(:data)
-			# 				ab[:uncertainty] = ab.delete(:error) if ab.has_key?(:error)
-			# 			end
-			# 			h[:chemistries] = h.delete(:abundances)
-			# 		end
-			# 	end
-				
-			# 	# data.each do |k,v|
-			# 	# 	puts k
-			# 	# 	puts v
-			# 	# end
-			# end
 		    fp = StringIO.new
 		    write(from_array(data, opts), fp)
 		    fp.close
@@ -47,9 +29,10 @@ module Casteml::Formats
 			acq_tag = REXML::Element.new('acquisition')
 			hash.each do |key, value|
 				tag_name = key.to_s
-				if version == '9' && key == :session
+				if version == '9' && key.to_s == "session"
 					tag_name = 'name'
 				end
+				p tag_name
 				element = REXML::Element.new(tag_name)
 				element.text = value
 				acq_tag.elements.add(element)
