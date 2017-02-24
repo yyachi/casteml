@@ -19,12 +19,24 @@ EOS
 			options[:output_format] = v.to_sym
 		end
 
+		add_option('--medusa9',
+				   'Output with medusa9 format (pml).  It is strongly recommended to feed this option (February 24, 2017).') do |v, options|
+			options[:version] = '9'
+		end
+
+		add_option('--[no-]unit [UNIT]',
+				   'Stop engineering unit-conversion or specify unit (csv tsv org isorg)') do |v, options|
+			options[:with_unit] = v
+		end
+
 		add_option('-n', '--number-format FORMAT',
-				   'Number format (%.4g)') do |v, options|
+				   'Number format (%.4g).  It is not clear if this option is supported (February 24, 2017)') do |v, options|
 			options[:number_format] = v
 		end
+
 		# MeasurementCategory.find_all
 		category_names = Casteml::MeasurementCategory.record_pool.map{|category| "'" + category.name + "'"}
+
 		add_option('-c', '--category CATEGORY',
 				   "Only pass measurement category of (#{category_names.join(', ')})") do |v, options|
 			options[:with_category] = v
@@ -40,20 +52,9 @@ EOS
 			options[:with_average] = v
 		end
 
-
-    add_option('--medusa9',
-           'Output with medusa9 format') do |v, options|
-      options[:version] = '9'
-    end
-
 		add_option('-s', '--smash',
 				   'Only output average') do |v, options|
 			options[:smash] = v
-		end
-
-		add_option('--[no-]unit [UNIT]',
-				   'Specify unit on output format (csv tsv org isorg)') do |v, options|
-			options[:with_unit] = v
 		end
 
         add_option('-p', '--place',
@@ -130,9 +131,8 @@ EOF
 	<<-EOS
     $ casteml download 20081202172326.hkitagawa > 20081202172326.pml
     $ casteml convert 20081202172326.pml > 20081202172326.csv
-    $ casteml convert -f csv --unit '%' 20081202172326.pml > 20081202172326.csv
-    $ casteml convert -f csv --unit 'cg/g' 20081202172326.pml > 20081202172326.csv
     $ casteml convert -f csv --no-unit 20081202172326.pml > 20081202172326.csv
+    $ casteml convert -f csv --unit 'cg/g' 20081202172326.pml > 20081202172326.csv
     $ casteml convert -f tex -n %.5g 20081202172326.pml > 20081202172326.tex
     $ casteml convert -f dflame 20081202172326.pml > 20081202172326-dflame0.csv
 
