@@ -40,13 +40,17 @@ module Casteml::Formats
 			if abundances && !abundances.empty?
 			    case version
     			  when '9'
-					abs_tag = REXML::Element.new('chemistries')
-					ab_tag = REXML::Element.new('analysis')
+    			  	abs_tag_name = 'chemistries'
+    			  	ab_tag_name = 'analysis'
     			  else
-					abs_tag = REXML::Element.new('abundances')
-					ab_tag = REXML::Element.new('abundance')
+    			  	abs_tag_name = 'abundances'
+    			  	ab_tag_name = 'abundance'
 				end
+				abs_tag = REXML::Element.new(abs_tag_name)
+
 				abundances.each do |abundance|
+					ab_tag = REXML::Element.new(ab_tag_name)
+
 					if version == '9'
 						abundance[:value] = abundance.delete(:data) if abundance.has_key?(:data)
 						abundance[:uncertainty] = abundance.delete(:error) if abundance.has_key?(:error)

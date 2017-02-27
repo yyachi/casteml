@@ -5,8 +5,11 @@ module Casteml::Formats
 
 		describe ".to_string" do
 			subject { XmlFormat.to_string(data, opts) }
-			let(:data){ [{:session => "1", :abundances => [{:nickname => 'SiO2', :value => '0.456'}]}, {:session => "2"}] }
+			let(:data){ [{:session => "1", :abundances => [{:nickname => 'SiO2', :value => '0.456'},{:nickname => 'CaO', :value => '0.256'}]}, {:session => "2"}] }
 			let(:opts){ {} }
+			# before do
+			# 	puts subject
+			# end
 			it {
 				expect(subject).to be_an_instance_of(String)
 				expect(subject).to match(/<session>/)
