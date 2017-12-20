@@ -18,6 +18,7 @@ module Casteml
 
 		alias_attribute :stone_ID, :sample_uid
 		alias_attribute :sample_global_id, :sample_uid
+		alias_attribute :specimen_global_id, :sample_uid
 		alias_attribute :bib_ID, :bibliography_uid
 		alias_attribute :name, :session
 		alias_attribute :operator, :analyst
