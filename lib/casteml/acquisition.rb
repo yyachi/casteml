@@ -23,6 +23,8 @@ module Casteml
 		alias_attribute :operator, :analyst
 		alias_attribute :global_id, :uid
 		alias_attribute :ID, :uid
+                alias_attribute :device_name, :device
+                alias_attribute :technique_name, :technique
 
 		def spot
 			@spot

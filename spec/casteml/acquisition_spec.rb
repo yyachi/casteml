@@ -215,6 +215,18 @@ module Casteml
 				end
 				it { expect(subject).to be_eql(technique_id) }
 			end
+			context "with tequnique_name" do
+	                        let(:attrib){ {:session => session, :analyst => analyst, :description => description, :technique_name => technique } }
+				before do
+					obj
+					allow(Technique).to receive(:find_or_create_by_name).with(technique).and_return(technique_obj)
+				end
+				it "should call Technique.find_or_create_by_name with sample_name" do 
+					expect(Technique).to receive(:find_or_create_by_name).with(technique).and_return(technique_obj)
+					subject
+				end
+				it { expect(subject).to be_eql(technique_id) }
+			end
 		end
 
 		describe "#device_id" do
@@ -235,6 +247,25 @@ module Casteml
 					:analyst => analyst, 
 					:description => description, 
 					:device => device
+				} }		
+				before do
+					obj
+					allow(Device).to receive(:find_or_create_by_name).with(device).and_return(device_obj)
+				end
+				it "should call Device.find_or_create_by_name with device" do
+					expect(Device).to receive(:find_or_create_by_name).with(device).and_return(device_obj)
+					subject
+				end
+				it { expect(subject).to be_eql(device_id) }
+			end
+
+			context "with device_name" do
+
+				let(:attrib){ {
+					:session => session, 
+					:analyst => analyst, 
+					:description => description, 
+					:device_name => device
 				} }		
 				before do
 					obj
