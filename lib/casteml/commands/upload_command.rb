@@ -1,7 +1,7 @@
 require 'casteml/command'
 class Casteml::Commands::UploadCommand < Casteml::Command
 	def initialize
-		super 'upload', '    Upload a pmlfile to Medusa 9' # Summary:
+		super 'upload', '    Upload a pmlfile to Medusa' # Summary:
 	end
 
 	def usage

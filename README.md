@@ -11,17 +11,7 @@ Ruby should be later than 2.1.
 
 # Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'casteml'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it yourself as:
 
     $ gem source -a http://dream.misasa.okayama-u.ac.jp/rubygems/
     $ gem install casteml
@@ -50,6 +40,7 @@ See online document with option `--help`.
 
 ```
 $ cd ~/devel-godigo/gems/casteml
+$ bundle install --path vendor/bundle
 $ bundle exec rspec spec/casteml/command_manager_spec.rb
 $ bundle exec rspec spec/casteml/commands/convert_command_spec.rb --tag show_help:true
 $ bundle exec rspec spec/casteml/commands/spots_command_spec.rb --tag show_help:true

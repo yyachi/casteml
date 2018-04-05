@@ -66,7 +66,7 @@ EOS
         #            'Output with error') do |v, options|
         #   options[:with_error] = v
         # end
-        
+
 		# add_option('-d', '--debug', 'Show debug information') do |v|
 		#   options[:debug] = v
 		# end
