@@ -1,10 +1,12 @@
 # casteml
 
-Provide a comprehensive utility for CASTEML
+A series of comprehensive utilities that handles CASTEML.
 
 # Description
 
-Provide a comprehensive utility for CASTEML.
+A series of comprehensive utilities that handles CASTEML.  The
+utilities download/upload datasets from/to Medusa.  The utilities
+join, split, and convert datasets.
 
 # Dependency
 
