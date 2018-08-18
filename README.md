@@ -6,8 +6,7 @@ A series of comprehensive utilities that handles CASTEML.
 
 A series of comprehensive utilities that handles CASTEML.  The
 utilities download/upload datasets from/to Medusa.  The utilities
-join, split, and convert datasets. CASTEML is data-format defined
-in Medusa.
+join, split, and convert datasets.
 
 # Dependency
 
