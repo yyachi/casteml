@@ -1,4 +1,4 @@
-# casteml
+# gem package -- casteml
 
 A series of comprehensive utilities that handles CASTEML.
 
