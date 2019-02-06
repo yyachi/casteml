@@ -27,7 +27,7 @@ EOS
     option.
 
     This program `#{program_name}' stores location (also referred as
-    spot) of an session (also referred as analysis) as relative
+    spot) of a session (also referred as analysis) as relative
     coordinate of an imagefile.  Origin of a coordinate is center of
     an image.  A spot coordinate is normalized by the longest side.
     As a consequence, the longest side ranges from -50 to 50.  Use a
