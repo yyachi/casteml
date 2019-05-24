@@ -20,7 +20,7 @@ EOS
 		end
 
 		add_option('--medusa9',
-				   'Output with medusa9 format (pml).  It is strongly recommended to feed this option (February 24, 2017).') do |v, options|
+				   'Output in Medusa 9 format (pml).  It is strongly recommended to feed this option (February 24, 2017).') do |v, options|
 			options[:version] = '9'
 		end
 
