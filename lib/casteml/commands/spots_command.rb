@@ -61,14 +61,21 @@ EOS
 
 	def description
 	<<-EOS
-    Process pmlfile created by Matlab-script spots.m and generate
+    Process pmlfile (created by Matlab-script `spots.m') and generate
     texfile with spots and isocircles.
 
-    Arguments ABUNDANCE and ISOTOPE mean name of columns used for
-    element and isotope abundances to draw isocircles.
+    Arguments ABUNDANCE and ISOTOPE correspond to name of columns for
+    element abundance and isotope abundance to draw a isocircle.
+
+    The isocircle (formerly known as isoclock) consists of two threads
+    that are arrow and tick.  Angle of arrow corresponds to isotope
+    ratio defined by option `--scale-iso-range-min-max'.  Angle of
+    tick corresponds to sub-integer.  Tick at 3, 6, 9, and 12 o'clock
+    corresponds to xx.25, xx.50, xx.75, and xx.00.
 
     Note this program takes ISORG file, which is a member of CASTEML
-    family.
+    family.  As of October 3, 2019, ISORG file should not include columns
+    with name `attachment_file_path', `x_vs', and `y_vs'.
 EOS
 	end
 
