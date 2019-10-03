@@ -35,8 +35,8 @@ Commands are summarized as:
 
 | command          | description                                   | note                       |
 |------------------|-----------------------------------------------|----------------------------|
-| casteml convert  | convert between CSV, TSV, ORG, ISORG, PML     |                            |
-| casteml spots    | create LaTeX spot from PML                    | isocircle option available |
+| casteml convert  | convert between CSV, TSV, ORG, ISORG, pmlfile |                            |
+| casteml spots    | create LaTeX spot from pmlfile                | isocircle option available |
 | casteml join     | create a multi-pmlfile from single pmlfiles   |                            |
 | casteml split    | create single pmlfiles from a multi-pmlfile   |                            |
 | casteml upload   | upload pmlfile to Medusa                      |                            |
