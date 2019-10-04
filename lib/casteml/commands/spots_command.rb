@@ -73,7 +73,7 @@ EOS
     tick corresponds to sub-integer.  Tick at 3, 6, 9, and 12 o'clock
     corresponds to xx.25, xx.50, xx.75, and xx.00.
 
-    Note this program takes ISORG file, which is a member of CASTEML
+    Note this program can take ISORG file, which is a member of CASTEML
     family.  As of October 3, 2019, ISORG file should not include columns
     with name `attachment_file_path', `x_vs', and `y_vs'.
 EOS
