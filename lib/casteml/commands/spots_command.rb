@@ -42,7 +42,7 @@ EOS
         add_option("-t", "--template-file path", "Template file path (default: #{@params[:template_file]})") do |v|
           options[:template_file] = v
         end
-        add_option("-a", "--scale-ab-rel-to-image-width NUM,NUM", Array, "Abundance and width of circle relative to image in percent (default: #{@params[:scale_ab_rel_to_image_width].join(',')})") do |v|
+        add_option("-a", "--scale-ab-rel-to-image-width NUM1,NUM2", Array, "Circle scale: Element abundance NUM1 in ug/g (ppm) unit will be expressed by a circle with width NUM2 in percent relative to an image (default: #{@params[:scale_ab_rel_to_image_width].join(',')})") do |v|
           if v.length != 2
 			raise OptionParser::InvalidArgument.new("incorrect number of arguments for scale-ab-rel-to-image-width")
           end
