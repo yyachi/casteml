@@ -50,7 +50,7 @@ See online document with option `--help`.
 
 # Developer's guide
 
-1. Run test
+1. Run test as shown below.
 
 ```
 $ cd ~/devel-godigo/gems/casteml
@@ -65,11 +65,11 @@ $ bundle exec rspec spec/casteml/commands/download_command_spec.rb --tag show_he
 $ bundle exec rspec spec/casteml/commands/plot_command_spec.rb --tag show_help:true
 ```
 
-2. Push to the Git server
+2. Push to the Git server.
 
 3. Access to Jenkins server http://devel.misasa.okayama-u.ac.jp/jenkins/job/Casteml/ and run a job.  This is scheduled and if you are not in hurry, skip further steps.
 
-4. Uninstall and install local gem module by
+4. Uninstall and install local gem module as shown below.
 
 ```
 $ sudo gem uninstall casteml
