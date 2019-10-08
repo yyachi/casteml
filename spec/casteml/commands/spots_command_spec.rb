@@ -36,7 +36,9 @@ module Casteml::Commands
 			end
 
 			context "with path" do
-				let(:pmlfile){ 'tmp/ys_pl_bytownite_c.pml'}
+#				let(:pmlfile){ 'tmp/ys_pl_bytownite_c.pml'}
+				let(:pmlfile){ 'tmp/liso@1363@1375.pml'}
+
 				let(:args){ [pmlfile]}
 				before do
 					setup_file(pmlfile)

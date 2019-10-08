@@ -74,8 +74,7 @@ EOS
     corresponds to xx.25, xx.50, xx.75, and xx.00.
 
     Note this program can take ISORG file, which is a member of CASTEML
-    family.  As of October 3, 2019, ISORG file should not include columns
-    with name `attachment_file_path', `x_vs', and `y_vs'.
+    family.
 EOS
 	end
 
@@ -195,12 +194,16 @@ EOS
           (class << acq; self; end).class_eval do
             if flag_ab
               define_method(:abundance) do
-                send(:value_of, ab_item)
+                #send(:value_of, ab_item)
+                ab = send(:abundance_of, ab_item)
+                ab.data_in('ug/g')
               end
             end
             if flag_iso
               define_method(:isotope) do
-                send(:value_of, iso_item)
+                #send(:value_of, iso_item)
+                iso = send(:abundance_of, iso_item)
+                iso.data_in_parts
               end
             end
           end
@@ -212,6 +215,7 @@ EOS
         iso_range_max = params[:scale_iso_range_min_max][1].to_f
         # ref_width = imagewidth * ref_relwidth
         ref_width = ref_relwidth # overpic is relative anyway 2014-09-12
+        # diam = ref_width * Math::sqrt(acq.abundance/ref_ab)
         puts "#{fileout} writing..."
         @output_file.puts ERB.new(template,nil,'-',"@output").result(binding)
   #    rescue => ex

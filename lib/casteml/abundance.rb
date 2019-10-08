@@ -33,6 +33,11 @@ module Casteml
 			self.class.number_from(@data.to_f, @unit.to_sym) if @data && Casteml.float_string?(@data)
 		end
 
+		def data_in(unit)
+			number = data_in_parts if @data && Casteml.float_string?(@data)
+			self.class.number_to(number, unit)
+		end
+
 		def error_in_parts
 			self.class.number_from(@error.to_f, @unit.to_sym) if @error	&& Casteml.float_string?(@error)
 		end

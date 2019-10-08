@@ -1,8 +1,9 @@
 PATH
   remote: .
   specs:
-    casteml (1.0.25)
+    casteml (1.0.29)
       alchemist (~> 0.1.7)
+      bigdecimal
       medusa_rest_client (~> 0.1)
 
 GEM
@@ -22,6 +23,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     alchemist (0.1.7)
+    bigdecimal (1.2.6)
     builder (3.2.2)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)

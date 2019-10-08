@@ -13,7 +13,8 @@ module Casteml
 
 		def initialize(attrib = {})
 			attrib.each do |key, value|
-				self.send((key.to_s + '=').to_sym, value)
+				setter = (key.to_s + '=').to_sym
+				self.send(setter, value) if self.respond_to?(setter)
 			end
 		end
 
