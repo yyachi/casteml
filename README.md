@@ -34,15 +34,15 @@ The program reads a configuration file `~/.orochirc`.  The file should look like
 
 Commands are summarized as:
 
-| command          | description                                   | note                       |
-|------------------|-----------------------------------------------|----------------------------|
-| casteml convert  | convert between CSV, TSV, ORG, ISORG, pmlfile |                            |
-| casteml spots    | create LaTeX spot from pmlfile                | isocircle option available |
-| casteml join     | create a multi-pmlfile from single pmlfiles   |                            |
-| casteml split    | create single pmlfiles from a multi-pmlfile   |                            |
-| casteml upload   | upload pmlfile to Medusa                      |                            |
-| casteml download | download pmlfile from Medusa                  |                            |
-| casteml plot     | make a plot using pmlfile                     |                            |
+| command          | description                                        | note                       |
+|------------------|----------------------------------------------------|----------------------------|
+| casteml convert  | Convert format among CSV, TSV, ORG, ISORG, pmlfile |                            |
+| casteml spots    | Create a LaTeX file with spots from pmlfile        | isocircle option available |
+| casteml join     | Create a multi-pmlfile from single pmlfiles        |                            |
+| casteml split    | Create single pmlfiles from a multi-pmlfile        |                            |
+| casteml upload   | Upload pmlfile to Medusa                           |                            |
+| casteml download | Download pmlfile from Medusa                       |                            |
+| casteml plot     | Make a plot using pmlfile                          |                            |
 
 # Usage
 
