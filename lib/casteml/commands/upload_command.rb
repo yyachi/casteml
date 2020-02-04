@@ -67,8 +67,9 @@ EOS
     orochi-upload
     casteml convert --help
     casteml join
-    http://dream.misasa.okayama-u.ac.jp
     spots.m
+    http://dream.misasa.okayama-u.ac.jp
+    https://github.com/misasa/casteml/blob/master/lib/casteml/commands/upload_command.rb
 EOS
 	end
 
