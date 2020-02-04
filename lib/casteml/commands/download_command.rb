@@ -87,6 +87,7 @@ EOS
     casteml join
     casteml plot
     http://dream.misasa.okayama-u.ac.jp
+    https://github.com/misasa/casteml/blob/master/lib/casteml/commands/download_command.rb
 EOS
 	end
 
