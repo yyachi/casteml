@@ -40,6 +40,7 @@ EOS
     casteml split
     casteml download
     http://dream.misasa.okayama-u.ac.jp
+    https://github.com/misasa/casteml/blob/master/lib/casteml/commands/join_command.rb
 EOS
 	end
 
