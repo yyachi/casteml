@@ -35,6 +35,7 @@ EOS
     casteml join
     casteml convert
     http://dream.misasa.okayama-u.ac.jp
+    https://github.com/misasa/casteml/blob/master/lib/casteml/commands/split_command.rb
 EOS
 	end
 
