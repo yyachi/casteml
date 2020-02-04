@@ -147,6 +147,7 @@ EOS
     casteml split
     casteml/spec/casteml/formats/
     http://dream.misasa.okayama-u.ac.jp
+    https://github.com/misasa/casteml/blob/master/lib/casteml/commands/convert_command.rb
 EOS
 	end
 
