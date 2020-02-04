@@ -116,6 +116,7 @@ EOS
     spots.m
     casteml convert
     http://dream.misasa.okayama-u.ac.jp
+    https://github.com/misasa/casteml/blob/master/lib/casteml/commands/spots_command.rb
 EOS
 	end
 
