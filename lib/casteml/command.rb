@@ -47,6 +47,7 @@ class Casteml::Command
     def see_also
       <<-EOS
     http://dream.misasa.okayama-u.ac.jp
+    https://github.com/misasa/casteml/blob/master/lib/casteml/command.rb
 EOS
     end
     
