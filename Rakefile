@@ -1,6 +1,6 @@
 require "bundler/gem_tasks"
 require 'casteml'
-require 'medusa_rest_client'
+#require 'medusa_rest_client'
 namespace :remote_dump do
   klasses = [Casteml::Unit, Casteml::MeasurementItem, Casteml::MeasurementCategory]
   desc "clear local-data"
