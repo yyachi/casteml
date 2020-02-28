@@ -21,7 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'alchemist', '~> 0.1.7'
   spec.add_runtime_dependency 'bigdecimal'
   spec.add_development_dependency "bundler", "~> 1.5"
-  spec.add_development_dependency "rake", "~> 10.1.0"
+  spec.add_development_dependency "rake", "~> 13.0.1"
   spec.add_development_dependency "rspec", "~> 3.0.0"
   spec.add_development_dependency "geminabox", "~> 0.12.4"
   spec.add_development_dependency "simplecov-rcov", "~> 0.2.3"
