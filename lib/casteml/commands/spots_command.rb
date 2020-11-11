@@ -15,8 +15,8 @@ class Casteml::Commands::SpotsCommand < Casteml::Command
 	def arguments
 	<<-EOS
     PMLFILE      A member of CASTEML family that can be either pmlfile, isorgfile, or csvfile
-    ABUNDANCE    Name of column with element abundance that determine dimension of isocircle
-    ISOTOPE      Name of column with isotope abundance that detremine angle of thread
+    ABUNDANCE    Name of column with element abundance that determines dimension of isocircle
+    ISOTOPE      Name of column with isotope abundance that detremines angle of thread
 EOS
 	end
 
