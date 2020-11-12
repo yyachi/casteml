@@ -45,6 +45,20 @@ module Casteml::Commands
 				it "not raise error" do
 					cmd.invoke_with_build_args args, build_args
 				end
+				context "without -o" do
+					let(:args){ [pmlfile]}
+					#let(:outfile_io){ double('fileio').as_null_object }
+					#let(:pml){ File.open(pmlfile) }
+					#let(:outpath){ File.join(File.dirname(pmlfile),File.basename(pmlfile,".*") + ".tex")} 
+					it "not raise error" do
+						#expect{subject}.not_to raise_error
+						#expect(outfile_io).to receive(:puts).with(pml)
+						#p outpath
+						#expect(File).to receive(:open).with(pmlfile).and_return(pml)
+						#expect(File).to receive(:open).with(outpath, 'w').and_return(outfile_io)
+						cmd.invoke_with_build_args args, build_args						
+					end
+				end		
 				context "and --picture picture_path" do
 					let(:picture_path){ 'temp/deleteme.jpg' }
 					let(:args){ [pmlfile, '--picture', picture_path]}
