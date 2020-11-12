@@ -29,7 +29,7 @@ EOS
 	    	:scale_iso_range_min_max => [-20,20],
       		:template_file => File.join(Casteml::TEMPLATE_DIR, 'spots.tex.erb')
       	}
-        add_option("-o", "--output path", "Output filename (default: inputfile.tex)") do |v|
+        add_option("-o", "--output path", "Output filename (default: inputfile-isocirc.tex)") do |v|
           options[:output_file] = v
         end
 
@@ -163,16 +163,16 @@ EOS
 		commandline += " --image-width #{params[:image_width]}"
 		path = File.dirname(casteml_file)
 		base = File.basename(casteml_file,".*")
-		picture = base
-		fileout = File.join(path,base + '.tex')
+    picture = base
+    suffix = '-isocirc'
+		fileout = File.join(path,base + suffix + '.tex')
 
 		if params[:picture_file]
 			picture = params[:picture_file]
-			params[:output_file] = File.join(path,File.basename(picture,".*") + ".tex") unless params[:output_file]
+			params[:output_file] = File.join(path,File.basename(picture,".*") + suffix + ".tex") unless params[:output_file]
 		end
 
 		fileout = params[:output_file] if params[:output_file]
-
 #      begin
         @output_file = File.open(fileout, 'w')
         template = File.read(params[:template_file])
@@ -190,7 +190,6 @@ EOS
 
         # codes = Casteml::Acquisition.get_item_measureds(acquisitions).map{ |code| code }
         # Casteml::ItemMeasured.setup_data(codes)
-
         acquisitions.each do |acq|
           (class << acq; self; end).class_eval do
             if flag_ab
