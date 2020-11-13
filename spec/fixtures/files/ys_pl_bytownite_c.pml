@@ -14,12 +14,14 @@
     <image_path>C:/Users/sims1270/Dropbox/Documents/pl-bytownite-c/spots/ys_pl_bytownite_c@2992@3027.jpg</image_path>
     <x_image>79.311657</x_image>
     <y_image>54.758412</y_image>
+    <x_overpic>79.311657</x_overpic>
+    <y_overpic>54.758412</y_overpic>
   </spot>
   <abundances>
     <abundance>
       <nickname>Li</nickname>
       <data>1.9</data>
-      <unit/>
+      <unit>ppm</unit>
       <error/>
       <label/>
       <info/>

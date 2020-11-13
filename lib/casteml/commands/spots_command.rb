@@ -25,7 +25,7 @@ EOS
 
 	    @params = {
 	    	:image_width => 0.49,
-	    	:scale_ab_rel_to_image_width => [10,10],
+	    	:scale_ab_rel_to_image_width => [10e-6,10],
 	    	:scale_iso_range_min_max => [-20,20],
       		:template_file => File.join(Casteml::TEMPLATE_DIR, 'spots.tex.erb')
       	}
@@ -42,7 +42,7 @@ EOS
         add_option("-t", "--template-file path", "Template file path (default: #{@params[:template_file]})") do |v|
           options[:template_file] = v
         end
-        add_option("-a", "--scale-ab-rel-to-image-width NUM1,NUM2", Array, "Circle scale: Element abundance NUM1 in ug/g (ppm) unit will be expressed by a circle with width NUM2 in percent relative to an image (default: #{@params[:scale_ab_rel_to_image_width].join(',')})") do |v|
+        add_option("-a", "--scale-ab-rel-to-image-width NUM1,NUM2", Array, "Circle scale: Element abundance NUM1 in g/g unit will be expressed by a circle with width NUM2 in percent relative to an image (default: #{@params[:scale_ab_rel_to_image_width].join(',')})") do |v|
           if v.length != 2
 			raise OptionParser::InvalidArgument.new("incorrect number of arguments for scale-ab-rel-to-image-width")
           end
@@ -105,7 +105,7 @@ EOS
     ...
     $ ls
     tt_bcg12@4032.jpg  tt_bcg12@4032.isorg
-    $ casteml spots tt_bcg12@4032.isorg Li d7Li -a 2.1,10 -i -30,+30
+    $ casteml spots tt_bcg12@4032.isorg Li d7Li -a 2.1e-6,10 -i -30,+30
     $ ls
     tt_bcg12@4032.jpg  tt_bcg12@4032.isorg  tt_bcg12@4032.tex
 EOS
@@ -196,7 +196,7 @@ EOS
               define_method(:abundance) do
                 #send(:value_of, ab_item)
                 ab = send(:abundance_of, ab_item)
-                ab.data_in('ug/g')
+                ab.data_in_parts
               end
             end
             if flag_iso

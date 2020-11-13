@@ -82,6 +82,7 @@ module Casteml::Commands
 					it "not raise error" do
 						expect{subject}.not_to raise_error
 					end
+
 					context "and --scale-ab-rel-to-image-with 5,5" do
 						let(:args){ [pmlfile, abundance, isotope, "--scale-ab-rel-to-image-width", "5,5"] }
 						it "not raise error" do
@@ -109,6 +110,13 @@ module Casteml::Commands
 						it "not raise error" do
 							expect(cmd).to receive(:alert_error).with("invalid argument: --scale-iso-range-min-max incorrect number of arguments for scale-iso-range-min-max. See 'casteml spots --help'.")
 							expect{ subject }.to raise_error
+						end
+					end
+
+					context "and --scale-ab-rel-to-image-with 5e-6,5 --scale-iso-range-min-max -5,5", :current => true do
+						let(:args){ [pmlfile, abundance, isotope, "--scale-ab-rel-to-image-width", "5e-6,5", "--scale-iso-range-min-max", "-5,5"] }
+						it "not raise error" do
+							expect{subject}.not_to raise_error
 						end
 					end
 
