@@ -7,8 +7,7 @@ RUN mkdir -p lib/casteml
 COPY ./lib/casteml/version.rb /app/casteml/lib/casteml/
 RUN bash -l -c 'bundle install'
 COPY . /app/casteml/
-RUN rm -r /app/casteml/pkg
-RUN bundle exec rake build casteml.gemspec
+RUN rm -r /app/casteml/pkg | bundle exec rake build casteml.gemspec
 RUN gem install pkg/casteml-*.gem
 
 

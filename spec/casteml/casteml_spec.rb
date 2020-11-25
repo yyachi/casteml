@@ -3,7 +3,7 @@ require 'casteml'
 module Casteml
 	describe ".convert_file" do
 
-		describe "to pml", :current => true do
+		describe "to pml" do
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/medusa9-test.csv'}
 			let(:opts){ {:output_format => :pml } }
@@ -139,6 +139,7 @@ module Casteml
 			subject { Casteml.convert_file(path, opts)}
 			let(:path){ 'tmp/place.pml' }
 #			let(:path){ 'tmp/20100310092554376.stokeshi.pml' }
+			#let(:path){ 'tmp/chunk_cbk1b.pml' }
 			let(:opts){ {:output_format => :dflame } }
 			#let(:category){ "oxygen" }
 			before do
@@ -184,7 +185,7 @@ module Casteml
 		end
 
 
-		context "with vs_coordinate and output dataframe", :current => true do
+		context "with vs_coordinate and output dataframe" do
 			subject { Casteml.convert_file(path, opts)}
 			#let(:path){ 'tmp/20160820170853-707954.pml' }
 			let(:path){ 'tmp/20160819165624-372633.pml'}

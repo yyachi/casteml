@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    casteml (1.0.34)
+    casteml (1.0.36)
       alchemist (~> 0.1.7)
       bigdecimal (~> 1.4)
       medusa_rest_client (~> 0.1)

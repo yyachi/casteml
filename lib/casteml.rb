@@ -183,7 +183,7 @@ module Casteml
     when :dataframe, :dflame
       string = Formats::CsvFormat.to_string(data, opts.merge(:omit_null => true, :unit_separate => true, :omit_description => true))
       string = Formats::CsvFormat.transpose(string)
-      string.gsub!(/\s\(.*\)/,"")
+      #string.gsub!(/\s\(.*\)/,"") # for chunk_cbk1b 
       string.sub!(/session/,"element")
       string.sub!(/name/,"element")
       string.sub!(/element,\"\"/,"element,unit")
@@ -218,8 +218,6 @@ module Casteml
       string.gsub!(/operator.*\n/,"")
       string.gsub!(/sample_name.*\n/,"")
       string.gsub!(/sample_description.*\n/,"")
-      #puts string
-
 
     when :org, :isorg, :isoorg
       string = Formats::CsvFormat.to_string(data, opts.merge(:col_sep => "|")).gsub(/^/,"|").gsub(/\n/,"|\n")
