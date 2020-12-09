@@ -1,4 +1,4 @@
-FROM ruby:2.6
+FROM ruby:2.7
 RUN gem install bundler -v 1.16.5
 WORKDIR /app/casteml
 #COPY . /app/casteml

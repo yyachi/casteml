@@ -1,33 +1,35 @@
 PATH
   remote: .
   specs:
-    casteml (1.0.36)
+    casteml (1.1.0)
       alchemist (~> 0.1.7)
-      bigdecimal (~> 1.4)
-      medusa_rest_client (~> 0.1)
+      medusa_rest_client (~> 0.2.0)
 
 GEM
   remote: https://rubygems.org/
   remote: http://dream.misasa.okayama-u.ac.jp/rubygems/
   specs:
-    activemodel (4.2.11.3)
-      activesupport (= 4.2.11.3)
+    activemodel (6.0.3.4)
+      activesupport (= 6.0.3.4)
+    activemodel-serializers-xml (1.0.2)
+      activemodel (> 5.x)
+      activesupport (> 5.x)
       builder (~> 3.1)
-    activeresource (4.0.0)
-      activemodel (~> 4.0)
-      activesupport (~> 4.0)
-      rails-observers (~> 0.1.1)
-    activesupport (4.2.11.3)
-      i18n (~> 0.7)
+    activeresource (5.1.1)
+      activemodel (>= 5.0, < 7)
+      activemodel-serializers-xml (~> 1.0)
+      activesupport (>= 5.0, < 7)
+    activesupport (6.0.3.4)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
       minitest (~> 5.1)
-      thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+      zeitwerk (~> 2.2, >= 2.2.2)
     alchemist (0.1.8)
-    bigdecimal (1.4.4)
     builder (3.2.4)
     coderay (1.1.3)
     concurrent-ruby (1.1.7)
-    diff-lcs (1.2.5)
+    diff-lcs (1.4.4)
     faraday (1.1.0)
       multipart-post (>= 1.2, < 3)
       ruby2_keywords
@@ -40,13 +42,13 @@ GEM
       sinatra (>= 1.2.7)
     gli (2.19.2)
     httpclient (2.8.3)
-    i18n (0.9.5)
+    i18n (1.8.5)
       concurrent-ruby (~> 1.0)
-    medusa_rest_client (0.1.15)
-      activeresource (~> 4.0.0)
+    medusa_rest_client (0.2.0)
+      activeresource (~> 5.1)
       gli (~> 2.12)
       pry (~> 0.9)
-      rails-observers (= 0.1.2)
+      rails-observers
     method_source (1.0.0)
     minitest (5.14.2)
     multipart-post (2.1.1)
@@ -59,8 +61,8 @@ GEM
     rack (2.2.3)
     rack-protection (2.1.0)
       rack
-    rails-observers (0.1.2)
-      activemodel (~> 4.0)
+    rails-observers (0.1.5)
+      activemodel (>= 4.0)
     rake (13.0.1)
     reentrant_flock (0.1.1)
     rspec (3.0.0)
@@ -85,6 +87,7 @@ GEM
     tilt (2.0.10)
     tzinfo (1.2.8)
       thread_safe (~> 0.1)
+    zeitwerk (2.4.2)
 
 PLATFORMS
   ruby
@@ -97,4 +100,4 @@ DEPENDENCIES
   rspec (~> 3.0.0)
 
 BUNDLED WITH
-   1.16.5
+   1.17.2
