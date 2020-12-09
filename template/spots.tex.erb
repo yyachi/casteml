@@ -22,6 +22,6 @@
 <%- iso = 0 %>
 
         % legend
-        <%= op.put_isoclock(ref_width/2.0,ref_width/2.0,iso,{:radius => ref_width/2.0, :range => [iso_range_min,iso_range_max], :ticks => true, :tick_captions => true, :caption => footnotesize("\\color{red} #{ref_ab} \\ppm")}) %>
+        <%= op.put_isoclock(ref_width/2.0,ref_width/2.0,iso,{:radius => ref_width/2.0, :range => [iso_range_min,iso_range_max], :ticks => true, :tick_captions => true, :caption => footnotesize("\\color{red} #{ref_ab} \\ensuremath{\\rm g \\cdot g^{-1}}")}) %>
 <%- end -%>
 %% <%= commandline -%>

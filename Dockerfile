@@ -1,4 +1,4 @@
-FROM ruby:2.7
+FROM ruby:2.6
 RUN gem install bundler -v 1.16.5
 WORKDIR /app/casteml
 #COPY . /app/casteml
@@ -9,6 +9,7 @@ RUN bash -l -c 'bundle install'
 COPY . /app/casteml/
 RUN rm -r /app/casteml/pkg | bundle exec rake build casteml.gemspec
 RUN gem install pkg/casteml-*.gem
+ENTRYPOINT ["casteml"]
 
 
 
