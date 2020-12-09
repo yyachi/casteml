@@ -61,7 +61,7 @@ GEM
       rack
     rails-observers (0.1.2)
       activemodel (~> 4.0)
-    rake (10.1.1)
+    rake (13.0.1)
     reentrant_flock (0.1.1)
     rspec (3.0.0)
       rspec-core (~> 3.0.0)
@@ -93,7 +93,7 @@ DEPENDENCIES
   bundler (~> 1.5)
   casteml!
   geminabox (~> 1.2.0)
-  rake (~> 10.1.0)
+  rake (~> 13.0.1)
   rspec (~> 3.0.0)
 
 BUNDLED WITH
